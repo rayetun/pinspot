@@ -12,16 +12,25 @@
 		position: relative;
 	}
 
-	// Markers live inside the canvas in the editor (no tooltip preview yet).
+	// Markers live directly inside the canvas in the editor.
 	.pinspot__hotspot,
 	.pinspot__marker {
 		position: absolute;
 		transform: translate(-50%, -50%);
 	}
 
-	.pinspot__marker.is-selected {
-		outline: 2px solid var(--wp-admin-theme-color, #3858e9);
-		outline-offset: 2px;
+	.pinspot__marker {
+		touch-action: none; // required for pointer-event dragging
+
+		&.is-selected {
+			outline: 2px solid var(--wp-admin-theme-color, #3858e9);
+			outline-offset: 2px;
+		}
+
+		&.is-dragging {
+			cursor: grabbing;
+			transition: none;
+		}
 	}
 
 	&.is-placing-hotspot .pinspot__canvas {
@@ -31,4 +40,51 @@
 	.pinspot-placing-notice {
 		margin-bottom: 8px;
 	}
+}
+
+// Sidebar: hotspot list panel.
+.pinspot-hotspot-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	li {
+		align-items: center;
+		display: flex;
+		gap: 2px;
+	}
+
+	.pinspot-hotspot-list__label {
+		flex: 1;
+		justify-content: flex-start;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	li.is-selected .pinspot-hotspot-list__label {
+		font-weight: 600;
+	}
+}
+
+// Sidebar: media preview in the hotspot inspector.
+.pinspot-media-field {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 8px;
+
+	.pinspot-media-preview {
+		border-radius: 4px;
+		display: block;
+		max-height: 120px;
+		max-width: 100%;
+		width: 100%;
+		object-fit: cover;
+	}
+}
+
+.pinspot-remove-hotspot {
+	margin-top: 8px;
 }

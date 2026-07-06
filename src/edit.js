@@ -1,9 +1,8 @@
 /**
  * Editor UI for the pinspot/image-hotspots block.
  *
- * Phase 1: image picker, click-to-place hotspots, and a minimal
- * per-hotspot inspector (title, description, remove).
- * Phase 2 adds drag-to-move, rich media fields, and marker styles.
+ * Phase 2: drag-to-reposition (pointer capture, percent math), arrow-key
+ * nudge, full per-hotspot inspector, and the "All hotspots" list panel.
  */
 import { __, sprintf } from '@wordpress/i18n';
 import {
@@ -13,20 +12,48 @@ import {
 	BlockControls,
 	InspectorControls,
 } from '@wordpress/block-editor';
-import {
-	ToolbarButton,
-	PanelBody,
-	TextControl,
-	TextareaControl,
-	Button,
-	Notice,
-} from '@wordpress/components';
-import { useState } from '@wordpress/element';
+import { ToolbarButton, Notice } from '@wordpress/components';
+import { useState, useRef } from '@wordpress/element';
+
+import HotspotInspector from './components/hotspot-inspector';
+import HotspotList from './components/hotspot-list';
+
+const clampPct = ( value ) =>
+	Math.min( 100, Math.max( 0, Math.round( value * 100 ) / 100 ) );
+
+const DRAG_THRESHOLD_PX = 3;
+
+export const markerGlyph = ( style, number ) => {
+	switch ( style ) {
+		case 'dot':
+			return '';
+		case 'plus':
+			return '+';
+		case 'info':
+			return 'i';
+		case 'question':
+			return '?';
+		default:
+			return String( number );
+	}
+};
+
+export const markerClassName = ( hotspot, extra = '' ) =>
+	[
+		'pinspot__marker',
+		`pinspot__marker--${ hotspot.markerStyle || 'number' }`,
+		`pinspot__marker--${ hotspot.markerSize || 'medium' }`,
+		extra,
+	]
+		.filter( Boolean )
+		.join( ' ' );
 
 export default function Edit( { attributes, setAttributes, isSelected } ) {
 	const { imageId, imageUrl, imageAlt, hotspots } = attributes;
 	const [ isPlacing, setIsPlacing ] = useState( false );
 	const [ selectedId, setSelectedId ] = useState( null );
+	const [ drag, setDrag ] = useState( null );
+	const canvasRef = useRef( null );
 
 	const blockProps = useBlockProps( {
 		className: isPlacing ? 'is-placing-hotspot' : undefined,
@@ -64,30 +91,95 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 		}
 	};
 
+	const pointFromEvent = ( event ) => {
+		const rect = canvasRef.current.getBoundingClientRect();
+		return {
+			x: clampPct( ( ( event.clientX - rect.left ) / rect.width ) * 100 ),
+			y: clampPct( ( ( event.clientY - rect.top ) / rect.height ) * 100 ),
+		};
+	};
+
 	const onCanvasClick = ( event ) => {
 		if ( ! isPlacing ) {
 			setSelectedId( null );
 			return;
 		}
-		const rect = event.currentTarget.getBoundingClientRect();
-		const x = ( ( event.clientX - rect.left ) / rect.width ) * 100;
-		const y = ( ( event.clientY - rect.top ) / rect.height ) * 100;
+		const point = pointFromEvent( event );
 		const id = `hs-${ Date.now().toString( 36 ) }-${ hotspots.length }`;
 
 		setAttributes( {
 			hotspots: [
 				...hotspots,
-				{
-					id,
-					x: Math.round( x * 100 ) / 100,
-					y: Math.round( y * 100 ) / 100,
-					title: '',
-					description: '',
-				},
+				{ id, ...point, title: '', description: '' },
 			],
 		} );
 		setSelectedId( id );
 		setIsPlacing( false );
+	};
+
+	// --- Drag to reposition (pointer capture on the marker button). ---
+
+	const onMarkerPointerDown = ( hotspot ) => ( event ) => {
+		if ( isPlacing ) {
+			return;
+		}
+		event.preventDefault();
+		event.stopPropagation();
+		event.currentTarget.setPointerCapture( event.pointerId );
+		setDrag( {
+			id: hotspot.id,
+			x: hotspot.x,
+			y: hotspot.y,
+			startX: event.clientX,
+			startY: event.clientY,
+			moved: false,
+		} );
+	};
+
+	const onMarkerPointerMove = ( hotspot ) => ( event ) => {
+		if ( ! drag || drag.id !== hotspot.id ) {
+			return;
+		}
+		const moved =
+			drag.moved ||
+			Math.abs( event.clientX - drag.startX ) > DRAG_THRESHOLD_PX ||
+			Math.abs( event.clientY - drag.startY ) > DRAG_THRESHOLD_PX;
+		if ( ! moved ) {
+			return;
+		}
+		setDrag( { ...drag, ...pointFromEvent( event ), moved: true } );
+	};
+
+	const onMarkerPointerUp = ( hotspot ) => () => {
+		if ( ! drag || drag.id !== hotspot.id ) {
+			return;
+		}
+		if ( drag.moved ) {
+			updateHotspot( hotspot.id, { x: drag.x, y: drag.y } );
+		}
+		setSelectedId( hotspot.id );
+		setIsPlacing( false );
+		setDrag( null );
+	};
+
+	// Arrow keys nudge by 0.5% (2% with Shift).
+	const onMarkerKeyDown = ( hotspot ) => ( event ) => {
+		const step = event.shiftKey ? 2 : 0.5;
+		const deltas = {
+			ArrowLeft: [ -step, 0 ],
+			ArrowRight: [ step, 0 ],
+			ArrowUp: [ 0, -step ],
+			ArrowDown: [ 0, step ],
+		};
+		const delta = deltas[ event.key ];
+		if ( ! delta ) {
+			return;
+		}
+		event.preventDefault();
+		updateHotspot( hotspot.id, {
+			x: clampPct( hotspot.x + delta[ 0 ] ),
+			y: clampPct( hotspot.y + delta[ 1 ] ),
+		} );
 	};
 
 	if ( ! imageUrl ) {
@@ -130,58 +222,22 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 			</BlockControls>
 
 			<InspectorControls>
-				{ selectedHotspot ? (
-					<PanelBody
-						title={ sprintf(
-							/* translators: %d: hotspot number. */
-							__( 'Hotspot %d', 'pinspot' ),
-							hotspots.indexOf( selectedHotspot ) + 1
-						) }
-					>
-						<TextControl
-							__next40pxDefaultSize
-							__nextHasNoMarginBottom
-							label={ __( 'Title', 'pinspot' ) }
-							value={ selectedHotspot.title }
-							onChange={ ( title ) =>
-								updateHotspot( selectedHotspot.id, { title } )
-							}
-						/>
-						<TextareaControl
-							__nextHasNoMarginBottom
-							label={ __( 'Description', 'pinspot' ) }
-							value={ selectedHotspot.description }
-							onChange={ ( description ) =>
-								updateHotspot( selectedHotspot.id, {
-									description,
-								} )
-							}
-						/>
-						<Button
-							variant="secondary"
-							isDestructive
-							onClick={ () =>
-								removeHotspot( selectedHotspot.id )
-							}
-						>
-							{ __( 'Remove hotspot', 'pinspot' ) }
-						</Button>
-					</PanelBody>
-				) : (
-					<PanelBody title={ __( 'Hotspots', 'pinspot' ) }>
-						<p>
-							{ hotspots.length
-								? __(
-										'Select a marker on the image to edit its tooltip.',
-										'pinspot'
-								  )
-								: __(
-										'Use “Add hotspot” in the toolbar, then click a spot on the image.',
-										'pinspot'
-								  ) }
-						</p>
-					</PanelBody>
+				{ selectedHotspot && (
+					<HotspotInspector
+						hotspot={ selectedHotspot }
+						number={ hotspots.indexOf( selectedHotspot ) + 1 }
+						onChange={ ( changes ) =>
+							updateHotspot( selectedHotspot.id, changes )
+						}
+						onRemove={ () => removeHotspot( selectedHotspot.id ) }
+					/>
 				) }
+				<HotspotList
+					hotspots={ hotspots }
+					selectedId={ selectedId }
+					onSelect={ setSelectedId }
+					onChange={ ( next ) => setAttributes( { hotspots: next } ) }
+				/>
 			</InspectorControls>
 
 			<figure { ...blockProps }>
@@ -203,43 +259,62 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 					onClick={ onCanvasClick }
 					role="application"
 					aria-label={ __( 'Hotspot placement canvas', 'pinspot' ) }
+					ref={ canvasRef }
 				>
 					<img
 						className="pinspot__image"
 						src={ imageUrl }
 						alt={ imageAlt }
 					/>
-					{ hotspots.map( ( hotspot, index ) => (
-						<button
-							key={ hotspot.id }
-							type="button"
-							className={
-								'pinspot__marker' +
-								( hotspot.id === selectedId
-									? ' is-selected'
-									: '' )
-							}
-							style={ {
-								left: `${ hotspot.x }%`,
-								top: `${ hotspot.y }%`,
-							} }
-							aria-label={
-								hotspot.title ||
-								sprintf(
-									/* translators: %d: hotspot number. */
-									__( 'Hotspot %d', 'pinspot' ),
-									index + 1
-								)
-							}
-							onClick={ ( event ) => {
-								event.stopPropagation();
-								setSelectedId( hotspot.id );
-								setIsPlacing( false );
-							} }
-						>
-							<span aria-hidden="true">{ index + 1 }</span>
-						</button>
-					) ) }
+					{ hotspots.map( ( hotspot, index ) => {
+						const isDraggingThis =
+							drag && drag.id === hotspot.id && drag.moved;
+						const x = isDraggingThis ? drag.x : hotspot.x;
+						const y = isDraggingThis ? drag.y : hotspot.y;
+						return (
+							<button
+								key={ hotspot.id }
+								type="button"
+								className={ markerClassName(
+									hotspot,
+									( hotspot.id === selectedId
+										? 'is-selected '
+										: '' ) +
+										( isDraggingThis ? 'is-dragging' : '' )
+								) }
+								style={ {
+									left: `${ x }%`,
+									top: `${ y }%`,
+									...( hotspot.markerColor
+										? {
+												'--pinspot-marker-color':
+													hotspot.markerColor,
+										  }
+										: {} ),
+								} }
+								aria-label={
+									hotspot.title ||
+									sprintf(
+										/* translators: %d: hotspot number. */
+										__( 'Hotspot %d', 'pinspot' ),
+										index + 1
+									)
+								}
+								onClick={ ( event ) => event.stopPropagation() }
+								onPointerDown={ onMarkerPointerDown( hotspot ) }
+								onPointerMove={ onMarkerPointerMove( hotspot ) }
+								onPointerUp={ onMarkerPointerUp( hotspot ) }
+								onKeyDown={ onMarkerKeyDown( hotspot ) }
+							>
+								<span aria-hidden="true">
+									{ markerGlyph(
+										hotspot.markerStyle,
+										index + 1
+									) }
+								</span>
+							</button>
+						);
+					} ) }
 				</div>
 			</figure>
 		</>

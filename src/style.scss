@@ -1,6 +1,6 @@
 /**
  * Pinspot — shared styles (frontend + editor canvas).
- * Phase 3 adds tooltip themes, marker style variants, zoom & lightbox.
+ * Phase 3 adds themes, placement auto-flip, animations, zoom, lightbox.
  */
 
 .wp-block-pinspot-image-hotspots {
@@ -48,6 +48,29 @@
 		}
 	}
 
+	// Marker sizes.
+	.pinspot__marker--small {
+		font-size: 11px;
+		height: 20px;
+		width: 20px;
+	}
+
+	.pinspot__marker--large {
+		font-size: 16px;
+		height: 36px;
+		width: 36px;
+	}
+
+	// Dot style: solid pin without a glyph.
+	.pinspot__marker--dot span {
+		display: none;
+	}
+
+	.pinspot__marker--info span {
+		font-family: georgia, serif;
+		font-style: italic;
+	}
+
 	.pinspot__tooltip {
 		background: #fff;
 		border-radius: 8px;
@@ -57,7 +80,7 @@
 		font-size: 14px;
 		left: 50%;
 		line-height: 1.5;
-		max-width: min(260px, 80vw);
+		max-width: min(280px, 80vw);
 		padding: 12px 14px;
 		position: absolute;
 		transform: translateX(-50%);
@@ -67,6 +90,20 @@
 		&[hidden] {
 			display: none !important;
 		}
+	}
+
+	.pinspot__tooltip-media {
+		border-radius: 6px;
+		display: block;
+		height: auto;
+		margin-bottom: 8px;
+		max-width: 100%;
+		width: 252px;
+	}
+
+	.pinspot__tooltip-embed {
+		aspect-ratio: 16 / 9;
+		border: 0;
 	}
 
 	.pinspot__tooltip-title {
@@ -80,5 +117,23 @@
 
 	.pinspot__tooltip-title + .pinspot__tooltip-desc {
 		margin-top: 4px;
+	}
+
+	.pinspot__tooltip-cta {
+		background: var(--pinspot-marker-color, #3a5df0);
+		border-radius: 4px;
+		color: #fff;
+		display: inline-block;
+		font-size: 13px;
+		font-weight: 600;
+		margin-top: 8px;
+		padding: 6px 12px;
+		text-decoration: none;
+
+		&:hover,
+		&:focus {
+			color: #fff;
+			opacity: 0.9;
+		}
 	}
 }
