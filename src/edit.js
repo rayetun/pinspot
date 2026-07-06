@@ -12,7 +12,14 @@ import {
 	BlockControls,
 	InspectorControls,
 } from '@wordpress/block-editor';
-import { ToolbarButton, Notice } from '@wordpress/components';
+import {
+	ToolbarButton,
+	Notice,
+	PanelBody,
+	SelectControl,
+	ToggleControl,
+	RangeControl,
+} from '@wordpress/components';
 import { useState, useRef } from '@wordpress/element';
 
 import HotspotInspector from './components/hotspot-inspector';
@@ -49,7 +56,16 @@ export const markerClassName = ( hotspot, extra = '' ) =>
 		.join( ' ' );
 
 export default function Edit( { attributes, setAttributes, isSelected } ) {
-	const { imageId, imageUrl, imageAlt, hotspots } = attributes;
+	const {
+		imageId,
+		imageUrl,
+		imageAlt,
+		hotspots,
+		globalTrigger,
+		globalTheme,
+		enableZoom,
+		maxZoom,
+	} = attributes;
 	const [ isPlacing, setIsPlacing ] = useState( false );
 	const [ selectedId, setSelectedId ] = useState( null );
 	const [ drag, setDrag ] = useState( null );
@@ -238,6 +254,79 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 					onSelect={ setSelectedId }
 					onChange={ ( next ) => setAttributes( { hotspots: next } ) }
 				/>
+				<PanelBody
+					title={ __( 'Display settings', 'pinspot' ) }
+					initialOpen={ false }
+				>
+					<SelectControl
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+						label={ __( 'Open tooltips on', 'pinspot' ) }
+						value={ globalTrigger }
+						options={ [
+							{
+								label: __( 'Click', 'pinspot' ),
+								value: 'click',
+							},
+							{
+								label: __( 'Hover', 'pinspot' ),
+								value: 'hover',
+							},
+						] }
+						onChange={ ( value ) =>
+							setAttributes( { globalTrigger: value } )
+						}
+						help={ __(
+							'Hover tooltips still open on click for touch devices.',
+							'pinspot'
+						) }
+					/>
+					<SelectControl
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+						label={ __( 'Tooltip theme', 'pinspot' ) }
+						value={ globalTheme }
+						options={ [
+							{
+								label: __( 'Light', 'pinspot' ),
+								value: 'light',
+							},
+							{
+								label: __( 'Dark', 'pinspot' ),
+								value: 'dark',
+							},
+						] }
+						onChange={ ( value ) =>
+							setAttributes( { globalTheme: value } )
+						}
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Enable zoom & pan', 'pinspot' ) }
+						checked={ !! enableZoom }
+						onChange={ ( value ) =>
+							setAttributes( { enableZoom: value } )
+						}
+						help={ __(
+							'Adds zoom controls, double-click zoom, pinch, and drag-to-pan on the site.',
+							'pinspot'
+						) }
+					/>
+					{ enableZoom && (
+						<RangeControl
+							__next40pxDefaultSize
+							__nextHasNoMarginBottom
+							label={ __( 'Maximum zoom', 'pinspot' ) }
+							value={ maxZoom }
+							min={ 1.5 }
+							max={ 8 }
+							step={ 0.5 }
+							onChange={ ( value ) =>
+								setAttributes( { maxZoom: value } )
+							}
+						/>
+					) }
+				</PanelBody>
 			</InspectorControls>
 
 			<figure { ...blockProps }>
