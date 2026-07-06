@@ -1,0 +1,29 @@
+# Files/dirs excluded from the WP.org distribution zip
+# (used by 10up/action-wordpress-plugin-deploy and wp-scripts plugin-zip)
+
+# Source & tooling — only build/ ships
+/src
+/node_modules
+/vendor
+/assets
+/.github
+
+# Dev config
+/.git
+/.gitignore
+/.editorconfig
+/.nvmrc
+/.distignore
+/phpcs.xml.dist
+/composer.json
+/composer.lock
+/package.json
+/package-lock.json
+/PINSPOT-PLAN.md
+/PINSPOT-WORKFLOW.md
+
+# Noise
+*.log
+*.zip
+.DS_Store
+Thumbs.db

@@ -1,0 +1,33 @@
+{
+	"name": "pinspot",
+	"version": "1.0.0",
+	"description": "Pinspot — Interactive Image Hotspots. Place clickable hotspot pins on any image with rich media tooltips.",
+	"author": "Rayetun",
+	"license": "GPL-2.0-or-later",
+	"private": true,
+	"engines": {
+		"node": ">=20"
+	},
+	"files": [
+		"pinspot.php",
+		"uninstall.php",
+		"readme.txt",
+		"index.php",
+		"build/**",
+		"includes/**",
+		"patterns/**",
+		"languages/**"
+	],
+	"scripts": {
+		"build": "wp-scripts build --experimental-modules",
+		"start": "wp-scripts start --experimental-modules",
+		"lint:js": "wp-scripts lint-js",
+		"lint:css": "wp-scripts lint-style",
+		"lint:php": "composer run lint",
+		"format": "wp-scripts format",
+		"plugin-zip": "wp-scripts plugin-zip"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^30.0.0"
+	}
+}

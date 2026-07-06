@@ -1,0 +1,14 @@
+/**
+ * Pinspot — shared styles (frontend + editor canvas).
+ * Phase 3 adds tooltip themes, marker animations, zoom & lightbox styles.
+ */
+
+.wp-block-pinspot-image-hotspots {
+	position: relative;
+
+	img {
+		display: block;
+		height: auto;
+		max-width: 100%;
+	}
+}

@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build output IS committed (WP.org ships it) — do not ignore build/
+
+# Logs & caches
+*.log
+.cache/
+.phpcs-cache
+.eslintcache
+
+# Packages
+*.zip
+*.tar.gz
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Editor / OS noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

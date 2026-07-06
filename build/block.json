@@ -1,0 +1,100 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pinspot/image-hotspots",
+  "version": "1.0.0",
+  "title": "Pinspot — Image Hotspots",
+  "category": "media",
+  "icon": "location",
+  "description": "Place clickable hotspot pins on any image, each opening a rich, accessible tooltip with text, media, and links.",
+  "keywords": [
+    "hotspot",
+    "image map",
+    "pin",
+    "tooltip",
+    "interactive"
+  ],
+  "textdomain": "pinspot",
+  "attributes": {
+    "imageId": {
+      "type": "number"
+    },
+    "imageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "imageAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "imageWidth": {
+      "type": "number"
+    },
+    "imageHeight": {
+      "type": "number"
+    },
+    "aspectRatio": {
+      "type": "string",
+      "default": "auto"
+    },
+    "enableZoom": {
+      "type": "boolean",
+      "default": false
+    },
+    "maxZoom": {
+      "type": "number",
+      "default": 3
+    },
+    "globalTheme": {
+      "type": "string",
+      "default": "light"
+    },
+    "globalTrigger": {
+      "type": "string",
+      "default": "click"
+    },
+    "reduceMotion": {
+      "type": "boolean",
+      "default": true
+    },
+    "hotspots": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ],
+    "html": false,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "color": {
+      "text": true,
+      "background": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true
+    },
+    "__experimentalBorder": {
+      "radius": true
+    }
+  },
+  "example": {
+    "attributes": {
+      "imageUrl": ""
+    }
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScriptModule": "file:./view.js",
+  "render": "file:./render.php"
+}

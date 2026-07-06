@@ -1,0 +1,1 @@
+import{store as t}from"@wordpress/interactivity";t("pinspot",{state:{},actions:{},callbacks:{}},{lock:!0});
