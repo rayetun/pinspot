@@ -1,11 +1,34 @@
 /**
  * Pinspot — editor-only styles.
- * Phase 2 adds the hotspot canvas, drag handles, and inspector styles.
  */
 
 .wp-block-pinspot-image-hotspots {
 
 	.components-placeholder {
 		min-height: 200px;
+	}
+
+	.pinspot__canvas {
+		position: relative;
+	}
+
+	// Markers live inside the canvas in the editor (no tooltip preview yet).
+	.pinspot__hotspot,
+	.pinspot__marker {
+		position: absolute;
+		transform: translate(-50%, -50%);
+	}
+
+	.pinspot__marker.is-selected {
+		outline: 2px solid var(--wp-admin-theme-color, #3858e9);
+		outline-offset: 2px;
+	}
+
+	&.is-placing-hotspot .pinspot__canvas {
+		cursor: crosshair;
+	}
+
+	.pinspot-placing-notice {
+		margin-bottom: 8px;
 	}
 }

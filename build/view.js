@@ -1,1 +1,1 @@
-import{store as t}from"@wordpress/interactivity";t("pinspot",{state:{},actions:{},callbacks:{}},{lock:!0});
+import{getContext as o,store as e}from"@wordpress/interactivity";e("pinspot",{state:{get isOpen(){const{id:e,openId:t}=o();return t===e}},actions:{toggle(e){e.stopPropagation();const t=o();t.openId=t.openId===t.id?"":t.id},closeAll(){o().openId=""},onKeydown(e){"Escape"===e.key&&(o().openId="")}}},{lock:!0});

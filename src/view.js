@@ -1,17 +1,41 @@
 /**
  * Frontend runtime for Pinspot — WordPress Interactivity API store.
  *
- * Phase 0 stub — Phase 3 implements open/close, keyboard navigation,
- * placement auto-flip, zoom/pan, lightbox, and hash deep-linking here.
+ * `openId` lives on the block-level context; each hotspot's context adds
+ * its own `id`. Writes to `openId` from a hotspot scope propagate to the
+ * block context (inherited-property forwarding), so only one tooltip is
+ * open per block at a time.
  */
-import { store } from '@wordpress/interactivity';
+import { store, getContext } from '@wordpress/interactivity';
 
 store(
 	'pinspot',
 	{
-		state: {},
-		actions: {},
-		callbacks: {},
+		state: {
+			get isOpen() {
+				const { id, openId } = getContext();
+				return openId === id;
+			},
+		},
+		actions: {
+			toggle( event ) {
+				// Keep the document click handler from immediately closing it.
+				event.stopPropagation();
+				const context = getContext();
+				context.openId =
+					context.openId === context.id ? '' : context.id;
+			},
+			closeAll() {
+				const context = getContext();
+				context.openId = '';
+			},
+			onKeydown( event ) {
+				if ( 'Escape' === event.key ) {
+					const context = getContext();
+					context.openId = '';
+				}
+			},
+		},
 	},
 	{ lock: true }
 );
