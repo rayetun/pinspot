@@ -30,6 +30,7 @@
 	"devDependencies": {
 		"@wordpress/icons": "^15.1.0",
 		"@wordpress/interactivity": "^6.50.0",
-		"@wordpress/scripts": "^30.0.0"
+		"@wordpress/scripts": "^30.0.0",
+		"puppeteer-core": "^25.3.0"
 	}
 }

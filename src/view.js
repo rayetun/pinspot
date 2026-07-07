@@ -15,6 +15,11 @@ const activePointers = new Map();
 let panLast = null;
 let pinchLastDist = 0;
 
+// Grace period before a hover tooltip closes, so the pointer can travel
+// from the marker into the tooltip without it vanishing.
+const hoverTimers = new Map();
+const HOVER_CLOSE_DELAY = 300;
+
 const clampPan = ( context, rect ) => {
 	context.tx = clamp( context.tx, rect.width * ( 1 - context.scale ), 0 );
 	context.ty = clamp( context.ty, rect.height * ( 1 - context.scale ), 0 );
@@ -74,9 +79,12 @@ store(
 			},
 			hoverOpen() {
 				const context = getContext();
-				if ( 'hover' === context.trigger ) {
-					context.openId = context.id;
+				if ( 'hover' !== context.trigger ) {
+					return;
 				}
+				clearTimeout( hoverTimers.get( context.id ) );
+				hoverTimers.delete( context.id );
+				context.openId = context.id;
 			},
 			hoverClose( event ) {
 				const context = getContext();
@@ -90,9 +98,17 @@ store(
 				) {
 					return;
 				}
-				if ( context.openId === context.id ) {
-					context.openId = '';
-				}
+				const { id } = context;
+				clearTimeout( hoverTimers.get( id ) );
+				hoverTimers.set(
+					id,
+					setTimeout( () => {
+						hoverTimers.delete( id );
+						if ( context.openId === id ) {
+							context.openId = '';
+						}
+					}, HOVER_CLOSE_DELAY )
+				);
 			},
 			closeAll() {
 				getContext().openId = '';
