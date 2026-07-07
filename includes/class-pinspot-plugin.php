@@ -38,6 +38,7 @@ final class Pinspot_Plugin {
 	 */
 	private function __construct() {
 		add_action( 'init', array( $this, 'register_block' ) );
+		add_action( 'init', array( $this, 'register_patterns' ) );
 	}
 
 	/**
@@ -48,5 +49,27 @@ final class Pinspot_Plugin {
 	 */
 	public function register_block() {
 		register_block_type( PINSPOT_DIR . 'build' );
+	}
+
+	/**
+	 * Register the Pinspot pattern category and starter patterns.
+	 */
+	public function register_patterns() {
+		register_block_pattern_category(
+			'pinspot',
+			array( 'label' => __( 'Pinspot', 'pinspot' ) )
+		);
+
+		$patterns = array( 'product-showcase', 'team-intro', 'map-tour' );
+		foreach ( $patterns as $slug ) {
+			$file = PINSPOT_DIR . 'patterns/' . $slug . '.php';
+			if ( ! file_exists( $file ) ) {
+				continue;
+			}
+			$pattern = include $file;
+			if ( is_array( $pattern ) && ! empty( $pattern['content'] ) ) {
+				register_block_pattern( 'pinspot/' . $slug, $pattern );
+			}
+		}
 	}
 }

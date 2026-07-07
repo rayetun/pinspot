@@ -1,0 +1,512 @@
+# Copyright (C) 2026 Rayetun
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Pinspot — Interactive Image Hotspots 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/pinspot\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-07-07T14:12:56+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: pinspot\n"
+
+#. Plugin Name of the plugin
+#: pinspot.php
+msgid "Pinspot — Interactive Image Hotspots"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: pinspot.php
+msgid "https://wordpress.org/plugins/pinspot/"
+msgstr ""
+
+#. Description of the plugin
+#: pinspot.php
+msgid "Place clickable hotspot pins on any image — rich, accessible tooltips with text, media, and links."
+msgstr ""
+
+#. Author of the plugin
+#: pinspot.php
+msgid "Rayetun"
+msgstr ""
+
+#: includes/class-pinspot-plugin.php:60
+msgid "Pinspot"
+msgstr ""
+
+#: patterns/map-tour.php:13
+msgid "Zoomable map tour"
+msgstr ""
+
+#: patterns/map-tour.php:14
+msgid "A zoom-and-pan enabled image with pulsing question-mark pins — ideal for maps, floor plans, or infographics. Add your own image after inserting."
+msgstr ""
+
+#: patterns/map-tour.php:16
+msgid "Point of interest"
+msgstr ""
+
+#: patterns/map-tour.php:16
+msgid "What visitors will find here."
+msgstr ""
+
+#: patterns/product-showcase.php:13
+msgid "Product showcase hotspots"
+msgstr ""
+
+#: patterns/product-showcase.php:14
+msgid "Numbered pins over a product photo, each with a title, description, and a call-to-action button. Add your own image after inserting."
+msgstr ""
+
+#: patterns/product-showcase.php:16
+msgid "Feature one"
+msgstr ""
+
+#: patterns/product-showcase.php:16
+msgid "Describe the first highlight of your product."
+msgstr ""
+
+#: patterns/product-showcase.php:16
+msgid "Shop now"
+msgstr ""
+
+#: patterns/product-showcase.php:16
+msgid "Feature two"
+msgstr ""
+
+#: patterns/product-showcase.php:16
+msgid "Explain what makes this detail special."
+msgstr ""
+
+#: patterns/product-showcase.php:16
+msgid "Learn more"
+msgstr ""
+
+#: patterns/product-showcase.php:16
+msgid "Feature three"
+msgstr ""
+
+#: patterns/product-showcase.php:16
+msgid "One more reason to love it."
+msgstr ""
+
+#: patterns/product-showcase.php:16
+msgid "Details"
+msgstr ""
+
+#: patterns/team-intro.php:13
+msgid "Team introduction hotspots"
+msgstr ""
+
+#: patterns/team-intro.php:14
+msgid "Hover-triggered dot pins over a team photo, each revealing a name and role in a dark tooltip. Add your own image after inserting."
+msgstr ""
+
+#: patterns/team-intro.php:16
+msgid "Team member"
+msgstr ""
+
+#: patterns/team-intro.php:16
+msgid "Role or fun fact."
+msgstr ""
+
+#: src/render.php:79
+msgid "Zoom in"
+msgstr ""
+
+#: src/render.php:80
+msgid "Zoom out"
+msgstr ""
+
+#: src/render.php:81
+msgid "Reset zoom"
+msgstr ""
+
+#. translators: %d: hotspot number.
+#: src/render.php:172
+#: src/components/hotspot-inspector.js:87
+#: src/edit.js:393
+#, php-format,js-format
+msgid "Hotspot %d"
+msgstr ""
+
+#: src/render.php:231
+msgid "View image full size"
+msgstr ""
+
+#: src/render.php:245
+msgid "Play video"
+msgstr ""
+
+#: src/render.php:289
+msgid "Close"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:25
+msgid "Numbered"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:26
+msgid "Dot"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:27
+msgid "Plus"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:28
+msgid "Info"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:29
+msgid "Question"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:33
+msgid "Small"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:34
+msgid "Medium"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:35
+msgid "Large"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:39
+#: src/components/hotspot-inspector.js:45
+msgid "None"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:40
+msgid "Pulse"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:41
+msgid "Bounce"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:46
+msgid "Image"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:47
+msgid "Video (media library)"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:48
+msgid "YouTube"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:49
+msgid "Vimeo"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:53
+#: src/components/hotspot-inspector.js:67
+msgid "Inherit from block"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:54
+#: src/edit.js:269
+msgid "Click"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:55
+#: src/edit.js:273
+msgid "Hover"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:59
+msgid "Auto"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:60
+msgid "Top"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:61
+msgid "Bottom"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:62
+msgid "Left"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:63
+msgid "Right"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:68
+#: src/edit.js:292
+msgid "Light"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:69
+#: src/edit.js:296
+msgid "Dark"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:94
+msgid "Title"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:100
+msgid "Description"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:110
+msgid "Remove hotspot"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:114
+msgid "Media"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:118
+msgid "Media type"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:164
+msgid "Replace media"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:165
+msgid "Select media"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:178
+msgid "Clear"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:192
+msgid "YouTube URL"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:193
+msgid "Vimeo URL"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:198
+msgid "Paste the video page URL — the embed is generated automatically."
+msgstr ""
+
+#: src/components/hotspot-inspector.js:207
+msgid "Call to action"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:213
+msgid "Button text"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:220
+msgid "Link URL"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:227
+msgid "Open in new tab"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:234
+msgid "Marker"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:240
+msgid "Style"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:248
+msgid "Size"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:255
+msgid "Color"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:270
+msgid "Animation"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:274
+msgid "Shown on the site. Respects reduced-motion preferences."
+msgstr ""
+
+#: src/components/hotspot-inspector.js:282
+msgid "Behavior"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:288
+msgid "Open on"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:296
+msgid "Tooltip placement"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:304
+msgid "Theme"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:311
+msgid "Open media in lightbox"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:314
+msgid "Clicking the tooltip media opens it full-size."
+msgstr ""
+
+#: src/components/hotspot-list.js:50
+msgid "All hotspots"
+msgstr ""
+
+#: src/components/hotspot-list.js:55
+msgid "Use “Add hotspot” in the toolbar, then click a spot on the image."
+msgstr ""
+
+#. translators: 1: hotspot number, 2: hotspot title.
+#: src/components/hotspot-list.js:75
+#, js-format
+msgid "%1$d. %2$s"
+msgstr ""
+
+#: src/components/hotspot-list.js:77
+msgid "(untitled)"
+msgstr ""
+
+#: src/components/hotspot-list.js:85
+msgid "Move up"
+msgstr ""
+
+#: src/components/hotspot-list.js:92
+msgid "Move down"
+msgstr ""
+
+#: src/components/hotspot-list.js:98
+msgid "Duplicate"
+msgstr ""
+
+#: src/components/hotspot-list.js:105
+msgid "Delete"
+msgstr ""
+
+#. translators: %d: number of imported hotspots.
+#: src/components/import-export.js:127
+#, js-format
+msgid "%d hotspots imported."
+msgstr ""
+
+#: src/components/import-export.js:134
+msgid "Invalid file — expected a Pinspot JSON export."
+msgstr ""
+
+#: src/components/import-export.js:147
+msgid "Import / Export"
+msgstr ""
+
+#: src/components/import-export.js:165
+msgid "Export JSON"
+msgstr ""
+
+#: src/components/import-export.js:171
+msgid "Import JSON"
+msgstr ""
+
+#: src/components/import-export.js:183
+msgid "Replace existing hotspots on import"
+msgstr ""
+
+#: src/components/import-export.js:186
+msgid "Off: imported hotspots are added to the current ones."
+msgstr ""
+
+#: src/edit.js:208
+msgid "Pinspot — Image Hotspots"
+msgstr ""
+
+#: src/edit.js:209
+msgid "Upload or select the image you want to annotate with hotspots."
+msgstr ""
+
+#: src/edit.js:231
+msgid "Replace image"
+msgstr ""
+
+#: src/edit.js:235
+msgid "Add hotspot"
+msgstr ""
+
+#: src/edit.js:259
+msgid "Display settings"
+msgstr ""
+
+#: src/edit.js:265
+msgid "Open tooltips on"
+msgstr ""
+
+#: src/edit.js:280
+msgid "Hover tooltips still open on click for touch devices."
+msgstr ""
+
+#: src/edit.js:288
+msgid "Tooltip theme"
+msgstr ""
+
+#: src/edit.js:306
+msgid "Enable zoom & pan"
+msgstr ""
+
+#: src/edit.js:311
+msgid "Adds zoom controls, double-click zoom, pinch, and drag-to-pan on the site."
+msgstr ""
+
+#: src/edit.js:320
+msgid "Maximum zoom"
+msgstr ""
+
+#: src/edit.js:344
+msgid "Click anywhere on the image to place the hotspot."
+msgstr ""
+
+#: src/edit.js:355
+msgid "Hotspot placement canvas"
+msgstr ""
+
+#: src/block.json
+msgctxt "block title"
+msgid "Pinspot — Image Hotspots"
+msgstr ""
+
+#: src/block.json
+msgctxt "block description"
+msgid "Place clickable hotspot pins on any image, each opening a rich, accessible tooltip with text, media, and links."
+msgstr ""
+
+#: src/block.json
+msgctxt "block keyword"
+msgid "hotspot"
+msgstr ""
+
+#: src/block.json
+msgctxt "block keyword"
+msgid "image map"
+msgstr ""
+
+#: src/block.json
+msgctxt "block keyword"
+msgid "pin"
+msgstr ""
+
+#: src/block.json
+msgctxt "block keyword"
+msgid "tooltip"
+msgstr ""
+
+#: src/block.json
+msgctxt "block keyword"
+msgid "interactive"
+msgstr ""

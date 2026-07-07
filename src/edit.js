@@ -24,6 +24,7 @@ import { useState, useRef } from '@wordpress/element';
 
 import HotspotInspector from './components/hotspot-inspector';
 import HotspotList from './components/hotspot-list';
+import ImportExport from './components/import-export';
 
 const clampPct = ( value ) =>
 	Math.min( 100, Math.max( 0, Math.round( value * 100 ) / 100 ) );
@@ -327,6 +328,10 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 						/>
 					) }
 				</PanelBody>
+				<ImportExport
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
 			</InspectorControls>
 
 			<figure { ...blockProps }>

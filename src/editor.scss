@@ -88,3 +88,10 @@
 .pinspot-remove-hotspot {
 	margin-top: 8px;
 }
+
+// Sidebar: import/export button row.
+.pinspot-import-export {
+	display: flex;
+	gap: 8px;
+	margin-bottom: 12px;
+}
