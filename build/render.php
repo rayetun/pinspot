@@ -310,31 +310,44 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 		<button type="button" class="pinspot__lightbox-close" data-wp-on--click="actions.closeLightbox" aria-label="<?php esc_attr_e( 'Close', 'pinspot' ); ?>">&times;</button>
 	</div>
 	<?php if ( $pinspot_show_list && ! empty( $pinspot_hotspots ) ) : ?>
-		<ol class="pinspot__list">
-			<?php foreach ( $pinspot_hotspots as $pinspot_index => $pinspot_hotspot ) : ?>
-				<?php
-				if ( ! is_array( $pinspot_hotspot ) ) {
-					continue;
-				}
-				$pinspot_item_title = isset( $pinspot_hotspot['title'] ) ? (string) $pinspot_hotspot['title'] : '';
-				$pinspot_item_desc  = isset( $pinspot_hotspot['description'] ) ? (string) $pinspot_hotspot['description'] : '';
-				$pinspot_item_url   = isset( $pinspot_hotspot['linkUrl'] ) ? (string) $pinspot_hotspot['linkUrl'] : '';
-				$pinspot_item_text  = isset( $pinspot_hotspot['linkText'] ) ? (string) $pinspot_hotspot['linkText'] : '';
-				if ( '' === $pinspot_item_title ) {
-					/* translators: %d: hotspot number. */
-					$pinspot_item_title = sprintf( __( 'Hotspot %d', 'pinspot' ), $pinspot_index + 1 );
-				}
-				?>
-				<li class="pinspot__list-item">
-					<strong class="pinspot__list-title"><?php echo esc_html( $pinspot_item_title ); ?></strong>
-					<?php if ( '' !== $pinspot_item_desc ) : ?>
-						<span class="pinspot__list-desc"><?php echo wp_kses( nl2br( $pinspot_item_desc ), $pinspot_desc_tags ); ?></span>
-					<?php endif; ?>
-					<?php if ( '' !== $pinspot_item_url && '' !== $pinspot_item_text ) : ?>
-						<a class="pinspot__list-link" href="<?php echo esc_url( $pinspot_item_url ); ?>"><?php echo esc_html( $pinspot_item_text ); ?></a>
-					<?php endif; ?>
-				</li>
-			<?php endforeach; ?>
-		</ol>
+		<div class="pinspot__list-wrap">
+			<p class="pinspot__list-heading"><?php esc_html_e( 'On this image', 'pinspot' ); ?></p>
+			<ol class="pinspot__list">
+				<?php foreach ( $pinspot_hotspots as $pinspot_index => $pinspot_hotspot ) : ?>
+					<?php
+					if ( ! is_array( $pinspot_hotspot ) ) {
+						continue;
+					}
+					$pinspot_item_title = isset( $pinspot_hotspot['title'] ) ? (string) $pinspot_hotspot['title'] : '';
+					$pinspot_item_desc  = isset( $pinspot_hotspot['description'] ) ? (string) $pinspot_hotspot['description'] : '';
+					$pinspot_item_url   = isset( $pinspot_hotspot['linkUrl'] ) ? (string) $pinspot_hotspot['linkUrl'] : '';
+					$pinspot_item_text  = isset( $pinspot_hotspot['linkText'] ) ? (string) $pinspot_hotspot['linkText'] : '';
+					$pinspot_item_color = isset( $pinspot_hotspot['markerColor'] ) ? sanitize_hex_color( $pinspot_hotspot['markerColor'] ) : '';
+					if ( '' === $pinspot_item_title ) {
+						/* translators: %d: hotspot number. */
+						$pinspot_item_title = sprintf( __( 'Hotspot %d', 'pinspot' ), $pinspot_index + 1 );
+					}
+					?>
+					<li class="pinspot__list-item">
+						<span
+							class="pinspot__list-num"
+							aria-hidden="true"
+							<?php if ( $pinspot_item_color ) : ?>
+							style="<?php echo esc_attr( '--pinspot-marker-color:' . $pinspot_item_color . ';' ); ?>"
+							<?php endif; ?>
+						><?php echo absint( $pinspot_index + 1 ); ?></span>
+						<div class="pinspot__list-body">
+							<strong class="pinspot__list-title"><?php echo esc_html( $pinspot_item_title ); ?></strong>
+							<?php if ( '' !== $pinspot_item_desc ) : ?>
+								<span class="pinspot__list-desc"><?php echo wp_kses( nl2br( $pinspot_item_desc ), $pinspot_desc_tags ); ?></span>
+							<?php endif; ?>
+							<?php if ( '' !== $pinspot_item_url && '' !== $pinspot_item_text ) : ?>
+								<a class="pinspot__list-link" href="<?php echo esc_url( $pinspot_item_url ); ?>"><?php echo esc_html( $pinspot_item_text ); ?></a>
+							<?php endif; ?>
+						</div>
+					</li>
+				<?php endforeach; ?>
+			</ol>
+		</div>
 	<?php endif; ?>
 </figure>

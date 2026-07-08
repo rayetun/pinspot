@@ -362,27 +362,72 @@
 	}
 
 	// Accessible hotspot list (optional, below the image).
+	.pinspot__list-wrap {
+		border-top: 1px solid rgba(0, 0, 0, 0.1);
+		margin-top: 20px;
+		padding-top: 16px;
+	}
+
+	.pinspot__list-heading {
+		font-size: 12px;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		margin: 0 0 12px;
+		opacity: 0.6;
+		text-transform: uppercase;
+	}
+
 	.pinspot__list {
-		font-size: 15px;
-		line-height: 1.6;
-		margin: 16px 0 0;
-		padding-left: 24px;
+		display: grid;
+		gap: 14px;
+		list-style: none;
+		margin: 0;
+		padding: 0;
 	}
 
 	.pinspot__list-item {
-		margin-bottom: 8px;
+		align-items: flex-start;
+		display: flex;
+		gap: 12px;
+		margin: 0;
+	}
+
+	.pinspot__list-num {
+		align-items: center;
+		background: var(--pinspot-marker-color, #3a5df0);
+		border-radius: 50%;
+		color: #fff;
+		display: flex;
+		flex: 0 0 auto;
+		font-size: 13px;
+		font-weight: 600;
+		height: 26px;
+		justify-content: center;
+		line-height: 1;
+		margin-top: 1px;
+		width: 26px;
+	}
+
+	.pinspot__list-body {
+		font-size: 15px;
+		line-height: 1.55;
 	}
 
 	.pinspot__list-title {
-		display: inline;
+		display: block;
+		font-size: 16px;
 	}
 
 	.pinspot__list-desc {
 		display: block;
+		margin-top: 2px;
+		opacity: 0.85;
 	}
 
 	.pinspot__list-link {
+		display: inline-block;
 		font-weight: 600;
+		margin-top: 4px;
 	}
 }
 
