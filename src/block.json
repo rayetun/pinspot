@@ -51,6 +51,14 @@
 			"type": "boolean",
 			"default": true
 		},
+		"tooltipWidth": {
+			"type": "number",
+			"default": 280
+		},
+		"showList": {
+			"type": "boolean",
+			"default": false
+		},
 		"hotspots": {
 			"type": "array",
 			"default": [],

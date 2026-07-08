@@ -113,7 +113,7 @@
 		font-size: 14px;
 		left: 50%;
 		line-height: 1.5;
-		max-width: min(280px, 80vw);
+		max-width: min(var(--pinspot-tooltip-width, 280px), 80vw);
 		padding: 12px 14px;
 		position: absolute;
 		transform: translateX(calc(-50% + var(--pinspot-shift-x, 0px)));
@@ -198,7 +198,7 @@
 		height: auto;
 		margin-bottom: 8px;
 		max-width: 100%;
-		width: 252px;
+		width: calc(var(--pinspot-tooltip-width, 280px) - 28px);
 	}
 
 	.pinspot__tooltip-embed {
@@ -228,7 +228,7 @@
 		justify-content: center;
 		margin-bottom: 8px;
 		padding: 0;
-		width: 252px;
+		width: calc(var(--pinspot-tooltip-width, 280px) - 28px);
 
 		&[hidden] {
 			display: none !important;
@@ -359,6 +359,30 @@
 		position: absolute;
 		right: 16px;
 		top: 12px;
+	}
+
+	// Accessible hotspot list (optional, below the image).
+	.pinspot__list {
+		font-size: 15px;
+		line-height: 1.6;
+		margin: 16px 0 0;
+		padding-left: 24px;
+	}
+
+	.pinspot__list-item {
+		margin-bottom: 8px;
+	}
+
+	.pinspot__list-title {
+		display: inline;
+	}
+
+	.pinspot__list-desc {
+		display: block;
+	}
+
+	.pinspot__list-link {
+		font-weight: 600;
 	}
 }
 

@@ -66,6 +66,8 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 		globalTheme,
 		enableZoom,
 		maxZoom,
+		tooltipWidth,
+		showList,
 	} = attributes;
 	const [ isPlacing, setIsPlacing ] = useState( false );
 	const [ selectedId, setSelectedId ] = useState( null );
@@ -300,6 +302,33 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 						onChange={ ( value ) =>
 							setAttributes( { globalTheme: value } )
 						}
+					/>
+					<RangeControl
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+						label={ __( 'Tooltip width (px)', 'pinspot' ) }
+						value={ tooltipWidth }
+						min={ 180 }
+						max={ 480 }
+						step={ 10 }
+						onChange={ ( value ) =>
+							setAttributes( { tooltipWidth: value } )
+						}
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __(
+							'Show hotspot list below image',
+							'pinspot'
+						) }
+						checked={ !! showList }
+						onChange={ ( value ) =>
+							setAttributes( { showList: value } )
+						}
+						help={ __(
+							'A plain, accessible list of all hotspot content — great for screen readers and SEO.',
+							'pinspot'
+						) }
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom

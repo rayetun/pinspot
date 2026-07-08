@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-07-07T14:12:56+00:00\n"
+"POT-Creation-Date: 2026-07-08T00:02:48+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: pinspot\n"
@@ -38,111 +38,128 @@ msgstr ""
 msgid "Pinspot"
 msgstr ""
 
-#: patterns/map-tour.php:13
+#: patterns/map-tour.php:18
 msgid "Zoomable map tour"
 msgstr ""
 
-#: patterns/map-tour.php:14
-msgid "A zoom-and-pan enabled image with pulsing question-mark pins — ideal for maps, floor plans, or infographics. Add your own image after inserting."
+#: patterns/map-tour.php:19
+msgid "A zoom-and-pan enabled map with pulsing question-mark pins — ideal for maps, floor plans, or infographics. Replace the demo image with your own."
 msgstr ""
 
-#: patterns/map-tour.php:16
-msgid "Point of interest"
+#: patterns/map-tour.php:22
+msgid "Map demo image"
 msgstr ""
 
-#: patterns/map-tour.php:16
+#: patterns/map-tour.php:22
+msgid "City park"
+msgstr ""
+
+#: patterns/map-tour.php:22
 msgid "What visitors will find here."
 msgstr ""
 
-#: patterns/product-showcase.php:13
+#: patterns/map-tour.php:22
+msgid "Point of interest"
+msgstr ""
+
+#: patterns/product-showcase.php:18
 msgid "Product showcase hotspots"
 msgstr ""
 
-#: patterns/product-showcase.php:14
-msgid "Numbered pins over a product photo, each with a title, description, and a call-to-action button. Add your own image after inserting."
+#: patterns/product-showcase.php:19
+msgid "Numbered pins over a product image, each with a title, description, and a call-to-action button. Replace the demo image with your own."
 msgstr ""
 
-#: patterns/product-showcase.php:16
+#: patterns/product-showcase.php:22
+msgid "Product demo image"
+msgstr ""
+
+#: patterns/product-showcase.php:22
 msgid "Feature one"
 msgstr ""
 
-#: patterns/product-showcase.php:16
+#: patterns/product-showcase.php:22
 msgid "Describe the first highlight of your product."
 msgstr ""
 
-#: patterns/product-showcase.php:16
+#: patterns/product-showcase.php:22
 msgid "Shop now"
 msgstr ""
 
-#: patterns/product-showcase.php:16
+#: patterns/product-showcase.php:22
 msgid "Feature two"
 msgstr ""
 
-#: patterns/product-showcase.php:16
+#: patterns/product-showcase.php:22
 msgid "Explain what makes this detail special."
 msgstr ""
 
-#: patterns/product-showcase.php:16
+#: patterns/product-showcase.php:22
 msgid "Learn more"
 msgstr ""
 
-#: patterns/product-showcase.php:16
+#: patterns/product-showcase.php:22
 msgid "Feature three"
 msgstr ""
 
-#: patterns/product-showcase.php:16
+#: patterns/product-showcase.php:22
 msgid "One more reason to love it."
 msgstr ""
 
-#: patterns/product-showcase.php:16
+#: patterns/product-showcase.php:22
 msgid "Details"
 msgstr ""
 
-#: patterns/team-intro.php:13
+#: patterns/team-intro.php:18
 msgid "Team introduction hotspots"
 msgstr ""
 
-#: patterns/team-intro.php:14
-msgid "Hover-triggered dot pins over a team photo, each revealing a name and role in a dark tooltip. Add your own image after inserting."
+#: patterns/team-intro.php:19
+msgid "Hover-triggered dot pins over a team image, each revealing a name and role in a dark tooltip. Replace the demo image with your own."
 msgstr ""
 
-#: patterns/team-intro.php:16
+#: patterns/team-intro.php:22
+msgid "Team demo image"
+msgstr ""
+
+#: patterns/team-intro.php:22
 msgid "Team member"
 msgstr ""
 
-#: patterns/team-intro.php:16
+#: patterns/team-intro.php:22
 msgid "Role or fun fact."
 msgstr ""
 
-#: src/render.php:79
+#: src/render.php:100
 msgid "Zoom in"
 msgstr ""
 
-#: src/render.php:80
+#: src/render.php:101
 msgid "Zoom out"
 msgstr ""
 
-#: src/render.php:81
+#: src/render.php:102
 msgid "Reset zoom"
 msgstr ""
 
 #. translators: %d: hotspot number.
-#: src/render.php:172
+#: src/render.php:193
+#: src/render.php:325
 #: src/components/hotspot-inspector.js:87
-#: src/edit.js:393
+#: src/edit.js:422
 #, php-format,js-format
 msgid "Hotspot %d"
 msgstr ""
 
-#: src/render.php:231
+#: src/render.php:252
 msgid "View image full size"
 msgstr ""
 
-#: src/render.php:245
+#: src/render.php:266
 msgid "Play video"
 msgstr ""
 
-#: src/render.php:289
+#: src/render.php:310
 msgid "Close"
 msgstr ""
 
@@ -213,12 +230,12 @@ msgid "Inherit from block"
 msgstr ""
 
 #: src/components/hotspot-inspector.js:54
-#: src/edit.js:269
+#: src/edit.js:271
 msgid "Click"
 msgstr ""
 
 #: src/components/hotspot-inspector.js:55
-#: src/edit.js:273
+#: src/edit.js:275
 msgid "Hover"
 msgstr ""
 
@@ -243,12 +260,12 @@ msgid "Right"
 msgstr ""
 
 #: src/components/hotspot-inspector.js:68
-#: src/edit.js:292
+#: src/edit.js:294
 msgid "Light"
 msgstr ""
 
 #: src/components/hotspot-inspector.js:69
-#: src/edit.js:296
+#: src/edit.js:298
 msgid "Dark"
 msgstr ""
 
@@ -260,103 +277,107 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:110
-msgid "Remove hotspot"
+#: src/components/hotspot-inspector.js:103
+msgid "Line breaks are kept. Basic HTML allowed: <strong>, <em>, <a>."
 msgstr ""
 
 #: src/components/hotspot-inspector.js:114
-msgid "Media"
+msgid "Remove hotspot"
 msgstr ""
 
 #: src/components/hotspot-inspector.js:118
+msgid "Media"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:122
 msgid "Media type"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:164
+#: src/components/hotspot-inspector.js:168
 msgid "Replace media"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:165
+#: src/components/hotspot-inspector.js:169
 msgid "Select media"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:178
+#: src/components/hotspot-inspector.js:182
 msgid "Clear"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:192
+#: src/components/hotspot-inspector.js:196
 msgid "YouTube URL"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:193
+#: src/components/hotspot-inspector.js:197
 msgid "Vimeo URL"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:198
+#: src/components/hotspot-inspector.js:202
 msgid "Paste the video page URL — the embed is generated automatically."
 msgstr ""
 
-#: src/components/hotspot-inspector.js:207
+#: src/components/hotspot-inspector.js:211
 msgid "Call to action"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:213
+#: src/components/hotspot-inspector.js:217
 msgid "Button text"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:220
+#: src/components/hotspot-inspector.js:224
 msgid "Link URL"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:227
+#: src/components/hotspot-inspector.js:231
 msgid "Open in new tab"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:234
+#: src/components/hotspot-inspector.js:238
 msgid "Marker"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:240
+#: src/components/hotspot-inspector.js:244
 msgid "Style"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:248
+#: src/components/hotspot-inspector.js:252
 msgid "Size"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:255
+#: src/components/hotspot-inspector.js:259
 msgid "Color"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:270
+#: src/components/hotspot-inspector.js:274
 msgid "Animation"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:274
+#: src/components/hotspot-inspector.js:278
 msgid "Shown on the site. Respects reduced-motion preferences."
 msgstr ""
 
-#: src/components/hotspot-inspector.js:282
+#: src/components/hotspot-inspector.js:286
 msgid "Behavior"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:288
+#: src/components/hotspot-inspector.js:292
 msgid "Open on"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:296
+#: src/components/hotspot-inspector.js:300
 msgid "Tooltip placement"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:304
+#: src/components/hotspot-inspector.js:308
 msgid "Theme"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:311
+#: src/components/hotspot-inspector.js:315
 msgid "Open media in lightbox"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:314
+#: src/components/hotspot-inspector.js:318
 msgid "Clicking the tooltip media opens it full-size."
 msgstr ""
 
@@ -395,84 +416,96 @@ msgid "Delete"
 msgstr ""
 
 #. translators: %d: number of imported hotspots.
-#: src/components/import-export.js:127
+#: src/components/import-export.js:125
 #, js-format
 msgid "%d hotspots imported."
 msgstr ""
 
-#: src/components/import-export.js:134
+#: src/components/import-export.js:132
 msgid "Invalid file — expected a Pinspot JSON export."
 msgstr ""
 
-#: src/components/import-export.js:147
+#: src/components/import-export.js:145
 msgid "Import / Export"
 msgstr ""
 
-#: src/components/import-export.js:165
+#: src/components/import-export.js:163
 msgid "Export JSON"
 msgstr ""
 
-#: src/components/import-export.js:171
+#: src/components/import-export.js:169
 msgid "Import JSON"
 msgstr ""
 
-#: src/components/import-export.js:183
+#: src/components/import-export.js:181
 msgid "Replace existing hotspots on import"
 msgstr ""
 
-#: src/components/import-export.js:186
+#: src/components/import-export.js:184
 msgid "Off: imported hotspots are added to the current ones."
 msgstr ""
 
-#: src/edit.js:208
+#: src/edit.js:210
 msgid "Pinspot — Image Hotspots"
 msgstr ""
 
-#: src/edit.js:209
+#: src/edit.js:211
 msgid "Upload or select the image you want to annotate with hotspots."
 msgstr ""
 
-#: src/edit.js:231
+#: src/edit.js:233
 msgid "Replace image"
 msgstr ""
 
-#: src/edit.js:235
+#: src/edit.js:237
 msgid "Add hotspot"
 msgstr ""
 
-#: src/edit.js:259
+#: src/edit.js:261
 msgid "Display settings"
 msgstr ""
 
-#: src/edit.js:265
+#: src/edit.js:267
 msgid "Open tooltips on"
 msgstr ""
 
-#: src/edit.js:280
+#: src/edit.js:282
 msgid "Hover tooltips still open on click for touch devices."
 msgstr ""
 
-#: src/edit.js:288
+#: src/edit.js:290
 msgid "Tooltip theme"
 msgstr ""
 
-#: src/edit.js:306
-msgid "Enable zoom & pan"
-msgstr ""
-
-#: src/edit.js:311
-msgid "Adds zoom controls, double-click zoom, pinch, and drag-to-pan on the site."
+#: src/edit.js:309
+msgid "Tooltip width (px)"
 msgstr ""
 
 #: src/edit.js:320
+msgid "Show hotspot list below image"
+msgstr ""
+
+#: src/edit.js:328
+msgid "A plain, accessible list of all hotspot content — great for screen readers and SEO."
+msgstr ""
+
+#: src/edit.js:335
+msgid "Enable zoom & pan"
+msgstr ""
+
+#: src/edit.js:340
+msgid "Adds zoom controls, double-click zoom, pinch, and drag-to-pan on the site."
+msgstr ""
+
+#: src/edit.js:349
 msgid "Maximum zoom"
 msgstr ""
 
-#: src/edit.js:344
+#: src/edit.js:373
 msgid "Click anywhere on the image to place the hotspot."
 msgstr ""
 
-#: src/edit.js:355
+#: src/edit.js:384
 msgid "Hotspot placement canvas"
 msgstr ""
 

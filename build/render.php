@@ -55,6 +55,22 @@ $pinspot_enable_zoom    = ! empty( $attributes['enableZoom'] );
 $pinspot_max_zoom       = isset( $attributes['maxZoom'] ) ? (float) $attributes['maxZoom'] : 3;
 $pinspot_max_zoom       = min( 8, max( 1.5, $pinspot_max_zoom ) );
 
+$pinspot_tooltip_width = isset( $attributes['tooltipWidth'] ) ? absint( $attributes['tooltipWidth'] ) : 280;
+$pinspot_tooltip_width = min( 480, max( 180, $pinspot_tooltip_width ) );
+$pinspot_show_list     = ! empty( $attributes['showList'] );
+
+// Inline tags allowed in tooltip descriptions.
+$pinspot_desc_tags = array(
+	'a'      => array(
+		'href'   => true,
+		'target' => true,
+		'rel'    => true,
+	),
+	'strong' => array(),
+	'em'     => array(),
+	'br'     => array(),
+);
+
 $pinspot_context = array(
 	'openId'      => '',
 	'scale'       => 1,
@@ -64,7 +80,12 @@ $pinspot_context = array(
 	'lightboxSrc' => '',
 );
 
-$pinspot_wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'pinspot' ) );
+$pinspot_wrapper_attributes = get_block_wrapper_attributes(
+	array(
+		'class' => 'pinspot',
+		'style' => sprintf( '--pinspot-tooltip-width:%dpx;', $pinspot_tooltip_width ),
+	)
+);
 ?>
 <figure
 	<?php echo wp_kses_data( $pinspot_wrapper_attributes ); ?>
@@ -263,7 +284,7 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'p
 							<strong class="pinspot__tooltip-title"><?php echo esc_html( $pinspot_title ); ?></strong>
 						<?php endif; ?>
 						<?php if ( '' !== $pinspot_desc ) : ?>
-							<p class="pinspot__tooltip-desc"><?php echo esc_html( $pinspot_desc ); ?></p>
+							<p class="pinspot__tooltip-desc"><?php echo wp_kses( nl2br( $pinspot_desc ), $pinspot_desc_tags ); ?></p>
 						<?php endif; ?>
 						<?php if ( '' !== $pinspot_link_url && '' !== $pinspot_link_text ) : ?>
 							<a
@@ -288,4 +309,32 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'p
 		<img class="pinspot__lightbox-img" data-wp-bind--src="state.lightboxSrc" alt="" />
 		<button type="button" class="pinspot__lightbox-close" data-wp-on--click="actions.closeLightbox" aria-label="<?php esc_attr_e( 'Close', 'pinspot' ); ?>">&times;</button>
 	</div>
+	<?php if ( $pinspot_show_list && ! empty( $pinspot_hotspots ) ) : ?>
+		<ol class="pinspot__list">
+			<?php foreach ( $pinspot_hotspots as $pinspot_index => $pinspot_hotspot ) : ?>
+				<?php
+				if ( ! is_array( $pinspot_hotspot ) ) {
+					continue;
+				}
+				$pinspot_item_title = isset( $pinspot_hotspot['title'] ) ? (string) $pinspot_hotspot['title'] : '';
+				$pinspot_item_desc  = isset( $pinspot_hotspot['description'] ) ? (string) $pinspot_hotspot['description'] : '';
+				$pinspot_item_url   = isset( $pinspot_hotspot['linkUrl'] ) ? (string) $pinspot_hotspot['linkUrl'] : '';
+				$pinspot_item_text  = isset( $pinspot_hotspot['linkText'] ) ? (string) $pinspot_hotspot['linkText'] : '';
+				if ( '' === $pinspot_item_title ) {
+					/* translators: %d: hotspot number. */
+					$pinspot_item_title = sprintf( __( 'Hotspot %d', 'pinspot' ), $pinspot_index + 1 );
+				}
+				?>
+				<li class="pinspot__list-item">
+					<strong class="pinspot__list-title"><?php echo esc_html( $pinspot_item_title ); ?></strong>
+					<?php if ( '' !== $pinspot_item_desc ) : ?>
+						<span class="pinspot__list-desc"><?php echo wp_kses( nl2br( $pinspot_item_desc ), $pinspot_desc_tags ); ?></span>
+					<?php endif; ?>
+					<?php if ( '' !== $pinspot_item_url && '' !== $pinspot_item_text ) : ?>
+						<a class="pinspot__list-link" href="<?php echo esc_url( $pinspot_item_url ); ?>"><?php echo esc_html( $pinspot_item_text ); ?></a>
+					<?php endif; ?>
+				</li>
+			<?php endforeach; ?>
+		</ol>
+	<?php endif; ?>
 </figure>

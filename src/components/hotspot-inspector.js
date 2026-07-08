@@ -100,6 +100,10 @@ export default function HotspotInspector( {
 					label={ __( 'Description', 'pinspot' ) }
 					value={ hotspot.description || '' }
 					onChange={ ( description ) => onChange( { description } ) }
+					help={ __(
+						'Line breaks are kept. Basic HTML allowed: <strong>, <em>, <a>.',
+						'pinspot'
+					) }
 				/>
 				<Button
 					variant="secondary"
