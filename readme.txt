@@ -93,12 +93,11 @@ Privacy Policy: https://vimeo.com/privacy
 
 == Screenshots ==
 
-1. The editor: click-to-place pins with the full hotspot inspector.
-2. A rich tooltip on the frontend — image, text, and call-to-action.
-3. Dark theme with hover trigger.
-4. Zoom & pan on a map with pulsing markers.
-5. The media lightbox.
-6. Starter patterns in the inserter.
+1. A rich tooltip on the frontend — title, description, and a call-to-action button.
+2. Dark theme with on-image zoom controls and animated markers.
+3. Zoom and pan into a large image; markers stay crisp and readable.
+4. Optional accessible list of every hotspot below the image, for screen readers and SEO.
+5. The block editor: place pins, reorder them, and configure everything in the sidebar.
 
 == Changelog ==
 
