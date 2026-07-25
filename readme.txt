@@ -133,6 +133,10 @@ Right inside the block in your post content. There are no extra database tables 
 
 Yes. Use **Import / Export** in the block sidebar to download a layout as a JSON file and load it into another post — even on a different website.
 
+= Is the source code available? =
+
+Yes. The complete, un-minified source (JavaScript and SCSS) is included in the plugin’s `/src` directory alongside the compiled files in `/build`. The plugin is built with the standard WordPress tooling — run `npm install` and then `npm run build` to recompile it from source.
+
 == External Services ==
 
 Pinspot embeds no external service by default. Only when you choose YouTube or Vimeo as a tooltip’s media type, the following apply on the public page:

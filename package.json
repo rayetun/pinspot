@@ -10,10 +10,10 @@
 	},
 	"files": [
 		"pinspot.php",
-		"uninstall.php",
 		"readme.txt",
 		"index.php",
 		"build/**",
+		"src/**",
 		"includes/**",
 		"patterns/**",
 		"languages/**"

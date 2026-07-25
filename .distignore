@@ -1,8 +1,9 @@
 # Files/dirs excluded from the WP.org distribution zip
 # (used by 10up/action-wordpress-plugin-deploy and wp-scripts plugin-zip)
 
-# Source & tooling — only build/ ships
-/src
+# Ship /src (un-minified source) alongside the compiled /build so the
+# plugin satisfies the WordPress.org "human-readable code" guideline
+# without depending on an external repository.
 /node_modules
 /vendor
 /assets
