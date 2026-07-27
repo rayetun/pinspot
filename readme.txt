@@ -17,7 +17,7 @@ Turn any image into an interactive experience. Add hotspot pins with rich, acces
 
 It is a single native block built the modern WordPress way — on the Interactivity API, the same technology that powers WordPress core blocks. No jQuery, no shortcodes, no page builder required. The frontend script is under 4 KB and only loads on pages that actually use a hotspot, so it never slows the rest of your site down.
 
-Best of all, the features other hotspot plugins lock behind a paid upgrade — zoom & pan, video tooltips, a lightbox, import/export, unlimited hotspots — are all included here, for free.
+Pinspot includes everything you need to build interactive images: unlimited hotspots, zoom & pan, image and video tooltips, a lightbox, import/export, and three starter patterns to help you get going quickly.
 
 = What you can build =
 
@@ -33,7 +33,7 @@ Every pin can carry a title, a description (with line breaks and basic **bold**,
 
 = Accessibility built in =
 
-Pinspot is designed to work for everyone, not just mouse users. Accessibility was a core goal from the first line of code, not a checkbox added at the end:
+Pinspot is designed to work for everyone, not just mouse users. Accessibility is built into how it works:
 
 * **Fully keyboard operable** — every marker is a real button. Tab moves between pins, Enter or Space opens a tooltip, and Escape closes it and returns focus to the exact marker you opened it from, so you never lose your place.
 * **Screen-reader ready** — each marker exposes proper `aria-expanded` and `aria-controls` state plus a descriptive label, so assistive technology understands what every pin does and whether its tooltip is currently open.
@@ -115,7 +115,7 @@ Yes. You can set the whole block — or an individual pin — to open on hover i
 
 = Is Pinspot accessible? =
 
-Yes; accessibility was a core goal, not an afterthought. Pins are keyboard-operable buttons with proper ARIA state, Escape closes a tooltip and restores focus to its marker, animations respect the “reduce motion” setting, and an optional list below the image gives screen-reader users and search engines a full text version of your hotspots. See “Accessibility built in” in the description for the details.
+Yes. Pins are keyboard-operable buttons with proper ARIA state, Escape closes a tooltip and restores focus to its marker, animations respect the “reduce motion” setting, and an optional list below the image gives screen-reader users and search engines a full text version of your hotspots. See “Accessibility built in” in the description for the details.
 
 = Will it slow down my site? =
 
