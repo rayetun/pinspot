@@ -33,7 +33,7 @@ jobs:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SLUG: pinspot
-          ASSETS_DIR: assets
+          ASSETS_DIR: .wordpress-org
 
       - name: Attach zip to GitHub Release
         uses: softprops/action-gh-release@v2

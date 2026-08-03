@@ -1,7 +1,7 @@
-=== Pinspot — Interactive Image Hotspots ===
+=== Pinspot - Interactive Image Hotspots ===
 Contributors: rayetun
 Donate link: https://wise.com/pay/me/mdrayhanu2
-Tags: hotspot, image map, tooltip, interactive image, pins
+Tags: image hotspot, image map, lightbox tooltip, interactive image, visual pins
 Requires at least: 6.6
 Tested up to: 7.0
 Requires PHP: 7.4
@@ -85,7 +85,7 @@ Pinspot makes no external requests on its own. YouTube and Vimeo tooltips show a
 = Add your first hotspot image =
 
 1. Edit any post or page.
-2. Add the **Pinspot — Image Hotspots** block (search for “Pinspot” in the inserter), or insert a **Pinspot** pattern to start from a ready-made layout.
+2. Add the **Pinspot - Image Hotspots** block (search for “Pinspot” in the inserter), or insert a **Pinspot** pattern to start from a ready-made layout.
 3. Select or upload the image you want to annotate.
 4. Click **Add hotspot** in the block toolbar, then click the spot on the image where the pin should go.
 5. With the pin selected, fill in its title, description, media, and link in the sidebar.

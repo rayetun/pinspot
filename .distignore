@@ -6,7 +6,7 @@
 # without depending on an external repository.
 /node_modules
 /vendor
-/assets
+/.wordpress-org
 /.github
 
 # Dev config

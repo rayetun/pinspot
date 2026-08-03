@@ -11,6 +11,9 @@
 		display: block;
 		height: auto;
 		max-width: 100%;
+		// Fill the stage so % marker positions map to the image box exactly
+		// (a naturally-narrower image would otherwise leave markers drifting).
+		width: 100%;
 	}
 
 	.pinspot__viewport {
@@ -199,6 +202,12 @@
 		margin-bottom: 8px;
 		max-width: 100%;
 		width: calc(var(--pinspot-tooltip-width, 280px) - 28px);
+
+		// The class display:block overrides the [hidden] attribute, so the
+		// lazily-loaded iframe would show as an empty box before play. Restore it.
+		&[hidden] {
+			display: none !important;
+		}
 	}
 
 	.pinspot__tooltip-embed {

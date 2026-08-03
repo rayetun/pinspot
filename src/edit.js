@@ -207,7 +207,7 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 				<MediaPlaceholder
 					icon="location"
 					labels={ {
-						title: __( 'Pinspot — Image Hotspots', 'pinspot' ),
+						title: __( 'Pinspot - Image Hotspots', 'pinspot' ),
 						instructions: __(
 							'Upload or select the image you want to annotate with hotspots.',
 							'pinspot'
