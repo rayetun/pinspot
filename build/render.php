@@ -218,6 +218,7 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 					class="pinspot__hotspot"
 					style="<?php echo esc_attr( sprintf( 'left:%F%%;top:%F%%;', $pinspot_x, $pinspot_y ) ); ?>"
 					<?php echo wp_kses_data( wp_interactivity_data_wp_context( $pinspot_hotspot_context ) ); ?>
+					data-wp-class--is-open="state.isOpen"
 					data-wp-init="callbacks.initHotspot"
 					<?php if ( 'hover' === $pinspot_trigger ) : ?>
 					data-wp-on--mouseenter="actions.hoverOpen"

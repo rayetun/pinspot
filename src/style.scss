@@ -41,6 +41,12 @@
 	.pinspot__hotspot {
 		position: absolute;
 		transform: translate(-50%, -50%) scale(calc(1 / var(--pinspot-zoom, 1)));
+
+		// The open hotspot lifts above its neighbours so nearby markers do not
+		// paint over its tooltip.
+		&.is-open {
+			z-index: 30;
+		}
 	}
 
 	.pinspot__marker {
