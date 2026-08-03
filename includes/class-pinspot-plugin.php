@@ -57,7 +57,7 @@ final class Pinspot_Plugin {
 	public function register_patterns() {
 		register_block_pattern_category(
 			'pinspot',
-			array( 'label' => __( 'Pinspot', 'pinspot' ) )
+			array( 'label' => __( 'PinSpot', 'pinspot' ) )
 		);
 
 		$patterns = array( 'product-showcase', 'team-intro', 'map-tour' );

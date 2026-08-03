@@ -1,4 +1,4 @@
-=== Pinspot - Interactive Image Hotspots ===
+=== PinSpot - Interactive Image Hotspots ===
 Contributors: rayetun
 Donate link: https://wise.com/pay/me/mdrayhanu2
 Tags: image hotspot, image map, lightbox tooltip, interactive image, visual pins
@@ -13,11 +13,11 @@ Turn any image into an interactive experience. Add hotspot pins with rich, acces
 
 == Description ==
 
-**Pinspot** turns a flat image into something people explore. Drop pins anywhere on a photo, map, diagram, or product shot — each pin opens a polished, accessible tooltip with a title, description, image or video, and a call-to-action button.
+**PinSpot** turns a flat image into something people explore. Drop pins anywhere on a photo, map, diagram, or product shot — each pin opens a polished, accessible tooltip with a title, description, image or video, and a call-to-action button.
 
 It is a single native block built the modern WordPress way — on the Interactivity API, the same technology that powers WordPress core blocks. No jQuery, no shortcodes, no page builder required. The frontend script is under 4 KB and only loads on pages that actually use a hotspot, so it never slows the rest of your site down.
 
-Pinspot includes everything you need to build interactive images: unlimited hotspots, zoom & pan, image and video tooltips, a lightbox, import/export, and three starter patterns to help you get going quickly.
+PinSpot includes everything you need to build interactive images: unlimited hotspots, zoom & pan, image and video tooltips, a lightbox, import/export, and three starter patterns to help you get going quickly.
 
 = What you can build =
 
@@ -33,7 +33,7 @@ Every pin can carry a title, a description (with line breaks and basic **bold**,
 
 = Accessibility built in =
 
-Pinspot is designed to work for everyone, not just mouse users. Accessibility is built into how it works:
+PinSpot is designed to work for everyone, not just mouse users. Accessibility is built into how it works:
 
 * **Fully keyboard operable** — every marker is a real button. Tab moves between pins, Enter or Space opens a tooltip, and Escape closes it and returns focus to the exact marker you opened it from, so you never lose your place.
 * **Screen-reader ready** — each marker exposes proper `aria-expanded` and `aria-controls` state plus a descriptive label, so assistive technology understands what every pin does and whether its tooltip is currently open.
@@ -44,17 +44,17 @@ Pinspot is designed to work for everyone, not just mouse users. Accessibility is
 
 = Start fast with block patterns =
 
-New to hotspots? Pinspot ships three ready-made layouts you can insert and edit in seconds. In the editor, open the block inserter (the **+** button in the top-left), switch to the **Patterns** tab, and choose the **Pinspot** category. You will find:
+New to hotspots? PinSpot ships three ready-made layouts you can insert and edit in seconds. In the editor, open the block inserter (the **+** button in the top-left), switch to the **Patterns** tab, and choose the **PinSpot** category. You will find:
 
 * **Product showcase** — three numbered pins with call-to-action buttons, arranged over a product image. Great for shoppable images and feature callouts.
 * **Team introduction** — hover-activated dot pins with dark tooltips, spaced for a group photo. Perfect for an about or team page.
 * **Zoomable map tour** — a zoom-and-pan image with pulsing question-mark pins, built for maps, floor plans, campus guides, and infographics.
 
-Each pattern drops in with a demo illustration and sample pins already in place. Just replace the demo image with your own and edit the text — it is the fastest way to see everything Pinspot can do and to learn how the pieces fit together.
+Each pattern drops in with a demo illustration and sample pins already in place. Just replace the demo image with your own and edit the text — it is the fastest way to see everything PinSpot can do and to learn how the pieces fit together.
 
 = Everything lives on the block — there is no settings page to hunt for =
 
-Pinspot deliberately has no separate admin dashboard. You configure everything right where you see it, using the standard WordPress block controls:
+PinSpot deliberately has no separate admin dashboard. You configure everything right where you see it, using the standard WordPress block controls:
 
 * **Block toolbar** — swap the image, or click **Add hotspot** and then click the image to drop a pin exactly where you want it.
 * **Placing & moving pins** — drag any marker to reposition it, or select it and nudge with the arrow keys (hold Shift for larger steps) for precise placement.
@@ -63,17 +63,17 @@ Pinspot deliberately has no separate admin dashboard. You configure everything r
 * **Display settings** — set the trigger (click or hover), light or dark theme, tooltip width, the optional accessible list, and whether zoom & pan is enabled.
 * **Import / Export** — save the whole layout as a JSON file and load it into another post, page, or site.
 
-If you have ever placed a WordPress block, you already know how to use Pinspot.
+If you have ever placed a WordPress block, you already know how to use PinSpot.
 
 = Privacy-first by design =
 
-Pinspot makes no external requests on its own. YouTube and Vimeo tooltips show a lightweight preview image and only load the real player after the visitor clicks play — nothing is sent to Google or Vimeo until then. Your hotspot data is stored inside the block in your post content: no custom database tables, no tracking, no phoning home, and a completely clean uninstall.
+PinSpot makes no external requests on its own. YouTube and Vimeo tooltips show a lightweight preview image and only load the real player after the visitor clicks play — nothing is sent to Google or Vimeo until then. Your hotspot data is stored inside the block in your post content: no custom database tables, no tracking, no phoning home, and a completely clean uninstall.
 
 == Installation ==
 
 = From your dashboard =
 
-1. Go to **Plugins → Add New** and search for **Pinspot**.
+1. Go to **Plugins → Add New** and search for **PinSpot**.
 2. Click **Install Now**, then **Activate**.
 
 = Manual upload =
@@ -85,7 +85,7 @@ Pinspot makes no external requests on its own. YouTube and Vimeo tooltips show a
 = Add your first hotspot image =
 
 1. Edit any post or page.
-2. Add the **Pinspot - Image Hotspots** block (search for “Pinspot” in the inserter), or insert a **Pinspot** pattern to start from a ready-made layout.
+2. Add the **PinSpot - Image Hotspots** block (search for “PinSpot” in the inserter), or insert a **PinSpot** pattern to start from a ready-made layout.
 3. Select or upload the image you want to annotate.
 4. Click **Add hotspot** in the block toolbar, then click the spot on the image where the pin should go.
 5. With the pin selected, fill in its title, description, media, and link in the sidebar.
@@ -99,7 +99,7 @@ No — and you will not need one. Everything is configured on the block itself: 
 
 = Does it work with my theme? =
 
-Yes. Pinspot is a standard WordPress block with its own self-contained styles, so it works with block themes and classic themes alike. It also respects your theme’s width settings, including wide and full alignment.
+Yes. PinSpot is a standard WordPress block with its own self-contained styles, so it works with block themes and classic themes alike. It also respects your theme’s width settings, including wide and full alignment.
 
 = How many hotspots can I add? =
 
@@ -113,7 +113,7 @@ Yes. Each pin’s position is stored as a percentage of the image, so it stays a
 
 Yes. You can set the whole block — or an individual pin — to open on hover instead of click. On touch devices, hover pins still open on tap, so mobile visitors are never left out.
 
-= Is Pinspot accessible? =
+= Is PinSpot accessible? =
 
 Yes. Pins are keyboard-operable buttons with proper ARIA state, Escape closes a tooltip and restores focus to its marker, animations respect the “reduce motion” setting, and an optional list below the image gives screen-reader users and search engines a full text version of your hotspots. See “Accessibility built in” in the description for the details.
 
@@ -139,7 +139,7 @@ Yes. The complete, un-minified source (JavaScript and SCSS) is included in the p
 
 == External Services ==
 
-Pinspot embeds no external service by default. Only when you choose YouTube or Vimeo as a tooltip’s media type, the following apply on the public page:
+PinSpot embeds no external service by default. Only when you choose YouTube or Vimeo as a tooltip’s media type, the following apply on the public page:
 
 **YouTube (Google LLC) — video embeds and thumbnails**
 Purpose: show the video preview thumbnail and, after the visitor clicks play, the embedded player.
@@ -159,8 +159,8 @@ Privacy Policy: https://vimeo.com/privacy
 
 == Screenshots ==
 
-1. A rich tooltip on the frontend — title, description, and a call-to-action button.
-2. Dark theme with on-image zoom controls and animated markers.
+1. A rich tooltip on the frontend — title, description, and a call-to-action button, animated marker.
+2. A rich tooltip on the frontend — Embedded YouTube video tooltip.
 3. Zoom and pan into a large image; markers stay crisp and readable.
 4. Optional accessible list of every hotspot below the image, for screen readers and SEO.
 5. The block editor: place pins, reorder them, and configure everything in the sidebar.

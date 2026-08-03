@@ -18,6 +18,9 @@
 
 	.pinspot__viewport {
 		position: relative;
+		// Keep the viewport (and a tooltip overflowing below the image) above
+		// the optional hotspot list that follows it in the figure.
+		z-index: 1;
 	}
 
 	.pinspot__viewport--zoomable {
@@ -116,7 +119,9 @@
 		font-size: 14px;
 		left: 50%;
 		line-height: 1.5;
+		max-height: min(70vh, 440px);
 		max-width: min(var(--pinspot-tooltip-width, 280px), 80vw);
+		overflow-y: auto;
 		padding: 12px 14px;
 		position: absolute;
 		transform: translateX(calc(-50% + var(--pinspot-shift-x, 0px)));
@@ -375,6 +380,8 @@
 		border-top: 1px solid rgba(0, 0, 0, 0.1);
 		margin-top: 20px;
 		padding-top: 16px;
+		position: relative;
+		z-index: 0;
 	}
 
 	.pinspot__list-heading {

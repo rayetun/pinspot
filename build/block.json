@@ -3,7 +3,7 @@
   "apiVersion": 3,
   "name": "pinspot/image-hotspots",
   "version": "1.0.0",
-  "title": "Pinspot - Image Hotspots",
+  "title": "PinSpot - Image Hotspots",
   "category": "media",
   "icon": "location",
   "description": "Place clickable hotspot pins on any image, each opening a rich, accessible tooltip with text, media, and links.",

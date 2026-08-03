@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Pinspot - Interactive Image Hotspots
+ * Plugin Name:       PinSpot - Interactive Image Hotspots
  * Plugin URI:        https://wordpress.org/plugins/pinspot/
  * Description:       Create interactive image hotspots with rich, accessible tooltips. Easily drop pins on photos, maps, or diagrams using a fast, native block.
  * Version:           1.0.0

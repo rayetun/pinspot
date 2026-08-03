@@ -1,22 +1,22 @@
-# Copyright (C) 2026 Rayetun
+# Copyright (C) 2026 Md Rayhan Uddin
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Pinspot — Interactive Image Hotspots 1.0.0\n"
+"Project-Id-Version: PinSpot - Interactive Image Hotspots 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/pinspot\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-07-08T00:02:48+00:00\n"
+"POT-Creation-Date: 2026-08-03T20:42:07+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: pinspot\n"
 
 #. Plugin Name of the plugin
 #: pinspot.php
-msgid "Pinspot — Interactive Image Hotspots"
+msgid "PinSpot - Interactive Image Hotspots"
 msgstr ""
 
 #. Plugin URI of the plugin
@@ -26,16 +26,21 @@ msgstr ""
 
 #. Description of the plugin
 #: pinspot.php
-msgid "Place clickable hotspot pins on any image — rich, accessible tooltips with text, media, and links."
+msgid "Create interactive image hotspots with rich, accessible tooltips. Easily drop pins on photos, maps, or diagrams using a fast, native block."
 msgstr ""
 
 #. Author of the plugin
 #: pinspot.php
-msgid "Rayetun"
+msgid "Md Rayhan Uddin"
+msgstr ""
+
+#. Author URI of the plugin
+#: pinspot.php
+msgid "https://rayetun.com/"
 msgstr ""
 
 #: includes/class-pinspot-plugin.php:60
-msgid "Pinspot"
+msgid "PinSpot"
 msgstr ""
 
 #: patterns/map-tour.php:18
@@ -144,7 +149,7 @@ msgstr ""
 
 #. translators: %d: hotspot number.
 #: src/render.php:193
-#: src/render.php:325
+#: src/render.php:328
 #: src/components/hotspot-inspector.js:87
 #: src/edit.js:422
 #, php-format,js-format
@@ -161,6 +166,10 @@ msgstr ""
 
 #: src/render.php:310
 msgid "Close"
+msgstr ""
+
+#: src/render.php:314
+msgid "On this image"
 msgstr ""
 
 #: src/components/hotspot-inspector.js:25
@@ -446,7 +455,7 @@ msgid "Off: imported hotspots are added to the current ones."
 msgstr ""
 
 #: src/edit.js:210
-msgid "Pinspot — Image Hotspots"
+msgid "PinSpot - Image Hotspots"
 msgstr ""
 
 #: src/edit.js:211
@@ -511,7 +520,7 @@ msgstr ""
 
 #: src/block.json
 msgctxt "block title"
-msgid "Pinspot — Image Hotspots"
+msgid "PinSpot - Image Hotspots"
 msgstr ""
 
 #: src/block.json

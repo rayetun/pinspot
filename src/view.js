@@ -27,6 +27,9 @@ const clampPan = ( context, rect ) => {
 
 // Zoom toward a fixed point (cx, cy) in viewport-local coordinates.
 const zoomTo = ( context, rect, newScale, cx, cy ) => {
+	// A tooltip anchored inside the zoom viewport would be clipped by its
+	// overflow, so close it whenever the view is zoomed or panned.
+	context.openId = '';
 	const scale = clamp( newScale, 1, context.maxZoom || 1 );
 	context.tx = cx - ( ( cx - context.tx ) * scale ) / context.scale;
 	context.ty = cy - ( ( cy - context.ty ) * scale ) / context.scale;
@@ -184,6 +187,7 @@ store(
 			resetZoom( event ) {
 				event.stopPropagation();
 				const context = getContext();
+				context.openId = '';
 				context.scale = 1;
 				context.tx = 0;
 				context.ty = 0;
@@ -234,6 +238,7 @@ store(
 					y: event.clientY,
 				} );
 				if ( 1 === activePointers.size && context.scale > 1 ) {
+					context.openId = '';
 					panLast = { x: event.clientX, y: event.clientY };
 					getElement().ref.setPointerCapture( event.pointerId );
 				}
