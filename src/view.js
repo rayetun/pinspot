@@ -77,8 +77,16 @@ store(
 			toggle( event ) {
 				event.stopPropagation();
 				const context = getContext();
-				context.openId =
-					context.openId === context.id ? '' : context.id;
+				const opening = context.openId !== context.id;
+				// A tooltip opened while the image is zoomed would be clipped by
+				// the zoom viewport, so return to full view first — the tooltip
+				// then shows complete and unclipped.
+				if ( opening && context.scale > 1 ) {
+					context.scale = 1;
+					context.tx = 0;
+					context.ty = 0;
+				}
+				context.openId = opening ? context.id : '';
 			},
 			hoverOpen() {
 				const context = getContext();
