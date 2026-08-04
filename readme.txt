@@ -29,7 +29,7 @@ PinSpot includes everything you need to build interactive images: unlimited hots
 
 = Rich, flexible tooltips =
 
-Every pin can carry a title, a description (with line breaks and basic **bold**, *italic*, and links), and one piece of media: an image from your library, a self-hosted video, or a YouTube / Vimeo embed. Add an optional call-to-action button that links anywhere. Choose light or dark tooltips, decide where they open (top, bottom, left, right, or automatic), and pick a marker style — numbered, dot, plus, info, or question — in any size and color, with an optional pulse or bounce animation.
+Every pin can carry a title, a description (with line breaks and basic **bold**, *italic*, and links), and one piece of media: an image from your library, a self-hosted video, or a YouTube / Vimeo embed. Add an optional call-to-action button that links anywhere. Choose light or dark tooltips, decide where they open (top, bottom, left, right, or automatic), and pick a marker style — numbered, dot, plus, info, question, any emoji, or your own custom image — in any size and color, with an optional pulse or bounce animation.
 
 = Guided tour =
 

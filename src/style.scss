@@ -102,6 +102,35 @@
 		display: none;
 	}
 
+	// Emoji markers sit on a clean white disc so the emoji reads clearly.
+	.pinspot__marker--emoji {
+		background: #fff;
+		color: initial;
+		font-size: 16px;
+	}
+
+	.pinspot__marker--emoji.pinspot__marker--small {
+		font-size: 12px;
+	}
+
+	.pinspot__marker--emoji.pinspot__marker--large {
+		font-size: 21px;
+	}
+
+	// Custom-image markers show just the image — no disc, border, or shadow.
+	.pinspot__marker--image {
+		background: none;
+		border: 0;
+		box-shadow: none;
+	}
+
+	.pinspot__marker-img {
+		display: block;
+		height: 100%;
+		object-fit: contain;
+		width: 100%;
+	}
+
 	.pinspot__marker--info span {
 		font-family: georgia, serif;
 		font-style: italic;

@@ -27,6 +27,22 @@ const MARKER_STYLE_OPTIONS = [
 	{ label: __( 'Plus', 'pinspot' ), value: 'plus' },
 	{ label: __( 'Info', 'pinspot' ), value: 'info' },
 	{ label: __( 'Question', 'pinspot' ), value: 'question' },
+	{ label: __( 'Emoji', 'pinspot' ), value: 'emoji' },
+	{ label: __( 'Custom image', 'pinspot' ), value: 'image' },
+];
+
+// A few common markers offered as one-click emoji picks.
+const QUICK_EMOJI = [
+	'📍',
+	'⭐',
+	'❤️',
+	'🏠',
+	'🍔',
+	'☕',
+	'🛏️',
+	'🚻',
+	'🅿️',
+	'ℹ️',
 ];
 
 const MARKER_SIZE_OPTIONS = [
@@ -276,6 +292,100 @@ export default function HotspotInspector( {
 					options={ MARKER_STYLE_OPTIONS }
 					onChange={ ( markerStyle ) => onChange( { markerStyle } ) }
 				/>
+				{ 'emoji' === hotspot.markerStyle && (
+					<>
+						<TextControl
+							__next40pxDefaultSize
+							__nextHasNoMarginBottom
+							label={ __( 'Emoji', 'pinspot' ) }
+							value={ hotspot.markerValue || '' }
+							onChange={ ( markerValue ) =>
+								onChange( { markerValue } )
+							}
+							help={ __(
+								'Paste any emoji to use as the marker.',
+								'pinspot'
+							) }
+						/>
+						<div className="pinspot-emoji-picks">
+							{ QUICK_EMOJI.map( ( emoji ) => (
+								<Button
+									key={ emoji }
+									variant="secondary"
+									onClick={ () =>
+										onChange( { markerValue: emoji } )
+									}
+									label={ emoji }
+								>
+									{ emoji }
+								</Button>
+							) ) }
+						</div>
+					</>
+				) }
+				{ 'image' === hotspot.markerStyle && (
+					<BaseControl
+						__nextHasNoMarginBottom
+						label={ __( 'Marker image', 'pinspot' ) }
+						id="pinspot-marker-image"
+						help={ __(
+							'A small, ideally square PNG or SVG works best.',
+							'pinspot'
+						) }
+					>
+						<MediaUploadCheck>
+							<MediaUpload
+								allowedTypes={ [ 'image' ] }
+								value={ hotspot.markerImageId || 0 }
+								onSelect={ ( media ) =>
+									onChange( {
+										markerImageId: media.id,
+										markerImageUrl: media.url,
+									} )
+								}
+								render={ ( { open } ) => (
+									<div className="pinspot-media-field">
+										{ hotspot.markerImageUrl && (
+											<img
+												className="pinspot-media-preview"
+												src={ hotspot.markerImageUrl }
+												alt=""
+											/>
+										) }
+										<Button
+											variant="secondary"
+											onClick={ open }
+										>
+											{ hotspot.markerImageUrl
+												? __(
+														'Replace image',
+														'pinspot'
+												  )
+												: __(
+														'Select image',
+														'pinspot'
+												  ) }
+										</Button>
+										{ hotspot.markerImageUrl && (
+											<Button
+												variant="tertiary"
+												isDestructive
+												onClick={ () =>
+													onChange( {
+														markerImageId: 0,
+														markerImageUrl: '',
+													} )
+												}
+											>
+												{ __( 'Remove', 'pinspot' ) }
+											</Button>
+										) }
+									</div>
+								) }
+							/>
+						</MediaUploadCheck>
+					</BaseControl>
+				) }
 				<SelectControl
 					__next40pxDefaultSize
 					__nextHasNoMarginBottom

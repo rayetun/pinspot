@@ -34,7 +34,20 @@ const clampPct = ( value ) =>
 
 const DRAG_THRESHOLD_PX = 3;
 
-export const markerGlyph = ( style, number ) => {
+// A custom style with no content (image without a picture, emoji without a
+// character) falls back to the number, matching render.php.
+export const effectiveMarkerStyle = ( hotspot ) => {
+	const style = hotspot.markerStyle || 'number';
+	if ( 'image' === style && ! hotspot.markerImageUrl ) {
+		return 'number';
+	}
+	if ( 'emoji' === style && ! ( hotspot.markerValue || '' ).trim() ) {
+		return 'number';
+	}
+	return style;
+};
+
+export const markerGlyph = ( style, number, value = '' ) => {
 	switch ( style ) {
 		case 'dot':
 			return '';
@@ -44,6 +57,8 @@ export const markerGlyph = ( style, number ) => {
 			return 'i';
 		case 'question':
 			return '?';
+		case 'emoji':
+			return value || String( number );
 		default:
 			return String( number );
 	}
@@ -52,7 +67,7 @@ export const markerGlyph = ( style, number ) => {
 export const markerClassName = ( hotspot, extra = '' ) =>
 	[
 		'pinspot__marker',
-		`pinspot__marker--${ hotspot.markerStyle || 'number' }`,
+		`pinspot__marker--${ effectiveMarkerStyle( hotspot ) }`,
 		`pinspot__marker--${ hotspot.markerSize || 'medium' }`,
 		extra,
 	]
@@ -280,8 +295,8 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 					onChange={ ( next ) => setAttributes( { hotspots: next } ) }
 				/>
 				<PanelBody
-					title={ __( 'Display settings', 'pinspot' ) }
-					initialOpen={ false }
+					title={ __( 'Tooltips', 'pinspot' ) }
+					initialOpen={ true }
 				>
 					<SelectControl
 						__next40pxDefaultSize
@@ -337,6 +352,11 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 							setAttributes( { tooltipWidth: value } )
 						}
 					/>
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Hotspot list & filters', 'pinspot' ) }
+					initialOpen={ false }
+				>
 					<ToggleControl
 						__nextHasNoMarginBottom
 						label={ __(
@@ -364,6 +384,11 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 							'pinspot'
 						) }
 					/>
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Guided tour', 'pinspot' ) }
+					initialOpen={ false }
+				>
 					<ToggleControl
 						__nextHasNoMarginBottom
 						label={ __( 'Enable guided tour', 'pinspot' ) }
@@ -509,6 +534,11 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 							</BaseControl>
 						</>
 					) }
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Zoom & pan', 'pinspot' ) }
+					initialOpen={ false }
+				>
 					<ToggleControl
 						__nextHasNoMarginBottom
 						label={ __( 'Enable zoom & pan', 'pinspot' ) }
@@ -608,12 +638,22 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 								onPointerUp={ onMarkerPointerUp( hotspot ) }
 								onKeyDown={ onMarkerKeyDown( hotspot ) }
 							>
-								<span aria-hidden="true">
-									{ markerGlyph(
-										hotspot.markerStyle,
-										index + 1
-									) }
-								</span>
+								{ 'image' ===
+								effectiveMarkerStyle( hotspot ) ? (
+									<img
+										className="pinspot__marker-img"
+										src={ hotspot.markerImageUrl }
+										alt=""
+									/>
+								) : (
+									<span aria-hidden="true">
+										{ markerGlyph(
+											effectiveMarkerStyle( hotspot ),
+											index + 1,
+											hotspot.markerValue
+										) }
+									</span>
+								) }
 							</button>
 						);
 					} ) }

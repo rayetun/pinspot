@@ -93,6 +93,21 @@
 	margin-top: 8px;
 }
 
+// Sidebar: one-click emoji picks for emoji markers.
+.pinspot-emoji-picks {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	margin-bottom: 12px;
+
+	.components-button {
+		font-size: 18px;
+		justify-content: center;
+		min-width: 36px;
+		padding: 4px;
+	}
+}
+
 .pinspot-remove-hotspot {
 	margin-top: 8px;
 }

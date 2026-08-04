@@ -227,8 +227,17 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 				$pinspot_marker_size  = isset( $pinspot_hotspot['markerSize'] ) ? (string) $pinspot_hotspot['markerSize'] : 'medium';
 				$pinspot_marker_color = isset( $pinspot_hotspot['markerColor'] ) ? sanitize_hex_color( $pinspot_hotspot['markerColor'] ) : '';
 				$pinspot_animation    = isset( $pinspot_hotspot['animation'] ) ? (string) $pinspot_hotspot['animation'] : '';
+				$pinspot_marker_emoji = isset( $pinspot_hotspot['markerValue'] ) ? mb_substr( trim( (string) $pinspot_hotspot['markerValue'] ), 0, 8 ) : '';
+				$pinspot_marker_img   = isset( $pinspot_hotspot['markerImageUrl'] ) ? (string) $pinspot_hotspot['markerImageUrl'] : '';
 
-				if ( ! in_array( $pinspot_marker_style, array( 'number', 'dot', 'plus', 'info', 'question' ), true ) ) {
+				if ( ! in_array( $pinspot_marker_style, array( 'number', 'dot', 'plus', 'info', 'question', 'emoji', 'image' ), true ) ) {
+					$pinspot_marker_style = 'number';
+				}
+				// Fall back to a number when a custom style is missing its content.
+				if ( 'emoji' === $pinspot_marker_style && '' === $pinspot_marker_emoji ) {
+					$pinspot_marker_style = 'number';
+				}
+				if ( 'image' === $pinspot_marker_style && '' === $pinspot_marker_img ) {
 					$pinspot_marker_style = 'number';
 				}
 				if ( ! in_array( $pinspot_marker_size, array( 'small', 'medium', 'large' ), true ) ) {
@@ -257,6 +266,9 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 					'question' => '?',
 				);
 				$pinspot_glyph  = isset( $pinspot_glyphs[ $pinspot_marker_style ] ) ? $pinspot_glyphs[ $pinspot_marker_style ] : (string) $pinspot_num;
+				if ( 'emoji' === $pinspot_marker_style ) {
+					$pinspot_glyph = $pinspot_marker_emoji;
+				}
 
 				// Tooltip media.
 				$pinspot_media_type = isset( $pinspot_hotspot['mediaType'] ) ? (string) $pinspot_hotspot['mediaType'] : '';
@@ -331,7 +343,11 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 						aria-controls="<?php echo esc_attr( $pinspot_tip_dom ); ?>"
 						aria-label="<?php echo esc_attr( $pinspot_label ); ?>"
 					>
+						<?php if ( 'image' === $pinspot_marker_style ) : ?>
+						<img class="pinspot__marker-img" src="<?php echo esc_url( $pinspot_marker_img ); ?>" alt="" />
+						<?php else : ?>
 						<span aria-hidden="true"><?php echo esc_html( $pinspot_glyph ); ?></span>
+						<?php endif; ?>
 					</button>
 					<div
 						id="<?php echo esc_attr( $pinspot_tip_dom ); ?>"
