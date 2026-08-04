@@ -16,11 +16,16 @@
 		width: 100%;
 	}
 
+	// Positioning context for an overlaid tour bar, and the layer that keeps
+	// the image (plus a tooltip overflowing below it) above the optional
+	// hotspot list that follows in the figure.
+	.pinspot__viewport-wrap {
+		position: relative;
+		z-index: 1;
+	}
+
 	.pinspot__viewport {
 		position: relative;
-		// Keep the viewport (and a tooltip overflowing below the image) above
-		// the optional hotspot list that follows it in the figure.
-		z-index: 1;
 	}
 
 	.pinspot__viewport--zoomable {
@@ -404,7 +409,7 @@
 
 	.pinspot__tour-btn {
 		align-items: center;
-		background: var(--pinspot-marker-color, #3a5df0);
+		background: var(--pinspot-tour-color, #3a5df0);
 		border: 0;
 		border-radius: 50%;
 		color: #fff;
@@ -423,9 +428,43 @@
 		}
 
 		&:focus-visible {
-			outline: 2px solid var(--pinspot-marker-color, #3a5df0);
+			outline: 2px solid var(--pinspot-tour-color, #3a5df0);
 			outline-offset: 2px;
 		}
+	}
+
+	// Button size variants (medium is the 36px default above).
+	.pinspot__tour--size-small .pinspot__tour-btn {
+		height: 30px;
+		width: 30px;
+	}
+
+	.pinspot__tour--size-large .pinspot__tour-btn {
+		height: 44px;
+		width: 44px;
+	}
+
+	// Shape variant: rounded square instead of a circle.
+	.pinspot__tour--shape-rounded .pinspot__tour-btn {
+		border-radius: 9px;
+	}
+
+	// Overlaid on the image (bottom-centre) instead of below it.
+	.pinspot__tour--overlay {
+		background: rgba(0, 0, 0, 0.42);
+		border-radius: 999px;
+		bottom: 14px;
+		left: 50%;
+		margin-top: 0;
+		padding: 6px 10px;
+		position: absolute;
+		transform: translateX(-50%);
+		z-index: 21;
+	}
+
+	.pinspot__tour--overlay .pinspot__tour-count {
+		color: #fff;
+		opacity: 0.92;
 	}
 
 	// Prev / next chevrons drawn with borders for crisp, font-independent

@@ -77,6 +77,26 @@
       "type": "number",
       "default": 4
     },
+    "tourShowCount": {
+      "type": "boolean",
+      "default": true
+    },
+    "tourColor": {
+      "type": "string",
+      "default": ""
+    },
+    "tourPosition": {
+      "type": "string",
+      "default": "below"
+    },
+    "tourButtonSize": {
+      "type": "string",
+      "default": "medium"
+    },
+    "tourButtonShape": {
+      "type": "string",
+      "default": "round"
+    },
     "hotspots": {
       "type": "array",
       "default": [],

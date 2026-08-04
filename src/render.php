@@ -65,6 +65,15 @@ $pinspot_tour_autoplay = ! empty( $attributes['tourAutoplay'] );
 $pinspot_tour_interval = isset( $attributes['tourInterval'] ) ? (float) $attributes['tourInterval'] : 4;
 $pinspot_tour_interval = min( 20, max( 2, $pinspot_tour_interval ) );
 
+// Tour appearance.
+$pinspot_tour_show_count = ! array_key_exists( 'tourShowCount', $attributes ) || ! empty( $attributes['tourShowCount'] );
+$pinspot_tour_color      = isset( $attributes['tourColor'] ) ? sanitize_hex_color( $attributes['tourColor'] ) : '';
+$pinspot_tour_position   = ( isset( $attributes['tourPosition'] ) && 'overlay' === $attributes['tourPosition'] ) ? 'overlay' : 'below';
+$pinspot_tour_size       = isset( $attributes['tourButtonSize'] ) && in_array( $attributes['tourButtonSize'], array( 'small', 'medium', 'large' ), true )
+	? $attributes['tourButtonSize']
+	: 'medium';
+$pinspot_tour_shape      = ( isset( $attributes['tourButtonShape'] ) && 'rounded' === $attributes['tourButtonShape'] ) ? 'rounded' : 'round';
+
 // Ordered hotspot ids + accessible titles, seeded into context for the tour.
 $pinspot_tour_ids    = array();
 $pinspot_tour_titles = array();
@@ -132,6 +141,7 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 			<button type="button" class="pinspot__zoom-btn" data-wp-on--click="actions.resetZoom" data-wp-bind--hidden="!state.isZoomed" aria-label="<?php esc_attr_e( 'Reset zoom', 'pinspot' ); ?>" hidden>&#8634;</button>
 		</div>
 	<?php endif; ?>
+	<div class="pinspot__viewport-wrap">
 	<div
 		class="pinspot__viewport<?php echo $pinspot_enable_zoom ? ' pinspot__viewport--zoomable' : ''; ?>"
 		data-wp-class--is-zoomed="state.isZoomed"
@@ -334,8 +344,19 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 		</div>
 	</div>
 	<?php if ( $pinspot_enable_tour && $pinspot_tour_count > 1 ) : ?>
+		<?php
+		$pinspot_tour_classes = sprintf(
+			'pinspot__tour pinspot__tour--%s pinspot__tour--size-%s pinspot__tour--shape-%s',
+			$pinspot_tour_position,
+			$pinspot_tour_size,
+			$pinspot_tour_shape
+		);
+		?>
 		<div
-			class="pinspot__tour"
+			class="<?php echo esc_attr( $pinspot_tour_classes ); ?>"
+			<?php if ( $pinspot_tour_color ) : ?>
+			style="<?php echo esc_attr( '--pinspot-tour-color:' . $pinspot_tour_color . ';' ); ?>"
+			<?php endif; ?>
 			role="group"
 			aria-label="<?php esc_attr_e( 'Hotspot tour', 'pinspot' ); ?>"
 			<?php if ( $pinspot_tour_autoplay ) : ?>
@@ -358,13 +379,16 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 			<button type="button" class="pinspot__tour-btn pinspot__tour-prev" data-wp-on--click="actions.tourPrev" aria-label="<?php esc_attr_e( 'Previous hotspot', 'pinspot' ); ?>">
 				<span class="pinspot__tour-chevron" aria-hidden="true"></span>
 			</button>
+			<?php if ( $pinspot_tour_show_count ) : ?>
 			<span class="pinspot__tour-count" aria-hidden="true"><span data-wp-text="state.tourCurrent">0</span> / <?php echo absint( $pinspot_tour_count ); ?></span>
+			<?php endif; ?>
 			<button type="button" class="pinspot__tour-btn pinspot__tour-next" data-wp-on--click="actions.tourNext" aria-label="<?php esc_attr_e( 'Next hotspot', 'pinspot' ); ?>">
 				<span class="pinspot__tour-chevron" aria-hidden="true"></span>
 			</button>
 			<span class="pinspot__tour-status" aria-live="polite" data-wp-text="state.tourStatus"></span>
 		</div>
 	<?php endif; ?>
+	</div>
 	<div
 		class="pinspot__lightbox"
 		data-wp-bind--hidden="!state.lightboxOpen"

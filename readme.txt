@@ -33,7 +33,7 @@ Every pin can carry a title, a description (with line breaks and basic **bold**,
 
 = Guided tour =
 
-Turn on tour mode to add Previous and Next controls that walk visitors through every hotspot in order — perfect for a step-by-step story, a product walkthrough, or a self-running kiosk display. Optionally let the tour advance on its own at an interval you choose; visitors always get a pause button, and autoplay stays off automatically for anyone who prefers reduced motion. Each stop is announced to screen readers as it opens.
+Turn on tour mode to add Previous and Next controls that walk visitors through every hotspot in order — perfect for a step-by-step story, a product walkthrough, or a self-running kiosk display. Optionally let the tour advance on its own at an interval you choose; visitors always get a pause button, and autoplay stays off automatically for anyone who prefers reduced motion. Each stop is announced to screen readers as it opens. Style the bar to match your design: place it below the image or overlaid on it, show or hide the position counter, and set the button color, size, and shape.
 
 = Accessibility built in =
 

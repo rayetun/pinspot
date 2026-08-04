@@ -11,6 +11,7 @@ import {
 	MediaReplaceFlow,
 	BlockControls,
 	InspectorControls,
+	useSettings,
 } from '@wordpress/block-editor';
 import {
 	ToolbarButton,
@@ -19,6 +20,8 @@ import {
 	SelectControl,
 	ToggleControl,
 	RangeControl,
+	BaseControl,
+	ColorPalette,
 } from '@wordpress/components';
 import { useState, useRef } from '@wordpress/element';
 
@@ -71,7 +74,13 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 		enableTour,
 		tourAutoplay,
 		tourInterval,
+		tourShowCount,
+		tourColor,
+		tourPosition,
+		tourButtonSize,
+		tourButtonShape,
 	} = attributes;
+	const [ palette ] = useSettings( 'color.palette' );
 	const [ isPlacing, setIsPlacing ] = useState( false );
 	const [ selectedId, setSelectedId ] = useState( null );
 	const [ drag, setDrag ] = useState( null );
@@ -372,6 +381,111 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 								setAttributes( { tourInterval: value } )
 							}
 						/>
+					) }
+					{ enableTour && (
+						<>
+							<ToggleControl
+								__nextHasNoMarginBottom
+								label={ __(
+									'Show position counter',
+									'pinspot'
+								) }
+								checked={ tourShowCount !== false }
+								onChange={ ( value ) =>
+									setAttributes( { tourShowCount: value } )
+								}
+								help={ __(
+									'Displays the “2 / 5” position numbers between the arrows.',
+									'pinspot'
+								) }
+							/>
+							<SelectControl
+								__next40pxDefaultSize
+								__nextHasNoMarginBottom
+								label={ __( 'Tour bar position', 'pinspot' ) }
+								value={ tourPosition || 'below' }
+								options={ [
+									{
+										label: __(
+											'Below the image',
+											'pinspot'
+										),
+										value: 'below',
+									},
+									{
+										label: __(
+											'Overlaid on the image',
+											'pinspot'
+										),
+										value: 'overlay',
+									},
+								] }
+								onChange={ ( value ) =>
+									setAttributes( { tourPosition: value } )
+								}
+							/>
+							<SelectControl
+								__next40pxDefaultSize
+								__nextHasNoMarginBottom
+								label={ __( 'Button size', 'pinspot' ) }
+								value={ tourButtonSize || 'medium' }
+								options={ [
+									{
+										label: __( 'Small', 'pinspot' ),
+										value: 'small',
+									},
+									{
+										label: __( 'Medium', 'pinspot' ),
+										value: 'medium',
+									},
+									{
+										label: __( 'Large', 'pinspot' ),
+										value: 'large',
+									},
+								] }
+								onChange={ ( value ) =>
+									setAttributes( { tourButtonSize: value } )
+								}
+							/>
+							<SelectControl
+								__next40pxDefaultSize
+								__nextHasNoMarginBottom
+								label={ __( 'Button shape', 'pinspot' ) }
+								value={ tourButtonShape || 'round' }
+								options={ [
+									{
+										label: __( 'Round', 'pinspot' ),
+										value: 'round',
+									},
+									{
+										label: __(
+											'Rounded square',
+											'pinspot'
+										),
+										value: 'rounded',
+									},
+								] }
+								onChange={ ( value ) =>
+									setAttributes( { tourButtonShape: value } )
+								}
+							/>
+							<BaseControl
+								__nextHasNoMarginBottom
+								label={ __( 'Button color', 'pinspot' ) }
+								id="pinspot-tour-color"
+							>
+								<ColorPalette
+									colors={ palette || [] }
+									value={ tourColor || undefined }
+									onChange={ ( value ) =>
+										setAttributes( {
+											tourColor: value || '',
+										} )
+									}
+									enableAlpha={ false }
+								/>
+							</BaseControl>
+						</>
 					) }
 					<ToggleControl
 						__nextHasNoMarginBottom
