@@ -40,6 +40,59 @@
 	.pinspot-placing-notice {
 		margin-bottom: 8px;
 	}
+
+	// On-canvas editable tooltip for the selected hotspot.
+	.pinspot__edit-tip {
+		background: #fff;
+		border: 1px solid var(--wp-admin-theme-color, #3858e9);
+		border-radius: 8px;
+		box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+		max-width: 80%;
+		padding: 8px 10px;
+		position: absolute;
+		// Sit above the marker; the marker centre is at (left, top).
+		transform: translate(-50%, calc(-100% - 34px));
+		width: 240px;
+		z-index: 20;
+
+		&.is-below {
+			transform: translate(-50%, 34px);
+		}
+	}
+
+	.pinspot__edit-title {
+		background: transparent;
+		border: 0;
+		border-bottom: 1px solid transparent;
+		color: #1e1e1e;
+		display: block;
+		font-size: 15px;
+		font-weight: 600;
+		margin: 0 0 4px;
+		padding: 2px 0;
+		width: 100%;
+
+		&:focus {
+			border-bottom-color: var(--wp-admin-theme-color, #3858e9);
+			outline: none;
+		}
+
+		&::placeholder {
+			color: #949494;
+			font-weight: 400;
+		}
+	}
+
+	.pinspot__edit-desc {
+		color: #1e1e1e;
+		font-size: 14px;
+		line-height: 1.5;
+		min-height: 1.4em;
+
+		&:focus {
+			outline: none;
+		}
+	}
 }
 
 // Sidebar: hotspot list panel.

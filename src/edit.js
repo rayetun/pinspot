@@ -27,6 +27,7 @@ import { useState, useRef } from '@wordpress/element';
 
 import HotspotInspector from './components/hotspot-inspector';
 import HotspotList from './components/hotspot-list';
+import HotspotTooltipEditor from './components/hotspot-tooltip-editor';
 import ImportExport from './components/import-export';
 
 const clampPct = ( value ) =>
@@ -657,6 +658,14 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 							</button>
 						);
 					} ) }
+					{ selectedHotspot && ! isPlacing && ! drag && (
+						<HotspotTooltipEditor
+							hotspot={ selectedHotspot }
+							onChange={ ( changes ) =>
+								updateHotspot( selectedHotspot.id, changes )
+							}
+						/>
+					) }
 				</div>
 			</figure>
 		</>

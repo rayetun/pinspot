@@ -66,6 +66,7 @@ PinSpot deliberately has no separate admin dashboard. You configure everything r
 
 * **Block toolbar** — swap the image, or click **Add hotspot** and then click the image to drop a pin exactly where you want it.
 * **Placing & moving pins** — drag any marker to reposition it, or select it and nudge with the arrow keys (hold Shift for larger steps) for precise placement.
+* **Edit right on the image** — select a pin and its tooltip opens on the image so you can type the title and description in place, with bold, italic, and links in the description. The sidebar keeps the same fields if you prefer.
 * **Per-hotspot panels** — with a pin selected, the block sidebar (**Settings** tab) shows panels for its **Content**, **Media**, **Call to action**, **Marker** style, and **Behavior**.
 * **All hotspots** — one panel lists every pin on the image so you can reorder, duplicate, or delete them at a glance.
 * **Display settings** — set the trigger (click or hover), light or dark theme, tooltip width, the optional accessible list, group filters, the guided tour (with optional autoplay), and whether zoom & pan is enabled.
