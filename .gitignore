@@ -22,3 +22,8 @@ vendor/
 Thumbs.db
 .idea/
 .vscode/
+
+# Private planning / roadmap docs — never publish
+PINSPOT-PLAN.md
+PINSPOT-WORKFLOW.md
+PINSPOT-SUITE-PLAN.md
