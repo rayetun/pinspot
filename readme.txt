@@ -13,69 +13,80 @@ Turn any image into an interactive experience. Add hotspot pins with rich, acces
 
 == Description ==
 
-**PinSpot** turns a flat image into something people explore. Drop pins anywhere on a photo, map, diagram, or product shot — each pin opens a polished, accessible tooltip with a title, description, image or video, and a call-to-action button.
+📌 **PinSpot** turns a flat image into something people explore. Drop pins anywhere on a photo, map, diagram, or product shot — each pin opens a polished, accessible tooltip with a title, description, image or video, and a call-to-action button.
 
 It is a single native block built the modern WordPress way — on the Interactivity API, the same technology that powers WordPress core blocks. No jQuery, no shortcodes, no page builder required. The frontend script is under 4 KB and only loads on pages that actually use a hotspot, so it never slows the rest of your site down.
 
-PinSpot includes everything you need to build interactive images: unlimited hotspots, zoom & pan, image and video tooltips, a lightbox, import/export, and three starter patterns to help you get going quickly.
+= ✨ Highlights =
 
-= What you can build =
+* 📌 **Unlimited hotspots** on any image, with percentage-based positions that stay responsive at every screen size
+* 💬 **Rich tooltips** — title, description, an image, a self-hosted video, or a YouTube / Vimeo embed, plus a call-to-action button
+* 🎨 **Marker styles** — numbered, dot, plus, info, question, any emoji, or your own custom image, in any size and color
+* 🧭 **Guided tour** — Previous / Next controls with optional autoplay to walk visitors through every pin in order
+* 🏷️ **Group filters** — let visitors show or hide pins by category, perfect for maps and floor plans
+* 🔍 **Zoom & pan** plus an image **lightbox** for large, detailed graphics
+* ✏️ **Edit on the image** — write a pin's title and description right where it sits, then copy-and-paste a pin's style onto others
+* ♿ **Accessible** — full keyboard support, screen-reader labels, reduced-motion, RTL, and an optional text list
+* 🔒 **Privacy-first** — no external requests until a visitor plays a video; your data stays in your post content
+* 🧩 **Three starter patterns** and one-click **import / export**
 
-* **Shoppable & product images** — call out features with numbered pins and “Buy now” buttons.
-* **Team & about pages** — reveal names and roles on hover.
-* **Maps, campus & floor plans** — a zoomable, pannable image with pins visitors can explore.
-* **Infographics & diagrams** — explain each part in place, without cluttering the graphic.
-* **Real-estate & travel** — annotate rooms, landmarks, and points of interest.
+= 🎯 What you can build =
 
-= Rich, flexible tooltips =
+* 🛍️ **Shoppable & product images** — call out features with numbered pins and “Buy now” buttons.
+* 👥 **Team & about pages** — reveal names and roles on hover.
+* 🗺️ **Maps, campus & floor plans** — a zoomable, pannable image with pins visitors can explore.
+* 📊 **Infographics & diagrams** — explain each part in place, without cluttering the graphic.
+* 🏡 **Real-estate & travel** — annotate rooms, landmarks, and points of interest.
+
+= 💬 Rich, flexible tooltips =
 
 Every pin can carry a title, a description (with line breaks and basic **bold**, *italic*, and links), and one piece of media: an image from your library, a self-hosted video, or a YouTube / Vimeo embed. Add an optional call-to-action button that links anywhere. Choose light or dark tooltips, decide where they open (top, bottom, left, right, or automatic), and pick a marker style — numbered, dot, plus, info, question, any emoji, or your own custom image — in any size and color, with an optional pulse or bounce animation.
 
-= Guided tour =
+= 🧭 Guided tour =
 
 Turn on tour mode to add Previous and Next controls that walk visitors through every hotspot in order — perfect for a step-by-step story, a product walkthrough, or a self-running kiosk display. Optionally let the tour advance on its own at an interval you choose; visitors always get a pause button, and autoplay stays off automatically for anyone who prefers reduced motion. Each stop is announced to screen readers as it opens. Style the bar to match your design: place it below the image or overlaid on it, show or hide the position counter, and set the button color, size, and shape.
 
-= Group filters =
+= 🏷️ Group filters =
 
 Assign each hotspot to a named group — “Exits”, “Restrooms”, “Food”, whatever fits — and PinSpot adds a row of filter chips above the image. Visitors tap a chip to show or hide that group, so a busy map or floor plan stays readable and people can focus on just what they need. An “All” chip brings everything back. The chips are real toggle buttons with proper pressed states for keyboard and screen-reader users, and each item in the optional list is tagged with its group.
 
-= Accessibility built in =
+= ♿ Accessibility built in =
 
 PinSpot is designed to work for everyone, not just mouse users. Accessibility is built into how it works:
 
-* **Fully keyboard operable** — every marker is a real button. Tab moves between pins, Enter or Space opens a tooltip, and Escape closes it and returns focus to the exact marker you opened it from, so you never lose your place.
-* **Screen-reader ready** — each marker exposes proper `aria-expanded` and `aria-controls` state plus a descriptive label, so assistive technology understands what every pin does and whether its tooltip is currently open.
-* **A full text alternative for the image** — turn on the optional hotspot list and every pin’s title, description, and link is also printed as a clean, ordered list beneath the image. Screen-reader users get all the information without having to interact with the graphic at all — and search engines can read it too, which is good for SEO.
-* **Respects reduced motion** — if a visitor has “reduce motion” enabled in their operating system, every marker animation and tooltip transition is automatically switched off.
-* **Accessible controls throughout** — the zoom buttons, the lightbox close button, and the video play button all carry proper labels.
-* **Right-to-left ready** — full RTL language support is included.
+* ⌨️ **Fully keyboard operable** — every marker is a real button. Tab moves between pins, Enter or Space opens a tooltip, and Escape closes it and returns focus to the exact marker you opened it from, so you never lose your place.
+* 🔊 **Screen-reader ready** — each marker exposes proper `aria-expanded` and `aria-controls` state plus a descriptive label, so assistive technology understands what every pin does and whether its tooltip is currently open.
+* 📝 **A full text alternative for the image** — turn on the optional hotspot list and every pin’s title, description, and link is also printed as a clean, ordered list beneath the image. Screen-reader users get all the information without having to interact with the graphic at all — and search engines can read it too, which is good for SEO.
+* 🌀 **Respects reduced motion** — if a visitor has “reduce motion” enabled in their operating system, every marker animation and tooltip transition is automatically switched off.
+* 🎚️ **Accessible controls throughout** — the zoom buttons, the lightbox close button, and the video play button all carry proper labels.
+* 🌍 **Right-to-left ready** — full RTL language support is included.
 
-= Start fast with block patterns =
+= 🧩 Start fast with block patterns =
 
 New to hotspots? PinSpot ships three ready-made layouts you can insert and edit in seconds. In the editor, open the block inserter (the **+** button in the top-left), switch to the **Patterns** tab, and choose the **PinSpot** category. You will find:
 
-* **Product showcase** — three numbered pins with call-to-action buttons, arranged over a product image. Great for shoppable images and feature callouts.
-* **Team introduction** — hover-activated dot pins with dark tooltips, spaced for a group photo. Perfect for an about or team page.
-* **Zoomable map tour** — a zoom-and-pan image with pulsing question-mark pins, built for maps, floor plans, campus guides, and infographics.
+* 🛍️ **Product showcase** — three numbered pins with call-to-action buttons, arranged over a product image. Great for shoppable images and feature callouts.
+* 👥 **Team introduction** — hover-activated dot pins with dark tooltips, spaced for a group photo. Perfect for an about or team page.
+* 🗺️ **Zoomable map tour** — a zoom-and-pan image with pulsing question-mark pins, built for maps, floor plans, campus guides, and infographics.
 
 Each pattern drops in with a demo illustration and sample pins already in place. Just replace the demo image with your own and edit the text — it is the fastest way to see everything PinSpot can do and to learn how the pieces fit together.
 
-= Everything lives on the block — there is no settings page to hunt for =
+= 🎛️ Everything lives on the block — there is no settings page to hunt for =
 
 PinSpot deliberately has no separate admin dashboard. You configure everything right where you see it, using the standard WordPress block controls:
 
-* **Block toolbar** — swap the image, or click **Add hotspot** and then click the image to drop a pin exactly where you want it.
-* **Placing & moving pins** — drag any marker to reposition it, or select it and nudge with the arrow keys (hold Shift for larger steps) for precise placement.
-* **Edit right on the image** — select a pin and its tooltip opens on the image so you can type the title and description in place, with bold, italic, and links in the description. The sidebar keeps the same fields if you prefer.
-* **Per-hotspot panels** — with a pin selected, the block sidebar (**Settings** tab) shows panels for its **Content**, **Media**, **Call to action**, **Marker** style, and **Behavior**.
-* **All hotspots** — one panel lists every pin on the image so you can reorder, duplicate, or delete them at a glance.
-* **Copy & paste pin style** — copy one pin’s look and behavior (marker, size, color, animation, trigger, placement, theme) and paste it onto another pin, or apply it to every pin at once, without touching their text.
-* **Display settings** — set the trigger (click or hover), light or dark theme, tooltip width, the optional accessible list, group filters, the guided tour (with optional autoplay), and whether zoom & pan is enabled.
-* **Import / Export** — save the whole layout as a JSON file and load it into another post, page, or site.
+* 🧰 **Block toolbar** — swap the image, or click **Add hotspot** and then click the image to drop a pin exactly where you want it.
+* 📍 **Placing & moving pins** — drag any marker to reposition it, or select it and nudge with the arrow keys (hold Shift for larger steps) for precise placement.
+* ✏️ **Edit right on the image** — select a pin and its tooltip opens on the image so you can type the title and description in place, with bold, italic, and links in the description. The sidebar keeps the same fields if you prefer.
+* 🎛️ **Per-hotspot panels** — with a pin selected, the block sidebar (**Settings** tab) shows panels for its **Content**, **Media**, **Call to action**, **Marker** style, and **Behavior**.
+* 📋 **All hotspots** — one panel lists every pin on the image so you can reorder, duplicate, or delete them at a glance.
+* 🎨 **Copy & paste pin style** — copy one pin’s look and behavior (marker, size, color, animation, trigger, placement, theme) and paste it onto another pin, or apply it to every pin at once, without touching their text.
+* ⚙️ **Display settings** — set the trigger (click or hover), light or dark theme, tooltip width, the optional accessible list, group filters, the guided tour (with optional autoplay), and whether zoom & pan is enabled.
+* 💾 **Import / Export** — save the whole layout as a JSON file and load it into another post, page, or site.
 
 If you have ever placed a WordPress block, you already know how to use PinSpot.
 
-= Privacy-first by design =
+= 🔒 Privacy-first by design =
 
 PinSpot makes no external requests on its own. YouTube and Vimeo tooltips show a lightweight preview image and only load the real player after the visitor clicks play — nothing is sent to Google or Vimeo until then. Your hotspot data is stored inside the block in your post content: no custom database tables, no tracking, no phoning home, and a completely clean uninstall.
 
@@ -98,52 +109,52 @@ PinSpot makes no external requests on its own. YouTube and Vimeo tooltips show a
 2. Add the **PinSpot - Image Hotspots** block (search for “PinSpot” in the inserter), or insert a **PinSpot** pattern to start from a ready-made layout.
 3. Select or upload the image you want to annotate.
 4. Click **Add hotspot** in the block toolbar, then click the spot on the image where the pin should go.
-5. With the pin selected, fill in its title, description, media, and link in the sidebar.
+5. With the pin selected, fill in its title, description, media, and link — right on the image or in the sidebar.
 6. Repeat for each pin, then **Publish**. There is no extra setup and no options page to configure.
 
 == Frequently Asked Questions ==
 
-= Is there a settings or options page? =
+= ⚙️ Is there a settings or options page? =
 
 No — and you will not need one. Everything is configured on the block itself: the toolbar for adding pins and replacing the image, and the block sidebar for each pin’s content, style, and behavior. This keeps your admin uncluttered and your settings right next to the thing they change.
 
-= Does it work with my theme? =
+= 🎨 Does it work with my theme? =
 
 Yes. PinSpot is a standard WordPress block with its own self-contained styles, so it works with block themes and classic themes alike. It also respects your theme’s width settings, including wide and full alignment.
 
-= How many hotspots can I add? =
+= 🔢 How many hotspots can I add? =
 
 As many as you like, on as many images as you like. There is no limit and no “pro” gate.
 
-= Are the pins responsive? =
+= 📱 Are the pins responsive? =
 
 Yes. Each pin’s position is stored as a percentage of the image, so it stays anchored to the right spot at every screen size, from phones to widescreen displays.
 
-= Can visitors open tooltips by hovering? =
+= 🖱️ Can visitors open tooltips by hovering? =
 
 Yes. You can set the whole block — or an individual pin — to open on hover instead of click. On touch devices, hover pins still open on tap, so mobile visitors are never left out.
 
-= Is PinSpot accessible? =
+= ♿ Is PinSpot accessible? =
 
 Yes. Pins are keyboard-operable buttons with proper ARIA state, Escape closes a tooltip and restores focus to its marker, animations respect the “reduce motion” setting, and an optional list below the image gives screen-reader users and search engines a full text version of your hotspots. See “Accessibility built in” in the description for the details.
 
-= Will it slow down my site? =
+= ⚡ Will it slow down my site? =
 
 No. The frontend runtime is under 4 KB and only loads on pages that contain a hotspot block. There is no jQuery and nothing render-blocking.
 
-= Does it load anything from YouTube or Vimeo automatically? =
+= 🎬 Does it load anything from YouTube or Vimeo automatically? =
 
 No. Video tooltips show a preview thumbnail with a play button; the actual player only loads after the visitor clicks it. See the External Services section for exactly what is sent, and when.
 
-= Where is my hotspot data stored? =
+= 💾 Where is my hotspot data stored? =
 
 Right inside the block in your post content. There are no extra database tables and no leftover options, so removing the plugin leaves your site clean.
 
-= Can I reuse a hotspot layout on another page or site? =
+= 🔄 Can I reuse a hotspot layout on another page or site? =
 
 Yes. Use **Import / Export** in the block sidebar to download a layout as a JSON file and load it into another post — even on a different website.
 
-= Is the source code available? =
+= 👩‍💻 Is the source code available? =
 
 Yes. The complete, un-minified source (JavaScript and SCSS) is included in the plugin’s `/src` directory alongside the compiled files in `/build`. The plugin is built with the standard WordPress tooling — run `npm install` and then `npm run build` to recompile it from source.
 
@@ -169,11 +180,15 @@ Privacy Policy: https://vimeo.com/privacy
 
 == Screenshots ==
 
-1. A rich tooltip on the frontend — title, description, and a call-to-action button, animated marker.
-2. A rich tooltip on the frontend — Embedded YouTube video tooltip.
-3. Zoom and pan into a large image; markers stay crisp and readable.
-4. Optional accessible list of every hotspot below the image, for screen readers and SEO.
-5. The block editor: place pins, reorder them, and configure everything in the sidebar.
+1. A rich, accessible tooltip on the front end — title, description, and a call-to-action button, with an animated marker.
+2. A tooltip playing an embedded YouTube video, loaded only after the visitor clicks play.
+3. Mix and match marker styles — numbered, dots, emoji, or your own custom image.
+4. Guided tour mode — Previous / Next controls (with optional autoplay) walk visitors through every hotspot in order.
+5. Group filter chips above the image let visitors show or hide pins by category — ideal for maps and floor plans.
+6. Zoom and pan into a large image; markers stay crisp and perfectly anchored.
+7. The optional accessible list beneath the image — a full text alternative for screen readers and SEO.
+8. Edit right on the image — type a pin’s title and description in the on-canvas tooltip editor.
+9. The block editor: place pins, reorder them, and configure content, marker, and behavior in the sidebar.
 
 == Changelog ==
 
