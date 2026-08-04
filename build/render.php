@@ -278,6 +278,7 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 						data-wp-on--click="actions.stop"
 						hidden
 					>
+						<div class="pinspot__tooltip-body">
 						<?php if ( 'image' === $pinspot_media_type && '' !== $pinspot_media_url ) : ?>
 							<?php if ( $pinspot_lightbox ) : ?>
 								<button type="button" class="pinspot__media-btn" data-wp-on--click="actions.openLightbox" aria-label="<?php esc_attr_e( 'View image full size', 'pinspot' ); ?>">
@@ -326,6 +327,7 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 								<?php endif; ?>
 							><?php echo esc_html( $pinspot_link_text ); ?></a>
 						<?php endif; ?>
+						</div>
 					</div>
 				</div>
 			<?php endforeach; ?>
@@ -341,9 +343,6 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 			data-wp-watch="callbacks.tourAutoplay"
 			<?php endif; ?>
 		>
-			<button type="button" class="pinspot__tour-btn pinspot__tour-prev" data-wp-on--click="actions.tourPrev" aria-label="<?php esc_attr_e( 'Previous hotspot', 'pinspot' ); ?>">
-				<span aria-hidden="true">&lsaquo;</span>
-			</button>
 			<?php if ( $pinspot_tour_autoplay ) : ?>
 				<button
 					type="button"
@@ -356,9 +355,12 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 					<span class="pinspot__tour-icon-pause" aria-hidden="true" data-wp-bind--hidden="!context.tourPlaying" hidden></span>
 				</button>
 			<?php endif; ?>
+			<button type="button" class="pinspot__tour-btn pinspot__tour-prev" data-wp-on--click="actions.tourPrev" aria-label="<?php esc_attr_e( 'Previous hotspot', 'pinspot' ); ?>">
+				<span class="pinspot__tour-chevron" aria-hidden="true"></span>
+			</button>
 			<span class="pinspot__tour-count" aria-hidden="true"><span data-wp-text="state.tourCurrent">0</span> / <?php echo absint( $pinspot_tour_count ); ?></span>
 			<button type="button" class="pinspot__tour-btn pinspot__tour-next" data-wp-on--click="actions.tourNext" aria-label="<?php esc_attr_e( 'Next hotspot', 'pinspot' ); ?>">
-				<span aria-hidden="true">&rsaquo;</span>
+				<span class="pinspot__tour-chevron" aria-hidden="true"></span>
 			</button>
 			<span class="pinspot__tour-status" aria-live="polite" data-wp-text="state.tourStatus"></span>
 		</div>
