@@ -12,6 +12,7 @@
 # Dev config
 /.git
 /.gitignore
+/.gitattributes
 /.editorconfig
 /.nvmrc
 /.distignore

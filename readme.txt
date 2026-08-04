@@ -5,7 +5,7 @@ Tags: image hotspot, image map, lightbox tooltip, interactive image, visual pins
 Requires at least: 6.6
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,6 +166,9 @@ Privacy Policy: https://vimeo.com/privacy
 5. The block editor: place pins, reorder them, and configure everything in the sidebar.
 
 == Changelog ==
+
+= 1.0.1 =
+* Housekeeping: exclude a stray dot-file from the distributed package so it passes Plugin Check cleanly. No functional changes.
 
 = 1.0.0 =
 * Initial release: interactive image hotspots block with rich tooltips, media, light/dark themes, click or hover triggers, smart placement, zoom & pan, lightbox, click-to-load video facades, deep links, import/export, three starter patterns, an optional accessible hotspot list, and full keyboard, screen-reader, reduced-motion, and RTL support.
