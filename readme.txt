@@ -31,6 +31,10 @@ PinSpot includes everything you need to build interactive images: unlimited hots
 
 Every pin can carry a title, a description (with line breaks and basic **bold**, *italic*, and links), and one piece of media: an image from your library, a self-hosted video, or a YouTube / Vimeo embed. Add an optional call-to-action button that links anywhere. Choose light or dark tooltips, decide where they open (top, bottom, left, right, or automatic), and pick a marker style — numbered, dot, plus, info, or question — in any size and color, with an optional pulse or bounce animation.
 
+= Guided tour =
+
+Turn on tour mode to add Previous and Next controls that walk visitors through every hotspot in order — perfect for a step-by-step story, a product walkthrough, or a self-running kiosk display. Optionally let the tour advance on its own at an interval you choose; visitors always get a pause button, and autoplay stays off automatically for anyone who prefers reduced motion. Each stop is announced to screen readers as it opens.
+
 = Accessibility built in =
 
 PinSpot is designed to work for everyone, not just mouse users. Accessibility is built into how it works:
@@ -60,7 +64,7 @@ PinSpot deliberately has no separate admin dashboard. You configure everything r
 * **Placing & moving pins** — drag any marker to reposition it, or select it and nudge with the arrow keys (hold Shift for larger steps) for precise placement.
 * **Per-hotspot panels** — with a pin selected, the block sidebar (**Settings** tab) shows panels for its **Content**, **Media**, **Call to action**, **Marker** style, and **Behavior**.
 * **All hotspots** — one panel lists every pin on the image so you can reorder, duplicate, or delete them at a glance.
-* **Display settings** — set the trigger (click or hover), light or dark theme, tooltip width, the optional accessible list, and whether zoom & pan is enabled.
+* **Display settings** — set the trigger (click or hover), light or dark theme, tooltip width, the optional accessible list, the guided tour (with optional autoplay), and whether zoom & pan is enabled.
 * **Import / Export** — save the whole layout as a JSON file and load it into another post, page, or site.
 
 If you have ever placed a WordPress block, you already know how to use PinSpot.

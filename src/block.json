@@ -59,6 +59,18 @@
 			"type": "boolean",
 			"default": false
 		},
+		"enableTour": {
+			"type": "boolean",
+			"default": false
+		},
+		"tourAutoplay": {
+			"type": "boolean",
+			"default": false
+		},
+		"tourInterval": {
+			"type": "number",
+			"default": 4
+		},
 		"hotspots": {
 			"type": "array",
 			"default": [],

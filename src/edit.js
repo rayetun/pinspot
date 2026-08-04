@@ -68,6 +68,9 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 		maxZoom,
 		tooltipWidth,
 		showList,
+		enableTour,
+		tourAutoplay,
+		tourInterval,
 	} = attributes;
 	const [ isPlacing, setIsPlacing ] = useState( false );
 	const [ selectedId, setSelectedId ] = useState( null );
@@ -330,6 +333,46 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 							'pinspot'
 						) }
 					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Enable guided tour', 'pinspot' ) }
+						checked={ !! enableTour }
+						onChange={ ( value ) =>
+							setAttributes( { enableTour: value } )
+						}
+						help={ __(
+							'Adds Previous/Next controls that step visitors through the hotspots in order.',
+							'pinspot'
+						) }
+					/>
+					{ enableTour && (
+						<ToggleControl
+							__nextHasNoMarginBottom
+							label={ __( 'Autoplay the tour', 'pinspot' ) }
+							checked={ !! tourAutoplay }
+							onChange={ ( value ) =>
+								setAttributes( { tourAutoplay: value } )
+							}
+							help={ __(
+								'Advances automatically. Visitors get a pause button, and autoplay stays off for anyone who prefers reduced motion.',
+								'pinspot'
+							) }
+						/>
+					) }
+					{ enableTour && tourAutoplay && (
+						<RangeControl
+							__next40pxDefaultSize
+							__nextHasNoMarginBottom
+							label={ __( 'Seconds per hotspot', 'pinspot' ) }
+							value={ tourInterval }
+							min={ 2 }
+							max={ 20 }
+							step={ 1 }
+							onChange={ ( value ) =>
+								setAttributes( { tourInterval: value } )
+							}
+						/>
+					) }
 					<ToggleControl
 						__nextHasNoMarginBottom
 						label={ __( 'Enable zoom & pan', 'pinspot' ) }

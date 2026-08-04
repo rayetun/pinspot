@@ -59,6 +59,28 @@ $pinspot_tooltip_width = isset( $attributes['tooltipWidth'] ) ? absint( $attribu
 $pinspot_tooltip_width = min( 480, max( 180, $pinspot_tooltip_width ) );
 $pinspot_show_list     = ! empty( $attributes['showList'] );
 
+// Guided tour: step through hotspots in order via prev/next, optional autoplay.
+$pinspot_enable_tour   = ! empty( $attributes['enableTour'] );
+$pinspot_tour_autoplay = ! empty( $attributes['tourAutoplay'] );
+$pinspot_tour_interval = isset( $attributes['tourInterval'] ) ? (float) $attributes['tourInterval'] : 4;
+$pinspot_tour_interval = min( 20, max( 2, $pinspot_tour_interval ) );
+
+// Ordered hotspot ids + accessible titles, seeded into context for the tour.
+$pinspot_tour_ids    = array();
+$pinspot_tour_titles = array();
+if ( $pinspot_enable_tour ) {
+	foreach ( $pinspot_hotspots as $pinspot_ti => $pinspot_th ) {
+		if ( ! is_array( $pinspot_th ) ) {
+			continue;
+		}
+		$pinspot_tour_ids[]      = isset( $pinspot_th['id'] ) ? (string) $pinspot_th['id'] : 'hs-' . $pinspot_ti;
+		$pinspot_th_title        = isset( $pinspot_th['title'] ) ? (string) $pinspot_th['title'] : '';
+		/* translators: %d: hotspot number. */
+		$pinspot_tour_titles[]   = '' !== $pinspot_th_title ? $pinspot_th_title : sprintf( __( 'Hotspot %d', 'pinspot' ), $pinspot_ti + 1 );
+	}
+}
+$pinspot_tour_count = count( $pinspot_tour_ids );
+
 // Inline tags allowed in tooltip descriptions.
 $pinspot_desc_tags = array(
 	'a'      => array(
@@ -79,6 +101,14 @@ $pinspot_context = array(
 	'maxZoom'     => $pinspot_enable_zoom ? $pinspot_max_zoom : 0,
 	'lightboxSrc' => '',
 );
+
+if ( $pinspot_enable_tour && $pinspot_tour_count > 1 ) {
+	$pinspot_context['tourIds']      = $pinspot_tour_ids;
+	$pinspot_context['tourTitles']   = $pinspot_tour_titles;
+	$pinspot_context['tourPlaying']  = false;
+	$pinspot_context['tourAutoplay'] = $pinspot_tour_autoplay;
+	$pinspot_context['tourInterval'] = (int) round( $pinspot_tour_interval * 1000 );
+}
 
 $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 	array(
@@ -301,6 +331,38 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 			<?php endforeach; ?>
 		</div>
 	</div>
+	<?php if ( $pinspot_enable_tour && $pinspot_tour_count > 1 ) : ?>
+		<div
+			class="pinspot__tour"
+			role="group"
+			aria-label="<?php esc_attr_e( 'Hotspot tour', 'pinspot' ); ?>"
+			<?php if ( $pinspot_tour_autoplay ) : ?>
+			data-wp-init="callbacks.tourInit"
+			data-wp-watch="callbacks.tourAutoplay"
+			<?php endif; ?>
+		>
+			<button type="button" class="pinspot__tour-btn pinspot__tour-prev" data-wp-on--click="actions.tourPrev" aria-label="<?php esc_attr_e( 'Previous hotspot', 'pinspot' ); ?>">
+				<span aria-hidden="true">&lsaquo;</span>
+			</button>
+			<?php if ( $pinspot_tour_autoplay ) : ?>
+				<button
+					type="button"
+					class="pinspot__tour-btn pinspot__tour-play"
+					data-wp-on--click="actions.tourTogglePlay"
+					data-wp-bind--aria-pressed="context.tourPlaying"
+					aria-label="<?php esc_attr_e( 'Play or pause the tour', 'pinspot' ); ?>"
+				>
+					<span class="pinspot__tour-icon-play" aria-hidden="true" data-wp-bind--hidden="context.tourPlaying"></span>
+					<span class="pinspot__tour-icon-pause" aria-hidden="true" data-wp-bind--hidden="!context.tourPlaying" hidden></span>
+				</button>
+			<?php endif; ?>
+			<span class="pinspot__tour-count" aria-hidden="true"><span data-wp-text="state.tourCurrent">0</span> / <?php echo absint( $pinspot_tour_count ); ?></span>
+			<button type="button" class="pinspot__tour-btn pinspot__tour-next" data-wp-on--click="actions.tourNext" aria-label="<?php esc_attr_e( 'Next hotspot', 'pinspot' ); ?>">
+				<span aria-hidden="true">&rsaquo;</span>
+			</button>
+			<span class="pinspot__tour-status" aria-live="polite" data-wp-text="state.tourStatus"></span>
+		</div>
+	<?php endif; ?>
 	<div
 		class="pinspot__lightbox"
 		data-wp-bind--hidden="!state.lightboxOpen"

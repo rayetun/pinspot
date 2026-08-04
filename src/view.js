@@ -10,6 +10,21 @@ import { store, getContext, getElement } from '@wordpress/interactivity';
 
 const clamp = ( value, min, max ) => Math.min( max, Math.max( min, value ) );
 
+const prefersReducedMotion = () =>
+	window.matchMedia &&
+	window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+
+// Open a hotspot as part of the guided tour. Like clicking its marker, a
+// zoomed view is reset first so the tooltip shows complete and unclipped.
+const openTourHotspot = ( context, id ) => {
+	if ( context.scale > 1 ) {
+		context.scale = 1;
+		context.tx = 0;
+		context.ty = 0;
+	}
+	context.openId = id;
+};
+
 // Pan/pinch pointer bookkeeping (transient, non-reactive).
 const activePointers = new Map();
 let panLast = null;
@@ -67,6 +82,18 @@ store(
 			get lightboxSrc() {
 				return getContext().lightboxSrc || null;
 			},
+			// Tour: 1-based position of the open hotspot (0 when none is open).
+			get tourCurrent() {
+				const { tourIds, openId } = getContext();
+				const i = ( tourIds || [] ).indexOf( openId );
+				return i < 0 ? 0 : i + 1;
+			},
+			// Tour: title of the open hotspot, announced via a polite live region.
+			get tourStatus() {
+				const { tourIds, tourTitles, openId } = getContext();
+				const i = ( tourIds || [] ).indexOf( openId );
+				return i < 0 || ! tourTitles ? '' : tourTitles[ i ] || '';
+			},
 		},
 		actions: {
 			stop( event ) {
@@ -123,6 +150,37 @@ store(
 			},
 			closeAll() {
 				getContext().openId = '';
+			},
+			tourNext( event ) {
+				event.stopPropagation();
+				const context = getContext();
+				const ids = context.tourIds || [];
+				if ( ! ids.length ) {
+					return;
+				}
+				const cur = ids.indexOf( context.openId );
+				openTourHotspot(
+					context,
+					ids[ cur < 0 ? 0 : ( cur + 1 ) % ids.length ]
+				);
+			},
+			tourPrev( event ) {
+				event.stopPropagation();
+				const context = getContext();
+				const ids = context.tourIds || [];
+				if ( ! ids.length ) {
+					return;
+				}
+				const cur = ids.indexOf( context.openId );
+				openTourHotspot(
+					context,
+					ids[ cur <= 0 ? ids.length - 1 : cur - 1 ]
+				);
+			},
+			tourTogglePlay( event ) {
+				event.stopPropagation();
+				const context = getContext();
+				context.tourPlaying = ! context.tourPlaying;
 			},
 			onKeydown( event ) {
 				if ( 'Escape' !== event.key ) {
@@ -318,6 +376,37 @@ store(
 					'--pinspot-zoom',
 					String( scale )
 				);
+			},
+			// Start autoplay on load — but never without an explicit user
+			// action when the visitor prefers reduced motion.
+			tourInit() {
+				const context = getContext();
+				if (
+					context.tourAutoplay &&
+					! prefersReducedMotion() &&
+					( context.tourIds || [] ).length > 1
+				) {
+					context.tourPlaying = true;
+				}
+			},
+			// While playing, advance to the next hotspot after the interval.
+			// Re-runs whenever the open hotspot changes, so any manual step
+			// (or a marker click) restarts the countdown from that hotspot.
+			tourAutoplay() {
+				const context = getContext();
+				const ids = context.tourIds || [];
+				const { openId, tourPlaying, tourInterval } = context;
+				if ( ! tourPlaying || ids.length < 2 ) {
+					return;
+				}
+				const timer = setTimeout( () => {
+					const cur = ids.indexOf( openId );
+					openTourHotspot(
+						context,
+						ids[ cur < 0 ? 0 : ( cur + 1 ) % ids.length ]
+					);
+				}, tourInterval || 4000 );
+				return () => clearTimeout( timer );
 			},
 			// Open a hotspot referenced by #pinspot-<id> in the URL.
 			initHotspot() {

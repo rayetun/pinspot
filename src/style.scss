@@ -381,6 +381,104 @@
 		top: 12px;
 	}
 
+	// Guided tour navigation bar (optional, below the image).
+	.pinspot__tour {
+		align-items: center;
+		display: flex;
+		gap: 10px;
+		justify-content: center;
+		margin-top: 14px;
+		// Sit above the optional hotspot list, matching the viewport, so a
+		// tooltip overflowing below the image never paints over these controls.
+		position: relative;
+		z-index: 2;
+	}
+
+	.pinspot__tour-btn {
+		align-items: center;
+		background: var(--pinspot-marker-color, #3a5df0);
+		border: 0;
+		border-radius: 50%;
+		color: #fff;
+		cursor: pointer;
+		display: flex;
+		font-size: 20px;
+		height: 36px;
+		justify-content: center;
+		line-height: 1;
+		padding: 0;
+		transition: opacity 0.15s ease, scale 0.15s ease;
+		width: 36px;
+
+		&:hover {
+			opacity: 0.9;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--pinspot-marker-color, #3a5df0);
+			outline-offset: 2px;
+		}
+
+		span {
+			display: block;
+			// Nudge the chevron glyphs to optical center.
+			margin-top: -2px;
+		}
+	}
+
+	// Play / pause icons drawn with borders so no glyph font is needed.
+	.pinspot__tour-play span {
+		margin-top: 0;
+	}
+
+	.pinspot__tour-icon-play {
+		border-bottom: 7px solid transparent;
+		border-left: 12px solid #fff;
+		border-top: 7px solid transparent;
+		height: 0;
+		margin-left: 3px;
+		width: 0;
+
+		&[hidden] {
+			display: none !important;
+		}
+	}
+
+	.pinspot__tour-icon-pause {
+		border-left: 4px solid #fff;
+		border-right: 4px solid #fff;
+		box-sizing: border-box;
+		height: 14px;
+		width: 12px;
+
+		&[hidden] {
+			display: none !important;
+		}
+	}
+
+	.pinspot__tour-count {
+		color: inherit;
+		font-size: 14px;
+		font-variant-numeric: tabular-nums;
+		font-weight: 600;
+		min-width: 3.5em;
+		opacity: 0.75;
+		text-align: center;
+	}
+
+	// Visually-hidden live region announcing the current hotspot to SRs.
+	.pinspot__tour-status {
+		border: 0;
+		clip: rect(0, 0, 0, 0);
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		padding: 0;
+		position: absolute;
+		white-space: nowrap;
+		width: 1px;
+	}
+
 	// Accessible hotspot list (optional, below the image).
 	.pinspot__list-wrap {
 		border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -515,6 +613,7 @@
 		.pinspot__marker,
 		.pinspot__marker--anim-pulse::after,
 		.pinspot__marker--anim-bounce,
+		.pinspot__tour-btn,
 		.pinspot__tooltip:not([hidden]),
 		.pinspot__lightbox:not([hidden]) {
 			animation: none;
