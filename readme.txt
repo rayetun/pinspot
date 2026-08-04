@@ -5,7 +5,7 @@ Tags: image hotspot, image map, lightbox tooltip, interactive image, visual pins
 Requires at least: 6.6
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -192,10 +192,23 @@ Privacy Policy: https://vimeo.com/privacy
 
 == Changelog ==
 
+= 1.1.0 =
+* New: 🧭 **Guided tour** — Previous / Next controls that step visitors through the hotspots in order, with optional autoplay and a pause button. Autoplay stays off automatically for anyone who prefers reduced motion, and each stop is announced to screen readers. Style the bar to taste: below the image or overlaid on it, show/hide the position counter, and set the button color, size, and shape.
+* New: 🏷️ **Group filters** — assign hotspots to named groups and let visitors show or hide them with accessible filter chips, ideal for maps and floor plans. Includes an “All” reset and a chip color option.
+* New: 🎨 **Emoji and custom-image markers** — use any emoji or your own image as a marker, alongside the existing numbered, dot, plus, info, and question styles.
+* New: ✏️ **Edit right on the image** — a selected pin’s tooltip opens on the canvas so you can type its title and description in place, with bold, italic, and links.
+* New: 📋 **Copy & paste pin style** — copy one pin’s look and behavior and paste it onto another pin, or apply it to every pin at once, without touching their text.
+* Improve: the block sidebar is reorganized into focused, collapsible panels (Tooltips, Hotspot list & filters, Guided tour, Zoom & pan).
+* Fix: tall tooltips no longer show stray horizontal or vertical scrollbars; only genuinely long content scrolls, inside the tooltip.
+* Housekeeping: excluded a stray dot-file from the distributed package so it passes Plugin Check cleanly.
+
 = 1.0.0 =
 * Initial release: interactive image hotspots block with rich tooltips, media, light/dark themes, click or hover triggers, smart placement, zoom & pan, lightbox, click-to-load video facades, deep links, import/export, three starter patterns, an optional accessible hotspot list, and full keyboard, screen-reader, reduced-motion, and RTL support.
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+Adds a guided tour, group filters, emoji and custom-image markers, on-canvas tooltip editing, and copy/paste pin style — plus a tidier sidebar and a tooltip scrollbar fix.
 
 = 1.0.0 =
 Initial release.
