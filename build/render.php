@@ -63,6 +63,7 @@ $pinspot_show_list     = ! empty( $attributes['showList'] );
 // on/off via chips. The distinct group names are gathered in the order the
 // groups first appear across the hotspots.
 $pinspot_enable_filters = ! empty( $attributes['enableFilters'] );
+$pinspot_filter_color   = isset( $attributes['filterColor'] ) ? sanitize_hex_color( $attributes['filterColor'] ) : '';
 $pinspot_groups         = array();
 if ( $pinspot_enable_filters ) {
 	foreach ( $pinspot_hotspots as $pinspot_gh ) {
@@ -166,7 +167,7 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 		</div>
 	<?php endif; ?>
 	<?php if ( $pinspot_has_filters ) : ?>
-		<div class="pinspot__filters" role="group" aria-label="<?php esc_attr_e( 'Filter hotspots by group', 'pinspot' ); ?>">
+		<div class="pinspot__filters" role="group" aria-label="<?php esc_attr_e( 'Filter hotspots by group', 'pinspot' ); ?>"<?php echo $pinspot_filter_color ? ' style="' . esc_attr( '--pinspot-filter-color:' . $pinspot_filter_color . ';' ) . '"' : ''; ?>>
 			<button
 				type="button"
 				class="pinspot__filter pinspot__filter--all"

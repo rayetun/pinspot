@@ -48,7 +48,7 @@ Turn on tour mode to add Previous and Next controls that walk visitors through e
 
 = 🏷️ Group filters =
 
-Assign each hotspot to a named group — “Exits”, “Restrooms”, “Food”, whatever fits — and PinSpot adds a row of filter chips above the image. Visitors tap a chip to show or hide that group, so a busy map or floor plan stays readable and people can focus on just what they need. An “All” chip brings everything back. The chips are real toggle buttons with proper pressed states for keyboard and screen-reader users, and each item in the optional list is tagged with its group.
+Assign each hotspot to a named group — “Exits”, “Restrooms”, “Food”, whatever fits — and PinSpot adds a row of filter chips above the image. Visitors tap a chip to show or hide that group, so a busy map or floor plan stays readable and people can focus on just what they need. An “All” chip brings everything back. The chips are real toggle buttons with proper pressed states for keyboard and screen-reader users, each item in the optional list is tagged with its group, and you can set the chip color to match your brand.
 
 = ♿ Accessibility built in =
 

@@ -109,6 +109,7 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 		tooltipWidth,
 		showList,
 		enableFilters,
+		filterColor,
 		enableTour,
 		tourAutoplay,
 		tourInterval,
@@ -434,6 +435,24 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 							'pinspot'
 						) }
 					/>
+					{ enableFilters && (
+						<BaseControl
+							__nextHasNoMarginBottom
+							label={ __( 'Filter chip color', 'pinspot' ) }
+							id="pinspot-filter-color"
+						>
+							<ColorPalette
+								colors={ palette || [] }
+								value={ filterColor || undefined }
+								onChange={ ( value ) =>
+									setAttributes( {
+										filterColor: value || '',
+									} )
+								}
+								enableAlpha={ false }
+							/>
+						</BaseControl>
+					) }
 				</PanelBody>
 				<PanelBody
 					title={ __( 'Guided tour', 'pinspot' ) }

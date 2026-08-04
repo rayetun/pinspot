@@ -63,6 +63,10 @@
 			"type": "boolean",
 			"default": false
 		},
+		"filterColor": {
+			"type": "string",
+			"default": ""
+		},
 		"enableTour": {
 			"type": "boolean",
 			"default": false
