@@ -89,8 +89,13 @@ export default function HotspotInspector( {
 	hotspot,
 	number,
 	existingGroups = [],
+	canPasteStyle = false,
+	hotspotCount = 1,
 	onChange,
 	onRemove,
+	onCopyStyle,
+	onPasteStyle,
+	onApplyStyleToAll,
 } ) {
 	const currentGroup = ( hotspot.group || '' ).trim();
 	const groupSuggestions = existingGroups.filter(
@@ -420,6 +425,52 @@ export default function HotspotInspector( {
 						'pinspot'
 					) }
 				/>
+				<BaseControl
+					__nextHasNoMarginBottom
+					label={ __( 'Reuse this style', 'pinspot' ) }
+					id="pinspot-style-copy"
+					help={
+						canPasteStyle
+							? __(
+									'Paste applies the copied look & behavior to this pin.',
+									'pinspot'
+							  )
+							: __(
+									'Copies this pin’s look & behavior (not its text) so you can paste it onto another.',
+									'pinspot'
+							  )
+					}
+				>
+					<div className="pinspot-style-actions">
+						<Button
+							variant="secondary"
+							size="small"
+							onClick={ onCopyStyle }
+						>
+							{ __( 'Copy style', 'pinspot' ) }
+						</Button>
+						{ canPasteStyle && (
+							<>
+								<Button
+									variant="secondary"
+									size="small"
+									onClick={ onPasteStyle }
+								>
+									{ __( 'Paste style', 'pinspot' ) }
+								</Button>
+								{ hotspotCount > 1 && (
+									<Button
+										variant="tertiary"
+										size="small"
+										onClick={ onApplyStyleToAll }
+									>
+										{ __( 'Apply to all', 'pinspot' ) }
+									</Button>
+								) }
+							</>
+						) }
+					</div>
+				</BaseControl>
 			</PanelBody>
 
 			<PanelBody

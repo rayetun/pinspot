@@ -75,6 +75,27 @@ export const markerClassName = ( hotspot, extra = '' ) =>
 		.filter( Boolean )
 		.join( ' ' );
 
+// Appearance + behavior fields that "copy style" transfers between pins —
+// deliberately excludes content (title, description, media, link), identity
+// (id, x, y), and grouping. Unset keys are copied as undefined so pasting
+// resets the target to defaults, mirroring the source exactly.
+const STYLE_KEYS = [
+	'markerStyle',
+	'markerValue',
+	'markerImageId',
+	'markerImageUrl',
+	'markerSize',
+	'markerColor',
+	'animation',
+	'trigger',
+	'placement',
+	'theme',
+	'lightbox',
+];
+
+const pickStyle = ( hotspot ) =>
+	Object.fromEntries( STYLE_KEYS.map( ( key ) => [ key, hotspot[ key ] ] ) );
+
 export default function Edit( { attributes, setAttributes, isSelected } ) {
 	const {
 		imageId,
@@ -101,6 +122,7 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 	const [ isPlacing, setIsPlacing ] = useState( false );
 	const [ selectedId, setSelectedId ] = useState( null );
 	const [ drag, setDrag ] = useState( null );
+	const [ copiedStyle, setCopiedStyle ] = useState( null );
 	const canvasRef = useRef( null );
 
 	const blockProps = useBlockProps( {
@@ -145,6 +167,28 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 		if ( selectedId === id ) {
 			setSelectedId( null );
 		}
+	};
+
+	// Copy the selected pin's style, then paste it onto another pin (or all).
+	const copyStyle = () => {
+		if ( selectedHotspot ) {
+			setCopiedStyle( pickStyle( selectedHotspot ) );
+		}
+	};
+
+	const pasteStyle = () => {
+		if ( selectedHotspot && copiedStyle ) {
+			updateHotspot( selectedHotspot.id, copiedStyle );
+		}
+	};
+
+	const applyStyleToAll = () => {
+		if ( ! copiedStyle ) {
+			return;
+		}
+		setAttributes( {
+			hotspots: hotspots.map( ( h ) => ( { ...h, ...copiedStyle } ) ),
+		} );
 	};
 
 	const pointFromEvent = ( event ) => {
@@ -283,10 +327,15 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 						hotspot={ selectedHotspot }
 						number={ hotspots.indexOf( selectedHotspot ) + 1 }
 						existingGroups={ existingGroups }
+						canPasteStyle={ !! copiedStyle }
+						hotspotCount={ hotspots.length }
 						onChange={ ( changes ) =>
 							updateHotspot( selectedHotspot.id, changes )
 						}
 						onRemove={ () => removeHotspot( selectedHotspot.id ) }
+						onCopyStyle={ copyStyle }
+						onPasteStyle={ pasteStyle }
+						onApplyStyleToAll={ applyStyleToAll }
 					/>
 				) }
 				<HotspotList

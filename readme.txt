@@ -69,6 +69,7 @@ PinSpot deliberately has no separate admin dashboard. You configure everything r
 * **Edit right on the image** — select a pin and its tooltip opens on the image so you can type the title and description in place, with bold, italic, and links in the description. The sidebar keeps the same fields if you prefer.
 * **Per-hotspot panels** — with a pin selected, the block sidebar (**Settings** tab) shows panels for its **Content**, **Media**, **Call to action**, **Marker** style, and **Behavior**.
 * **All hotspots** — one panel lists every pin on the image so you can reorder, duplicate, or delete them at a glance.
+* **Copy & paste pin style** — copy one pin’s look and behavior (marker, size, color, animation, trigger, placement, theme) and paste it onto another pin, or apply it to every pin at once, without touching their text.
 * **Display settings** — set the trigger (click or hover), light or dark theme, tooltip width, the optional accessible list, group filters, the guided tour (with optional autoplay), and whether zoom & pan is enabled.
 * **Import / Export** — save the whole layout as a JSON file and load it into another post, page, or site.
 
