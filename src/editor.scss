@@ -85,6 +85,14 @@
 	}
 }
 
+// Sidebar: quick-assign buttons for existing hotspot groups.
+.pinspot-group-suggestions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	margin-top: 8px;
+}
+
 .pinspot-remove-hotspot {
 	margin-top: 8px;
 }

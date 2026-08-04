@@ -35,6 +35,10 @@ Every pin can carry a title, a description (with line breaks and basic **bold**,
 
 Turn on tour mode to add Previous and Next controls that walk visitors through every hotspot in order — perfect for a step-by-step story, a product walkthrough, or a self-running kiosk display. Optionally let the tour advance on its own at an interval you choose; visitors always get a pause button, and autoplay stays off automatically for anyone who prefers reduced motion. Each stop is announced to screen readers as it opens. Style the bar to match your design: place it below the image or overlaid on it, show or hide the position counter, and set the button color, size, and shape.
 
+= Group filters =
+
+Assign each hotspot to a named group — “Exits”, “Restrooms”, “Food”, whatever fits — and PinSpot adds a row of filter chips above the image. Visitors tap a chip to show or hide that group, so a busy map or floor plan stays readable and people can focus on just what they need. An “All” chip brings everything back. The chips are real toggle buttons with proper pressed states for keyboard and screen-reader users, and each item in the optional list is tagged with its group.
+
 = Accessibility built in =
 
 PinSpot is designed to work for everyone, not just mouse users. Accessibility is built into how it works:
@@ -64,7 +68,7 @@ PinSpot deliberately has no separate admin dashboard. You configure everything r
 * **Placing & moving pins** — drag any marker to reposition it, or select it and nudge with the arrow keys (hold Shift for larger steps) for precise placement.
 * **Per-hotspot panels** — with a pin selected, the block sidebar (**Settings** tab) shows panels for its **Content**, **Media**, **Call to action**, **Marker** style, and **Behavior**.
 * **All hotspots** — one panel lists every pin on the image so you can reorder, duplicate, or delete them at a glance.
-* **Display settings** — set the trigger (click or hover), light or dark theme, tooltip width, the optional accessible list, the guided tour (with optional autoplay), and whether zoom & pan is enabled.
+* **Display settings** — set the trigger (click or hover), light or dark theme, tooltip width, the optional accessible list, group filters, the guided tour (with optional autoplay), and whether zoom & pan is enabled.
 * **Import / Export** — save the whole layout as a JSON file and load it into another post, page, or site.
 
 If you have ever placed a WordPress block, you already know how to use PinSpot.

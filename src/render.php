@@ -59,6 +59,25 @@ $pinspot_tooltip_width = isset( $attributes['tooltipWidth'] ) ? absint( $attribu
 $pinspot_tooltip_width = min( 480, max( 180, $pinspot_tooltip_width ) );
 $pinspot_show_list     = ! empty( $attributes['showList'] );
 
+// Group filters: assign hotspots to named groups; visitors toggle groups
+// on/off via chips. The distinct group names are gathered in the order the
+// groups first appear across the hotspots.
+$pinspot_enable_filters = ! empty( $attributes['enableFilters'] );
+$pinspot_groups         = array();
+if ( $pinspot_enable_filters ) {
+	foreach ( $pinspot_hotspots as $pinspot_gh ) {
+		if ( ! is_array( $pinspot_gh ) ) {
+			continue;
+		}
+		$pinspot_gname = isset( $pinspot_gh['group'] ) ? trim( (string) $pinspot_gh['group'] ) : '';
+		if ( '' !== $pinspot_gname && ! in_array( $pinspot_gname, $pinspot_groups, true ) ) {
+			$pinspot_groups[] = $pinspot_gname;
+		}
+	}
+}
+// Filters are only meaningful once there are at least two distinct groups.
+$pinspot_has_filters = $pinspot_enable_filters && count( $pinspot_groups ) > 1;
+
 // Guided tour: step through hotspots in order via prev/next, optional autoplay.
 $pinspot_enable_tour   = ! empty( $attributes['enableTour'] );
 $pinspot_tour_autoplay = ! empty( $attributes['tourAutoplay'] );
@@ -111,6 +130,11 @@ $pinspot_context = array(
 	'lightboxSrc' => '',
 );
 
+if ( $pinspot_has_filters ) {
+	// Group names currently filtered out; empty means all groups are shown.
+	$pinspot_context['hiddenGroups'] = array();
+}
+
 if ( $pinspot_enable_tour && $pinspot_tour_count > 1 ) {
 	$pinspot_context['tourIds']      = $pinspot_tour_ids;
 	$pinspot_context['tourTitles']   = $pinspot_tour_titles;
@@ -139,6 +163,27 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 			<button type="button" class="pinspot__zoom-btn" data-wp-on--click="actions.zoomIn" aria-label="<?php esc_attr_e( 'Zoom in', 'pinspot' ); ?>">+</button>
 			<button type="button" class="pinspot__zoom-btn" data-wp-on--click="actions.zoomOut" aria-label="<?php esc_attr_e( 'Zoom out', 'pinspot' ); ?>">&minus;</button>
 			<button type="button" class="pinspot__zoom-btn" data-wp-on--click="actions.resetZoom" data-wp-bind--hidden="!state.isZoomed" aria-label="<?php esc_attr_e( 'Reset zoom', 'pinspot' ); ?>" hidden>&#8634;</button>
+		</div>
+	<?php endif; ?>
+	<?php if ( $pinspot_has_filters ) : ?>
+		<div class="pinspot__filters" role="group" aria-label="<?php esc_attr_e( 'Filter hotspots by group', 'pinspot' ); ?>">
+			<button
+				type="button"
+				class="pinspot__filter pinspot__filter--all"
+				data-wp-on--click="actions.showAllGroups"
+				data-wp-bind--aria-pressed="state.allGroupsActive"
+				data-wp-class--is-active="state.allGroupsActive"
+			><?php esc_html_e( 'All', 'pinspot' ); ?></button>
+			<?php foreach ( $pinspot_groups as $pinspot_group_name ) : ?>
+				<button
+					type="button"
+					class="pinspot__filter"
+					<?php echo wp_kses_data( wp_interactivity_data_wp_context( array( 'groupName' => $pinspot_group_name ) ) ); ?>
+					data-wp-on--click="actions.toggleGroup"
+					data-wp-bind--aria-pressed="state.groupActive"
+					data-wp-class--is-active="state.groupActive"
+				><?php echo esc_html( $pinspot_group_name ); ?></button>
+			<?php endforeach; ?>
 		</div>
 	<?php endif; ?>
 	<div class="pinspot__viewport-wrap">
@@ -233,6 +278,8 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 				$pinspot_label   = '' !== $pinspot_title ? $pinspot_title : sprintf( __( 'Hotspot %d', 'pinspot' ), $pinspot_num );
 				$pinspot_tip_dom = wp_unique_id( 'pinspot-tip-' );
 
+				$pinspot_group = isset( $pinspot_hotspot['group'] ) ? trim( (string) $pinspot_hotspot['group'] ) : '';
+
 				$pinspot_hotspot_context = array(
 					'id'        => $pinspot_id,
 					'trigger'   => $pinspot_trigger,
@@ -241,6 +288,9 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 					'embedUrl'  => $pinspot_embed['embed'],
 					'mediaFull' => ( $pinspot_lightbox && 'image' === $pinspot_media_type ) ? $pinspot_media_url : '',
 				);
+				if ( $pinspot_has_filters ) {
+					$pinspot_hotspot_context['group'] = $pinspot_group;
+				}
 
 				$pinspot_marker_classes = sprintf(
 					'pinspot__marker pinspot__marker--%s pinspot__marker--%s%s',
@@ -259,6 +309,9 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 					style="<?php echo esc_attr( sprintf( 'left:%F%%;top:%F%%;', $pinspot_x, $pinspot_y ) ); ?>"
 					<?php echo wp_kses_data( wp_interactivity_data_wp_context( $pinspot_hotspot_context ) ); ?>
 					data-wp-class--is-open="state.isOpen"
+					<?php if ( $pinspot_has_filters ) : ?>
+					data-wp-bind--hidden="!state.hotspotVisible"
+					<?php endif; ?>
 					data-wp-init="callbacks.initHotspot"
 					<?php if ( 'hover' === $pinspot_trigger ) : ?>
 					data-wp-on--mouseenter="actions.hoverOpen"
@@ -412,6 +465,7 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 					$pinspot_item_url   = isset( $pinspot_hotspot['linkUrl'] ) ? (string) $pinspot_hotspot['linkUrl'] : '';
 					$pinspot_item_text  = isset( $pinspot_hotspot['linkText'] ) ? (string) $pinspot_hotspot['linkText'] : '';
 					$pinspot_item_color = isset( $pinspot_hotspot['markerColor'] ) ? sanitize_hex_color( $pinspot_hotspot['markerColor'] ) : '';
+					$pinspot_item_group = ( $pinspot_has_filters && isset( $pinspot_hotspot['group'] ) ) ? trim( (string) $pinspot_hotspot['group'] ) : '';
 					if ( '' === $pinspot_item_title ) {
 						/* translators: %d: hotspot number. */
 						$pinspot_item_title = sprintf( __( 'Hotspot %d', 'pinspot' ), $pinspot_index + 1 );
@@ -426,7 +480,7 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 							<?php endif; ?>
 						><?php echo absint( $pinspot_index + 1 ); ?></span>
 						<div class="pinspot__list-body">
-							<strong class="pinspot__list-title"><?php echo esc_html( $pinspot_item_title ); ?></strong>
+							<strong class="pinspot__list-title"><?php echo esc_html( $pinspot_item_title ); ?><?php if ( '' !== $pinspot_item_group ) : ?> <span class="pinspot__list-group"><?php echo esc_html( $pinspot_item_group ); ?></span><?php endif; ?></strong>
 							<?php if ( '' !== $pinspot_item_desc ) : ?>
 								<span class="pinspot__list-desc"><?php echo wp_kses( nl2br( $pinspot_item_desc ), $pinspot_desc_tags ); ?></span>
 							<?php endif; ?>

@@ -72,9 +72,14 @@ const THEME_OPTIONS = [
 export default function HotspotInspector( {
 	hotspot,
 	number,
+	existingGroups = [],
 	onChange,
 	onRemove,
 } ) {
+	const currentGroup = ( hotspot.group || '' ).trim();
+	const groupSuggestions = existingGroups.filter(
+		( g ) => g !== currentGroup
+	);
 	const [ palette ] = useSettings( 'color.palette' );
 	const mediaType = hotspot.mediaType || '';
 	const usesLibraryMedia = 'image' === mediaType || 'video' === mediaType;
@@ -105,6 +110,31 @@ export default function HotspotInspector( {
 						'pinspot'
 					) }
 				/>
+				<TextControl
+					__next40pxDefaultSize
+					__nextHasNoMarginBottom
+					label={ __( 'Group', 'pinspot' ) }
+					value={ hotspot.group || '' }
+					onChange={ ( group ) => onChange( { group } ) }
+					help={ __(
+						'Optional. Hotspots that share a group can be shown or hidden together with the frontend filter chips.',
+						'pinspot'
+					) }
+				/>
+				{ groupSuggestions.length > 0 && (
+					<div className="pinspot-group-suggestions">
+						{ groupSuggestions.map( ( group ) => (
+							<Button
+								key={ group }
+								variant="secondary"
+								size="small"
+								onClick={ () => onChange( { group } ) }
+							>
+								{ group }
+							</Button>
+						) ) }
+					</div>
+				) }
 				<Button
 					variant="secondary"
 					isDestructive

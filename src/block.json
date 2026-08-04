@@ -59,6 +59,10 @@
 			"type": "boolean",
 			"default": false
 		},
+		"enableFilters": {
+			"type": "boolean",
+			"default": false
+		},
 		"enableTour": {
 			"type": "boolean",
 			"default": false

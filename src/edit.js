@@ -71,6 +71,7 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 		maxZoom,
 		tooltipWidth,
 		showList,
+		enableFilters,
 		enableTour,
 		tourAutoplay,
 		tourInterval,
@@ -91,6 +92,14 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 	} );
 
 	const selectedHotspot = hotspots.find( ( h ) => h.id === selectedId );
+
+	// Distinct, non-empty group names in first-appearance order — offered as
+	// quick-assign suggestions in the hotspot inspector.
+	const existingGroups = [
+		...new Set(
+			hotspots.map( ( h ) => ( h.group || '' ).trim() ).filter( Boolean )
+		),
+	];
 
 	const onSelectImage = ( media ) => {
 		if ( ! media || ! media.url ) {
@@ -257,6 +266,7 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 					<HotspotInspector
 						hotspot={ selectedHotspot }
 						number={ hotspots.indexOf( selectedHotspot ) + 1 }
+						existingGroups={ existingGroups }
 						onChange={ ( changes ) =>
 							updateHotspot( selectedHotspot.id, changes )
 						}
@@ -339,6 +349,18 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 						}
 						help={ __(
 							'A plain, accessible list of all hotspot content — great for screen readers and SEO.',
+							'pinspot'
+						) }
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Enable group filters', 'pinspot' ) }
+						checked={ !! enableFilters }
+						onChange={ ( value ) =>
+							setAttributes( { enableFilters: value } )
+						}
+						help={ __(
+							'Adds filter chips so visitors can show or hide hotspots by group. Assign a group to each hotspot in its panel; chips appear once two or more groups exist.',
 							'pinspot'
 						) }
 					/>

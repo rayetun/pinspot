@@ -94,6 +94,20 @@ store(
 				const i = ( tourIds || [] ).indexOf( openId );
 				return i < 0 || ! tourTitles ? '' : tourTitles[ i ] || '';
 			},
+			// Filters: a hotspot shows unless its group is toggled off.
+			get hotspotVisible() {
+				const { group, hiddenGroups } = getContext();
+				return ! group || ! ( hiddenGroups || [] ).includes( group );
+			},
+			// Filters: whether this chip's group is currently shown.
+			get groupActive() {
+				const { groupName, hiddenGroups } = getContext();
+				return ! ( hiddenGroups || [] ).includes( groupName );
+			},
+			// Filters: the "All" chip is active only when nothing is hidden.
+			get allGroupsActive() {
+				return ( getContext().hiddenGroups || [] ).length === 0;
+			},
 		},
 		actions: {
 			stop( event ) {
@@ -150,6 +164,29 @@ store(
 			},
 			closeAll() {
 				getContext().openId = '';
+			},
+			// Toggle one group's visibility. Reassigns the array so the change
+			// propagates, and closes any open tooltip so a now-hidden hotspot
+			// can't keep one showing.
+			toggleGroup( event ) {
+				event.stopPropagation();
+				const context = getContext();
+				const name = context.groupName;
+				const hidden = ( context.hiddenGroups || [] ).slice();
+				const i = hidden.indexOf( name );
+				if ( i < 0 ) {
+					hidden.push( name );
+				} else {
+					hidden.splice( i, 1 );
+				}
+				context.hiddenGroups = hidden;
+				context.openId = '';
+			},
+			showAllGroups( event ) {
+				event.stopPropagation();
+				const context = getContext();
+				context.hiddenGroups = [];
+				context.openId = '';
 			},
 			tourNext( event ) {
 				event.stopPropagation();
