@@ -9,6 +9,10 @@ jobs:
   deploy:
     name: Build & deploy to WP.org SVN
     runs-on: ubuntu-latest
+    # Needed so the "Attach zip to GitHub Release" step can write the
+    # release asset via GITHUB_TOKEN (default token is read-only).
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
