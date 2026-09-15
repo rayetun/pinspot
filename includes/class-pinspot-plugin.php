@@ -48,7 +48,38 @@ final class Pinspot_Plugin {
 	 * editor/view script translations are handled via block.json "textdomain".
 	 */
 	public function register_block() {
+		// Extension seam: let add-ons (e.g. PinSpot Pro) register extra block
+		// attributes without editing the free plugin. Guarded by block name.
+		add_filter( 'block_type_metadata', array( $this, 'extend_block_metadata' ) );
 		register_block_type( PINSPOT_DIR . 'build' );
+	}
+
+	/**
+	 * Merge add-on attributes into the block metadata at registration.
+	 *
+	 * Add-ons hook `pinspot_block_attributes` and return an attribute schema
+	 * array; it is merged onto (never over) the built-in attributes.
+	 *
+	 * @param array $metadata Block metadata from block.json.
+	 * @return array
+	 */
+	public function extend_block_metadata( $metadata ) {
+		if ( ! is_array( $metadata ) || 'pinspot/image-hotspots' !== ( isset( $metadata['name'] ) ? $metadata['name'] : '' ) ) {
+			return $metadata;
+		}
+
+		/**
+		 * Filter the extra attributes registered on the Image Hotspots block.
+		 *
+		 * @param array $attributes Map of attribute name => schema. Default empty.
+		 */
+		$extra = apply_filters( 'pinspot_block_attributes', array() );
+		if ( ! empty( $extra ) && is_array( $extra ) ) {
+			$existing               = isset( $metadata['attributes'] ) && is_array( $metadata['attributes'] ) ? $metadata['attributes'] : array();
+			$metadata['attributes'] = array_merge( $extra, $existing );
+		}
+
+		return $metadata;
 	}
 
 	/**

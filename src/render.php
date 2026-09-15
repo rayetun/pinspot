@@ -48,6 +48,22 @@ $pinspot_embed_data = static function ( $type, $url ) {
 $pinspot_image_alt = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
 $pinspot_hotspots  = ( isset( $attributes['hotspots'] ) && is_array( $attributes['hotspots'] ) ) ? $attributes['hotspots'] : array();
 
+/**
+ * Extension seam: let add-ons (conditional display / scheduling) hide a
+ * hotspot server-side. Original array keys are preserved so marker numbers
+ * stay stable, and the hidden hotspot is excluded everywhere (markers, tour,
+ * list) consistently.
+ *
+ * @param bool  $render     Whether to render this hotspot. Default true.
+ * @param array $hotspot    The hotspot data.
+ * @param array $attributes The block attributes.
+ */
+foreach ( $pinspot_hotspots as $pinspot_hs_index => $pinspot_hs ) {
+	if ( is_array( $pinspot_hs ) && ! apply_filters( 'pinspot_should_render_hotspot', true, $pinspot_hs, $attributes ) ) {
+		unset( $pinspot_hotspots[ $pinspot_hs_index ] );
+	}
+}
+
 // Block-level display settings.
 $pinspot_global_trigger = ( isset( $attributes['globalTrigger'] ) && 'hover' === $attributes['globalTrigger'] ) ? 'hover' : 'click';
 $pinspot_global_theme   = ( isset( $attributes['globalTheme'] ) && 'dark' === $attributes['globalTheme'] ) ? 'dark' : 'light';
@@ -150,6 +166,14 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 		'style' => sprintf( '--pinspot-tooltip-width:%dpx;', $pinspot_tooltip_width ),
 	)
 );
+
+/**
+ * Extension seam: fires before a PinSpot block renders. Add-ons can enqueue
+ * per-block assets or record analytics here.
+ *
+ * @param array $attributes The block attributes.
+ */
+do_action( 'pinspot_render_before', $attributes );
 ?>
 <figure
 	<?php echo wp_kses_data( $pinspot_wrapper_attributes ); ?>
@@ -312,13 +336,32 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 					$pinspot_animation ? ' pinspot__marker--anim-' . $pinspot_animation : ''
 				);
 
+				/**
+				 * Extension seam: add-ons (premium marker FX) can append classes
+				 * to the marker button. Return a space-separated class string.
+				 *
+				 * @param string $classes    Current marker classes.
+				 * @param array  $hotspot    The hotspot data.
+				 * @param array  $attributes The block attributes.
+				 */
+				$pinspot_marker_classes = (string) apply_filters( 'pinspot_marker_classes', $pinspot_marker_classes, $pinspot_hotspot, $attributes );
+
+				/**
+				 * Extension seam: add-ons can append classes to the hotspot wrapper.
+				 *
+				 * @param string $classes    Current wrapper classes.
+				 * @param array  $hotspot    The hotspot data.
+				 * @param array  $attributes The block attributes.
+				 */
+				$pinspot_hotspot_classes = (string) apply_filters( 'pinspot_hotspot_classes', 'pinspot__hotspot', $pinspot_hotspot, $attributes );
+
 				$pinspot_tooltip_classes = 'pinspot__tooltip pinspot__tooltip--' . $pinspot_theme;
 				if ( 'auto' !== $pinspot_placement ) {
 					$pinspot_tooltip_classes .= ' pinspot__tooltip--' . $pinspot_placement;
 				}
 				?>
 				<div
-					class="pinspot__hotspot"
+					class="<?php echo esc_attr( $pinspot_hotspot_classes ); ?>"
 					style="<?php echo esc_attr( sprintf( 'left:%F%%;top:%F%%;', $pinspot_x, $pinspot_y ) ); ?>"
 					<?php echo wp_kses_data( wp_interactivity_data_wp_context( $pinspot_hotspot_context ) ); ?>
 					data-wp-class--is-open="state.isOpen"
@@ -407,8 +450,30 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 								<?php endif; ?>
 							><?php echo esc_html( $pinspot_link_text ); ?></a>
 						<?php endif; ?>
+						<?php
+						/**
+						 * Extension seam: output markup at the end of the tooltip
+						 * body (e.g. WooCommerce price + add-to-cart). Callbacks
+						 * are responsible for escaping their own output.
+						 *
+						 * @param array $hotspot    The hotspot data.
+						 * @param array $attributes The block attributes.
+						 */
+						do_action( 'pinspot_tooltip_end', $pinspot_hotspot, $attributes );
+						?>
 						</div>
 					</div>
+					<?php
+					/**
+					 * Extension seam: output markup inside the hotspot wrapper,
+					 * after the tooltip (e.g. a sale/stock badge on the marker).
+					 * Callbacks are responsible for escaping their own output.
+					 *
+					 * @param array $hotspot    The hotspot data.
+					 * @param array $attributes The block attributes.
+					 */
+					do_action( 'pinspot_hotspot_end', $pinspot_hotspot, $attributes );
+					?>
 				</div>
 			<?php endforeach; ?>
 		</div>
@@ -511,3 +576,10 @@ $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 		</div>
 	<?php endif; ?>
 </figure>
+<?php
+/**
+ * Extension seam: fires after a PinSpot block renders.
+ *
+ * @param array $attributes The block attributes.
+ */
+do_action( 'pinspot_render_after', $attributes );

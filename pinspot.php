@@ -23,6 +23,28 @@ define( 'PINSPOT_VERSION', '1.1.0' );
 define( 'PINSPOT_DIR', plugin_dir_path( __FILE__ ) );
 define( 'PINSPOT_URL', plugin_dir_url( __FILE__ ) );
 
+// Minimum PinSpot Pro version this build's extension API is compatible with.
+if ( ! defined( 'PINSPOT_MIN_PRO_VERSION' ) ) {
+	define( 'PINSPOT_MIN_PRO_VERSION', '1.0.0' );
+}
+
 require_once PINSPOT_DIR . 'includes/class-pinspot-plugin.php';
 
 Pinspot_Plugin::get_instance();
+
+if ( ! function_exists( 'pinspot_is_pro_active' ) ) {
+	/**
+	 * Whether a licensed PinSpot Pro add-on is active.
+	 *
+	 * Pro defines the PINSPOT_PRO_ACTIVE constant ONLY after its Freemius
+	 * licence gate passes, so this reflects a genuine licence — not merely the
+	 * Pro plugin being installed. Call it at render/admin time (Pro bootstraps
+	 * on `plugins_loaded`, after the free plugin's own `init`), never at include
+	 * time.
+	 *
+	 * @return bool
+	 */
+	function pinspot_is_pro_active() {
+		return defined( 'PINSPOT_PRO_ACTIVE' ) && PINSPOT_PRO_ACTIVE;
+	}
+}
