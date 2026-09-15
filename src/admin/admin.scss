@@ -1,0 +1,805 @@
+/**
+ * PinSpot admin dashboard styles. Dark sidebar always; light/dark content
+ * driven by the `.theme-*` class on the root.
+ */
+
+$brand: #3a5df0;
+$brand-2: #7b2ff7;
+$sidebar: #171e3f;
+
+.pinspot-admin {
+	--bg: #eef1f7;
+	--card: #fff;
+	--text: #1b2140;
+	--muted: #6b7280;
+	--border: rgba(20, 24, 55, 0.09);
+	--shadow: 0 1px 2px rgba(20, 24, 55, 0.06), 0 6px 18px rgba(20, 24, 55, 0.05);
+
+	box-sizing: border-box;
+	color: var(--text);
+	display: flex;
+	font-size: 14px;
+	margin: 0 0 0 -20px; // reach the wp-admin content edge
+	min-height: calc(100vh - 32px);
+
+	&.theme-dark {
+		--bg: #0f1430;
+		--card: #191f45;
+		--text: #e9ecfa;
+		--muted: #9aa4cf;
+		--border: rgba(255, 255, 255, 0.09);
+		--shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	h1,
+	h2 {
+		color: var(--text);
+	}
+
+	p {
+		color: var(--muted);
+	}
+
+	.dashicons {
+		font-family: dashicons; // ensure glyphs render inside our app
+	}
+}
+
+/* Sidebar ------------------------------------------------------------------ */
+.pinspot-admin__sidebar {
+	background: $sidebar;
+	color: rgba(255, 255, 255, 0.72);
+	flex: 0 0 232px;
+	padding: 20px 14px;
+}
+
+.pinspot-admin__brand {
+	align-items: center;
+	color: #fff;
+	display: flex;
+	gap: 8px;
+	margin-bottom: 22px;
+	padding: 4px 8px;
+}
+
+.pinspot-admin__logo {
+	align-items: center;
+	background: linear-gradient(135deg, $brand, $brand-2);
+	border-radius: 8px;
+	display: flex;
+	height: 30px;
+	justify-content: center;
+	width: 30px;
+
+	.dashicons {
+		color: #fff;
+	}
+}
+
+.pinspot-admin__name {
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.pinspot-admin__version {
+	background: rgba(255, 255, 255, 0.12);
+	border-radius: 20px;
+	color: rgba(255, 255, 255, 0.85);
+	font-size: 11px;
+	font-weight: 600;
+	margin-left: auto;
+	padding: 2px 8px;
+}
+
+.pinspot-admin__nav {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+
+	button {
+		align-items: center;
+		background: transparent;
+		border: 0;
+		border-radius: 8px;
+		color: rgba(255, 255, 255, 0.72);
+		cursor: pointer;
+		display: flex;
+		font-size: 14px;
+		gap: 10px;
+		padding: 10px 12px;
+		text-align: left;
+		width: 100%;
+
+		&:hover {
+			background: rgba(255, 255, 255, 0.06);
+			color: #fff;
+		}
+
+		&.is-active {
+			background: linear-gradient(135deg, $brand, $brand-2);
+			color: #fff;
+		}
+
+		.dashicons {
+			font-size: 18px;
+			height: 18px;
+			width: 18px;
+		}
+	}
+}
+
+/* Main --------------------------------------------------------------------- */
+.pinspot-admin__main {
+	background: var(--bg);
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.pinspot-admin__topbar {
+	align-items: center;
+	display: flex;
+	gap: 10px;
+	justify-content: flex-end;
+	padding: 16px 28px 0;
+}
+
+.pinspot-iconbtn {
+	align-items: center;
+	background: var(--card);
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	color: var(--text);
+	cursor: pointer;
+	display: flex;
+	height: 34px;
+	justify-content: center;
+	width: 34px;
+}
+
+.pinspot-tag {
+	align-items: center;
+	border-radius: 8px;
+	display: inline-flex;
+	font-size: 13px;
+	font-weight: 600;
+	gap: 5px;
+	padding: 7px 12px;
+	text-decoration: none;
+
+	.dashicons {
+		font-size: 15px;
+		height: 15px;
+		width: 15px;
+	}
+
+	&--support {
+		background: var(--card);
+		border: 1px solid var(--border);
+		color: var(--text);
+	}
+
+	&--go {
+		background: linear-gradient(135deg, #f7b733, #fc8f00);
+		border: 0;
+		color: #fff;
+		cursor: pointer;
+	}
+
+	&--pro {
+		background: rgba(38, 174, 96, 0.14);
+		color: #1e9e57;
+	}
+}
+
+.pinspot-admin__content {
+	flex: 1;
+	padding: 20px 28px 32px;
+}
+
+/* Footer bar --------------------------------------------------------------- */
+.pinspot-admin__foot {
+	align-items: center;
+	background: var(--card);
+	border-top: 1px solid var(--border);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	justify-content: space-between;
+	margin: 0 28px 28px;
+	padding: 16px 20px;
+	border-radius: 12px;
+}
+
+.pinspot-admin__foot-msg {
+	align-items: center;
+	display: flex;
+	gap: 12px;
+
+	> .dashicons {
+		color: $brand-2;
+		font-size: 26px;
+		height: 26px;
+		width: 26px;
+	}
+
+	strong {
+		color: var(--text);
+		display: block;
+	}
+
+	span {
+		color: var(--muted);
+	}
+}
+
+.pinspot-admin__foot-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.pinspot-btn {
+	align-items: center;
+	background: var(--card);
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	color: var(--text);
+	display: inline-flex;
+	font-weight: 600;
+	gap: 6px;
+	padding: 8px 14px;
+	text-decoration: none;
+
+	.dashicons {
+		font-size: 15px;
+		height: 15px;
+		width: 15px;
+	}
+
+	&--review {
+		background: #f5a623;
+		border-color: transparent;
+		color: #fff;
+	}
+
+	&--donate {
+		background: $brand;
+		border-color: transparent;
+		color: #fff;
+	}
+}
+
+/* Cards & pages ------------------------------------------------------------ */
+.pinspot-card {
+	background: var(--card);
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	box-shadow: var(--shadow);
+	padding: 18px;
+}
+
+.pinspot-page__head {
+	margin-bottom: 20px;
+
+	h1 {
+		font-size: 24px;
+		margin: 0 0 4px;
+	}
+
+	p {
+		margin: 0;
+	}
+}
+
+.pinspot-section {
+	font-size: 13px;
+	letter-spacing: 0.06em;
+	margin: 26px 0 12px;
+	text-transform: uppercase;
+}
+
+.pinspot-center {
+	text-align: center;
+}
+
+.pinspot-muted {
+	color: var(--muted);
+}
+
+/* Stat tiles */
+.pinspot-stats {
+	display: grid;
+	gap: 14px;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.pinspot-stat {
+	align-items: center;
+	display: flex;
+	gap: 14px;
+}
+
+.pinspot-stat__icon {
+	align-items: center;
+	border-radius: 10px;
+	display: flex;
+	flex: 0 0 auto;
+	height: 44px;
+	justify-content: center;
+	width: 44px;
+
+	.dashicons {
+		font-size: 22px;
+		height: 22px;
+		width: 22px;
+	}
+
+	&.tone-a { background: rgba(58, 93, 240, 0.14); color: $brand; }
+	&.tone-b { background: rgba(123, 47, 247, 0.14); color: $brand-2; }
+	&.tone-c { background: rgba(245, 166, 35, 0.16); color: #e0921a; }
+	&.tone-d { background: rgba(38, 174, 96, 0.16); color: #1e9e57; }
+}
+
+.pinspot-stat__value {
+	font-size: 22px;
+	font-weight: 700;
+}
+
+.pinspot-stat__label {
+	color: var(--muted);
+	font-size: 13px;
+}
+
+/* Grids */
+.pinspot-grid {
+	display: grid;
+	gap: 14px;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+
+	&--3 {
+		grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	}
+}
+
+.pinspot-feature {
+	display: flex;
+	gap: 12px;
+}
+
+.pinspot-feature__icon {
+	align-items: center;
+	background: rgba(58, 93, 240, 0.1);
+	border-radius: 9px;
+	color: $brand;
+	display: flex;
+	flex: 0 0 auto;
+	height: 38px;
+	justify-content: center;
+	width: 38px;
+
+	&--pro {
+		background: linear-gradient(135deg, rgba(58, 93, 240, 0.16), rgba(123, 47, 247, 0.16));
+		color: $brand-2;
+	}
+}
+
+.pinspot-feature__title {
+	align-items: center;
+	color: var(--text);
+	display: flex;
+	font-weight: 700;
+	gap: 6px;
+
+	.pinspot-feature__on .dashicons {
+		color: #1e9e57;
+		font-size: 15px;
+		height: 15px;
+		width: 15px;
+	}
+}
+
+.pinspot-feature__body p {
+	margin: 4px 0 0;
+}
+
+/* Quick actions */
+.pinspot-action {
+	align-items: flex-start;
+	color: var(--text);
+	display: flex;
+	gap: 12px;
+	text-decoration: none;
+	transition: border-color 0.15s ease;
+
+	&:hover {
+		border-color: $brand;
+	}
+
+	p {
+		margin: 3px 0 0;
+	}
+}
+
+.pinspot-action__icon {
+	align-items: center;
+	background: rgba(123, 47, 247, 0.12);
+	border-radius: 9px;
+	color: $brand-2;
+	display: flex;
+	flex: 0 0 auto;
+	height: 38px;
+	justify-content: center;
+	width: 38px;
+}
+
+.pinspot-action__title {
+	font-weight: 700;
+}
+
+/* Overview CTA strip */
+.pinspot-cta {
+	align-items: center;
+	display: flex;
+	gap: 16px;
+	justify-content: space-between;
+	margin-top: 20px;
+
+	strong {
+		color: var(--text);
+		font-size: 15px;
+	}
+
+	p {
+		margin: 3px 0 0;
+	}
+}
+
+/* Blocks */
+.pinspot-block__top {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+
+.pinspot-block__icon {
+	align-items: center;
+	background: rgba(58, 93, 240, 0.1);
+	border-radius: 9px;
+	color: $brand;
+	display: flex;
+	height: 40px;
+	justify-content: center;
+	width: 40px;
+}
+
+.pinspot-block.is-pro .pinspot-block__icon {
+	background: rgba(123, 47, 247, 0.12);
+	color: $brand-2;
+}
+
+.pinspot-block__title {
+	color: var(--text);
+	font-weight: 700;
+	margin-bottom: 4px;
+}
+
+.pinspot-block p {
+	margin: 0;
+}
+
+.pinspot-pill {
+	align-items: center;
+	border-radius: 20px;
+	display: inline-flex;
+	font-size: 12px;
+	font-weight: 600;
+	gap: 4px;
+	padding: 3px 10px;
+
+	.dashicons {
+		font-size: 14px;
+		height: 14px;
+		width: 14px;
+	}
+
+	&--on { background: rgba(38, 174, 96, 0.14); color: #1e9e57; }
+	&--pro { background: rgba(123, 47, 247, 0.14); color: $brand-2; }
+}
+
+/* Settings */
+.pinspot-settings {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	max-width: 460px;
+}
+
+.pinspot-settings__actions {
+	margin-top: 4px;
+}
+
+/* Upgrade page ------------------------------------------------------------- */
+.pinspot-hero {
+	align-items: center;
+	background: linear-gradient(120deg, #26306a 0%, #3a2f8f 55%, #5b2fb0 100%);
+	border-radius: 16px;
+	color: #fff;
+	display: flex;
+	gap: 20px;
+	justify-content: space-between;
+	overflow: hidden;
+	padding: 34px 36px;
+}
+
+.pinspot-hero__body {
+	max-width: 620px;
+
+	h1 {
+		color: #fff;
+		font-size: 30px;
+		margin: 12px 0 8px;
+	}
+
+	p {
+		color: rgba(255, 255, 255, 0.82);
+		font-size: 15px;
+		margin: 0 0 18px;
+	}
+}
+
+.pinspot-hero__badge {
+	background: rgba(255, 255, 255, 0.16);
+	border-radius: 20px;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	padding: 5px 12px;
+	text-transform: uppercase;
+}
+
+.pinspot-hero__stats {
+	display: flex;
+	gap: 34px;
+	margin-bottom: 20px;
+
+	strong {
+		display: block;
+		font-size: 24px;
+	}
+
+	span {
+		color: rgba(255, 255, 255, 0.7);
+		font-size: 13px;
+	}
+}
+
+.pinspot-hero__cta {
+	align-items: center;
+	background: #fff;
+	border-radius: 10px;
+	color: #23206b;
+	display: inline-flex;
+	font-weight: 700;
+	gap: 6px;
+	padding: 12px 22px;
+	text-decoration: none;
+
+	.dashicons {
+		font-size: 17px;
+		height: 17px;
+		width: 17px;
+	}
+}
+
+.pinspot-hero__fine {
+	color: rgba(255, 255, 255, 0.7);
+	display: block;
+	font-size: 12px;
+	margin-top: 12px;
+}
+
+.pinspot-hero__art {
+	.dashicons {
+		color: rgba(255, 255, 255, 0.16);
+		font-size: 150px;
+		height: 150px;
+		width: 150px;
+	}
+}
+
+.pinspot-upgrade h2 {
+	font-size: 22px;
+	margin: 34px 0 6px;
+}
+
+/* Plans */
+.pinspot-plans {
+	display: grid;
+	gap: 16px;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	margin: 18px auto 0;
+	max-width: 860px;
+}
+
+.pinspot-plan {
+	text-align: center;
+
+	&.is-popular {
+		border-color: $brand;
+		box-shadow: 0 0 0 2px $brand, var(--shadow);
+		position: relative;
+	}
+}
+
+.pinspot-plan__tag {
+	background: $brand;
+	border-radius: 20px;
+	color: #fff;
+	font-size: 11px;
+	font-weight: 700;
+	left: 50%;
+	padding: 3px 12px;
+	position: absolute;
+	top: -11px;
+	transform: translateX(-50%);
+}
+
+.pinspot-plan__name {
+	color: $brand;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.pinspot-plan__price {
+	color: var(--text);
+	font-size: 34px;
+	font-weight: 800;
+	margin: 6px 0 2px;
+
+	span {
+		color: var(--muted);
+		font-size: 14px;
+		font-weight: 500;
+	}
+}
+
+.pinspot-plan__sites {
+	color: var(--muted);
+	margin-bottom: 14px;
+}
+
+.pinspot-plan__cta {
+	background: $brand;
+	border-radius: 8px;
+	color: #fff;
+	display: block;
+	font-weight: 700;
+	padding: 10px;
+	text-decoration: none;
+}
+
+.pinspot-plan.is-popular .pinspot-plan__cta {
+	background: linear-gradient(135deg, $brand, $brand-2);
+}
+
+/* Compare table */
+.pinspot-compare {
+	margin: 18px auto 0;
+	max-width: 780px;
+	overflow-x: auto;
+	padding: 6px 8px;
+
+	table {
+		border-collapse: collapse;
+		width: 100%;
+	}
+
+	th,
+	td {
+		padding: 12px 14px;
+		text-align: left;
+	}
+
+	thead th {
+		border-bottom: 1px solid var(--border);
+		color: var(--muted);
+		font-size: 12px;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+
+	th:nth-child(2),
+	th:nth-child(3),
+	td:nth-child(2),
+	td:nth-child(3) {
+		text-align: center;
+		width: 90px;
+	}
+
+	tbody tr {
+		border-bottom: 1px solid var(--border);
+	}
+
+	td {
+		color: var(--text);
+	}
+
+	.yes .dashicons { color: #1e9e57; }
+	.no .dashicons { color: rgba(120, 120, 140, 0.5); }
+}
+
+/* FAQ */
+.pinspot-faq {
+	margin: 18px auto 0;
+	max-width: 780px;
+}
+
+.pinspot-faq__item {
+	background: var(--card);
+	border: 1px solid var(--border);
+	border-radius: 10px;
+	margin-bottom: 8px;
+
+	button {
+		align-items: center;
+		background: transparent;
+		border: 0;
+		color: var(--text);
+		cursor: pointer;
+		display: flex;
+		font-size: 14px;
+		font-weight: 600;
+		justify-content: space-between;
+		padding: 14px 16px;
+		text-align: left;
+		width: 100%;
+	}
+
+	p {
+		margin: 0;
+		padding: 0 16px 14px;
+	}
+}
+
+.pinspot-upgrade__foot {
+	margin-top: 30px;
+}
+
+/* Responsive --------------------------------------------------------------- */
+@media (max-width: 782px) {
+	.pinspot-admin {
+		margin-left: -10px;
+	}
+
+	.pinspot-admin__sidebar {
+		flex-basis: 76px;
+		padding: 16px 10px;
+	}
+
+	.pinspot-admin__name,
+	.pinspot-admin__version,
+	.pinspot-admin__nav button span {
+		display: none;
+	}
+
+	.pinspot-admin__nav button {
+		justify-content: center;
+	}
+
+	.pinspot-hero {
+		flex-direction: column;
+		text-align: center;
+	}
+
+	.pinspot-hero__art {
+		display: none;
+	}
+}

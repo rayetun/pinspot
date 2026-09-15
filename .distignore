@@ -17,6 +17,7 @@
 /.nvmrc
 /.distignore
 /phpcs.xml.dist
+/webpack.config.js
 /composer.json
 /composer.lock
 /package.json

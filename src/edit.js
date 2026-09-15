@@ -208,11 +208,16 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 		const point = pointFromEvent( event );
 		const id = `hs-${ Date.now().toString( 36 ) }-${ hotspots.length }`;
 
+		// Inherit the site-wide default marker color (Settings dashboard).
+		const defaultColor = ( window.pinspotSettings || {} )
+			.defaultMarkerColor;
+		const base = { id, ...point, title: '', description: '' };
+		if ( defaultColor && '#3a5df0' !== defaultColor ) {
+			base.markerColor = defaultColor;
+		}
+
 		setAttributes( {
-			hotspots: [
-				...hotspots,
-				{ id, ...point, title: '', description: '' },
-			],
+			hotspots: [ ...hotspots, base ],
 		} );
 		setSelectedId( id );
 		setIsPlacing( false );

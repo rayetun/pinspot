@@ -39,6 +39,11 @@ final class Pinspot_Plugin {
 	private function __construct() {
 		add_action( 'init', array( $this, 'register_block' ) );
 		add_action( 'init', array( $this, 'register_patterns' ) );
+
+		// Admin dashboard + settings REST (menu/enqueue self-scope to admin;
+		// REST registers for both admin and REST requests).
+		require_once PINSPOT_DIR . 'includes/class-pinspot-admin.php';
+		new Pinspot_Admin();
 	}
 
 	/**
