@@ -589,6 +589,15 @@ function Upgrade() {
 			<div className="pinspot-hero">
 				<div className="pinspot-hero__body">
 					<span className="pinspot-hero__badge">
+						<svg
+							width="13"
+							height="13"
+							viewBox="0 0 24 24"
+							fill="currentColor"
+							aria-hidden="true"
+						>
+							<path d="M3 6l4.5 4L12 3l4.5 7L21 6l-1.7 11H4.7L3 6zm1.7 13h14.6v2.2H4.7z" />
+						</svg>
 						{ __( 'PinSpot Pro', 'pinspot' ) }
 					</span>
 					<h1>{ __( 'Turn images into sales', 'pinspot' ) }</h1>
@@ -819,11 +828,31 @@ export default function App() {
 							setTheme( theme === 'light' ? 'dark' : 'light' )
 						}
 					>
-						<Dashicon
-							icon={
-								theme === 'light' ? 'lightbulb' : 'sunglasses'
-							}
-						/>
+						{ theme === 'light' ? (
+							<svg
+								width="18"
+								height="18"
+								viewBox="0 0 24 24"
+								fill="currentColor"
+								aria-hidden="true"
+							>
+								<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+							</svg>
+						) : (
+							<svg
+								width="18"
+								height="18"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth="1.9"
+								strokeLinecap="round"
+								aria-hidden="true"
+							>
+								<circle cx="12" cy="12" r="4" />
+								<path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8" />
+							</svg>
+						) }
 					</button>
 					{ links.support && (
 						<a
@@ -843,18 +872,16 @@ export default function App() {
 
 				<footer className="pinspot-admin__foot">
 					<div className="pinspot-admin__foot-msg">
-						<Dashicon icon="heart" />
-						<div>
-							<strong>
-								{ __( 'Enjoying PinSpot?', 'pinspot' ) }
-							</strong>
-							<span>
-								{ __(
-									'PinSpot is free and built by an independent developer. A review or small donation keeps it maintained.',
-									'pinspot'
-								) }
-							</span>
-						</div>
+						<strong>
+							<Dashicon icon="heart" />
+							{ __( 'Enjoying PinSpot?', 'pinspot' ) }
+						</strong>
+						<span>
+							{ __(
+								'PinSpot is free and built by an independent developer. A review or small donation keeps it maintained.',
+								'pinspot'
+							) }
+						</span>
 					</div>
 					<div className="pinspot-admin__foot-actions">
 						{ links.review && (

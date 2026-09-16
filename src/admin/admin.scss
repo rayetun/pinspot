@@ -160,6 +160,10 @@ $sidebar: #171e3f;
 	height: 34px;
 	justify-content: center;
 	width: 34px;
+
+	.dashicons {
+		color: var(--text);
+	}
 }
 
 .pinspot-tag {
@@ -206,31 +210,34 @@ $sidebar: #171e3f;
 .pinspot-admin__foot {
 	align-items: center;
 	background: var(--card);
-	border-top: 1px solid var(--border);
-	display: flex;
-	flex-wrap: wrap;
-	gap: 16px;
-	justify-content: space-between;
-	margin: 0 28px 28px;
-	padding: 16px 20px;
+	border: 1px solid var(--border);
 	border-radius: 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	margin: 4px 28px 28px;
+	padding: 20px;
+	text-align: center;
 }
 
 .pinspot-admin__foot-msg {
 	align-items: center;
 	display: flex;
-	gap: 12px;
-
-	> .dashicons {
-		color: $brand-2;
-		font-size: 26px;
-		height: 26px;
-		width: 26px;
-	}
+	flex-direction: column;
+	gap: 4px;
 
 	strong {
+		align-items: center;
 		color: var(--text);
-		display: block;
+		display: inline-flex;
+		gap: 8px;
+
+		.dashicons {
+			color: $brand-2;
+			font-size: 20px;
+			height: 20px;
+			width: 20px;
+		}
 	}
 
 	span {
@@ -525,6 +532,20 @@ $sidebar: #171e3f;
 	margin-top: 4px;
 }
 
+// wp-components labels default to dark text; recolor them on the dark card.
+.theme-dark .pinspot-settings {
+	.components-base-control__label,
+	.components-input-control__label,
+	label,
+	.components-color-palette__custom-color-name {
+		color: var(--text);
+	}
+
+	.components-color-palette__custom-color-value {
+		color: var(--muted);
+	}
+}
+
 /* Upgrade page ------------------------------------------------------------- */
 .pinspot-hero {
 	align-items: center;
@@ -544,24 +565,31 @@ $sidebar: #171e3f;
 	h1 {
 		color: #fff;
 		font-size: 30px;
-		margin: 12px 0 8px;
+		margin: 18px 0 14px;
 	}
 
 	p {
 		color: rgba(255, 255, 255, 0.82);
 		font-size: 15px;
-		margin: 0 0 18px;
+		margin: 0 0 24px;
 	}
 }
 
 .pinspot-hero__badge {
+	align-items: center;
 	background: rgba(255, 255, 255, 0.16);
 	border-radius: 20px;
+	display: inline-flex;
 	font-size: 12px;
 	font-weight: 700;
+	gap: 6px;
 	letter-spacing: 0.04em;
 	padding: 5px 12px;
 	text-transform: uppercase;
+
+	svg {
+		color: #ffd54a;
+	}
 }
 
 .pinspot-hero__stats {
@@ -616,7 +644,7 @@ $sidebar: #171e3f;
 
 .pinspot-upgrade h2 {
 	font-size: 22px;
-	margin: 34px 0 6px;
+	margin: 42px 0 20px;
 }
 
 /* Plans */
@@ -655,6 +683,7 @@ $sidebar: #171e3f;
 	color: $brand;
 	font-weight: 700;
 	letter-spacing: 0.04em;
+	margin-bottom: 8px;
 	text-transform: uppercase;
 }
 
@@ -688,6 +717,35 @@ $sidebar: #171e3f;
 
 .pinspot-plan.is-popular .pinspot-plan__cta {
 	background: linear-gradient(135deg, $brand, $brand-2);
+}
+
+/* Keep our link-buttons' own text color on hover (WP admin turns links blue). */
+.pinspot-plan__cta:hover,
+.pinspot-plan__cta:focus {
+	color: #fff;
+	opacity: 0.94;
+}
+
+.pinspot-hero__cta:hover,
+.pinspot-hero__cta:focus {
+	color: #23206b;
+}
+
+.pinspot-btn:hover,
+.pinspot-btn:focus {
+	color: var(--text);
+}
+
+.pinspot-btn--review:hover,
+.pinspot-btn--review:focus,
+.pinspot-btn--donate:hover,
+.pinspot-btn--donate:focus {
+	color: #fff;
+}
+
+.pinspot-action:hover,
+.pinspot-action:focus {
+	color: var(--text);
 }
 
 /* Compare table */
