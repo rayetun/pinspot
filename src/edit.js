@@ -395,6 +395,7 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 						existingGroups={ existingGroups }
 						canPasteStyle={ !! copiedStyle }
 						hotspotCount={ hotspots.length }
+						isArea={ isShape( selectedHotspot ) }
 						onChange={ ( changes ) =>
 							updateHotspot( selectedHotspot.id, changes )
 						}
@@ -820,6 +821,7 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 						tool={ tool }
 						setTool={ setTool }
 						pointFromEvent={ pointFromEvent }
+						canvasRef={ canvasRef }
 						onSelect={ setSelectedId }
 						onCommit={ commitShape }
 						onUpdate={ updateHotspot }

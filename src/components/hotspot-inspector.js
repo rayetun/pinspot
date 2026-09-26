@@ -91,6 +91,7 @@ export default function HotspotInspector( {
 	existingGroups = [],
 	canPasteStyle = false,
 	hotspotCount = 1,
+	isArea = false,
 	onChange,
 	onRemove,
 	onCopyStyle,
@@ -286,17 +287,25 @@ export default function HotspotInspector( {
 			</PanelBody>
 
 			<PanelBody
-				title={ __( 'Marker', 'pinspot' ) }
+				title={
+					isArea
+						? __( 'Area style', 'pinspot' )
+						: __( 'Marker', 'pinspot' )
+				}
 				initialOpen={ false }
 			>
-				<SelectControl
-					__next40pxDefaultSize
-					__nextHasNoMarginBottom
-					label={ __( 'Style', 'pinspot' ) }
-					value={ hotspot.markerStyle || 'number' }
-					options={ MARKER_STYLE_OPTIONS }
-					onChange={ ( markerStyle ) => onChange( { markerStyle } ) }
-				/>
+				{ ! isArea && (
+					<SelectControl
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+						label={ __( 'Style', 'pinspot' ) }
+						value={ hotspot.markerStyle || 'number' }
+						options={ MARKER_STYLE_OPTIONS }
+						onChange={ ( markerStyle ) =>
+							onChange( { markerStyle } )
+						}
+					/>
+				) }
 				{ 'emoji' === hotspot.markerStyle && (
 					<>
 						<TextControl
@@ -391,14 +400,18 @@ export default function HotspotInspector( {
 						</MediaUploadCheck>
 					</BaseControl>
 				) }
-				<SelectControl
-					__next40pxDefaultSize
-					__nextHasNoMarginBottom
-					label={ __( 'Size', 'pinspot' ) }
-					value={ hotspot.markerSize || 'medium' }
-					options={ MARKER_SIZE_OPTIONS }
-					onChange={ ( markerSize ) => onChange( { markerSize } ) }
-				/>
+				{ ! isArea && (
+					<SelectControl
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+						label={ __( 'Size', 'pinspot' ) }
+						value={ hotspot.markerSize || 'medium' }
+						options={ MARKER_SIZE_OPTIONS }
+						onChange={ ( markerSize ) =>
+							onChange( { markerSize } )
+						}
+					/>
+				) }
 				<BaseControl
 					__nextHasNoMarginBottom
 					label={ __( 'Color', 'pinspot' ) }
@@ -413,18 +426,20 @@ export default function HotspotInspector( {
 						enableAlpha={ false }
 					/>
 				</BaseControl>
-				<SelectControl
-					__next40pxDefaultSize
-					__nextHasNoMarginBottom
-					label={ __( 'Animation', 'pinspot' ) }
-					value={ hotspot.animation || '' }
-					options={ ANIMATION_OPTIONS }
-					onChange={ ( animation ) => onChange( { animation } ) }
-					help={ __(
-						'Shown on the site. Respects reduced-motion preferences.',
-						'pinspot'
-					) }
-				/>
+				{ ! isArea && (
+					<SelectControl
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+						label={ __( 'Animation', 'pinspot' ) }
+						value={ hotspot.animation || '' }
+						options={ ANIMATION_OPTIONS }
+						onChange={ ( animation ) => onChange( { animation } ) }
+						help={ __(
+							'Shown on the site. Respects reduced-motion preferences.',
+							'pinspot'
+						) }
+					/>
+				) }
 				<BaseControl
 					__nextHasNoMarginBottom
 					label={ __( 'Reuse this style', 'pinspot' ) }

@@ -126,7 +126,7 @@ $pinspot_shape_geometry = static function ( $hotspot ) {
 		'y'     => $by,
 		'w'     => $boxw,
 		'h'     => $boxh,
-		'clip'  => 'circle' === $shape ? 'ellipse(50% 50% at 50% 50%)' : '',
+		'clip'  => 'circle' === $shape ? 'circle(closest-side at 50% 50%)' : '',
 		'cx'    => $bx + $boxw / 2,
 		'cy'    => $by + $boxh / 2,
 	);
