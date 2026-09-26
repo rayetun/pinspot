@@ -776,6 +776,12 @@ export default function App() {
 		upgrade: <Upgrade />,
 	};
 
+	// The upsell (nav tab + page) disappears entirely once Pro is licensed.
+	const navItems = data.proActive
+		? NAV.filter( ( n ) => n.id !== 'upgrade' )
+		: NAV;
+	const activePage = data.proActive && page === 'upgrade' ? 'overview' : page;
+
 	return (
 		<div className={ `pinspot-admin theme-${ theme }` }>
 			<aside className="pinspot-admin__sidebar">
@@ -789,11 +795,11 @@ export default function App() {
 					</span>
 				</div>
 				<nav className="pinspot-admin__nav">
-					{ NAV.map( ( n ) => (
+					{ navItems.map( ( n ) => (
 						<button
 							key={ n.id }
 							type="button"
-							className={ page === n.id ? 'is-active' : '' }
+							className={ activePage === n.id ? 'is-active' : '' }
 							onClick={ () => setPage( n.id ) }
 						>
 							<Dashicon icon={ n.icon } />
@@ -867,7 +873,7 @@ export default function App() {
 				</header>
 
 				<main className="pinspot-admin__content">
-					{ PAGES[ page ] }
+					{ PAGES[ activePage ] }
 				</main>
 
 				<footer className="pinspot-admin__foot">
