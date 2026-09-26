@@ -41,6 +41,77 @@
 		margin-bottom: 8px;
 	}
 
+	// --- Draw-area overlay (polygon / rectangle / circle). ---
+	.pinspot__canvas.is-drawing {
+		cursor: crosshair;
+	}
+
+	.pinspot-editor__shapes {
+		height: 100%;
+		inset: 0;
+		overflow: visible;
+		pointer-events: none; // empty areas pass clicks to the canvas
+		position: absolute;
+		width: 100%;
+	}
+
+	.pinspot-editor__shape {
+		cursor: move;
+		fill-opacity: 0.28;
+		pointer-events: auto;
+		stroke-opacity: 0.9;
+		stroke-width: 1.5;
+		vector-effect: non-scaling-stroke;
+
+		&.is-selected {
+			fill-opacity: 0.42;
+			stroke-width: 2.5;
+		}
+	}
+
+	.pinspot-editor__capture {
+		cursor: crosshair;
+		fill: transparent;
+		pointer-events: all;
+	}
+
+	.pinspot-editor__draft {
+		fill: var(--wp-admin-theme-color, #3858e9);
+		fill-opacity: 0.18;
+		pointer-events: none;
+		stroke: var(--wp-admin-theme-color, #3858e9);
+		stroke-dasharray: 3 2;
+		stroke-width: 1.5;
+		vector-effect: non-scaling-stroke;
+	}
+
+	polyline.pinspot-editor__draft {
+		fill: none;
+	}
+
+	.pinspot-editor__draft-dot {
+		fill: var(--wp-admin-theme-color, #3858e9);
+		pointer-events: none;
+	}
+
+	.pinspot-editor__handle {
+		background: #fff;
+		border: 2px solid var(--wp-admin-theme-color, #3858e9);
+		border-radius: 2px;
+		cursor: pointer;
+		height: 12px;
+		padding: 0;
+		position: absolute;
+		touch-action: none;
+		transform: translate(-50%, -50%);
+		width: 12px;
+		z-index: 5;
+
+		&:hover {
+			background: var(--wp-admin-theme-color, #3858e9);
+		}
+	}
+
 	// On-canvas editable tooltip for the selected hotspot.
 	.pinspot__edit-tip {
 		background: #fff;

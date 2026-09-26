@@ -15,6 +15,8 @@ import {
 } from '@wordpress/block-editor';
 import {
 	ToolbarButton,
+	ToolbarGroup,
+	ToolbarDropdownMenu,
 	Notice,
 	PanelBody,
 	SelectControl,
@@ -29,6 +31,8 @@ import HotspotInspector from './components/hotspot-inspector';
 import HotspotList from './components/hotspot-list';
 import HotspotTooltipEditor from './components/hotspot-tooltip-editor';
 import ImportExport from './components/import-export';
+import ShapeLayer from './components/shape-layer';
+import { isShape } from './lib/shape-geometry';
 
 const clampPct = ( value ) =>
 	Math.min( 100, Math.max( 0, Math.round( value * 100 ) / 100 ) );
@@ -121,6 +125,7 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 	} = attributes;
 	const [ palette ] = useSettings( 'color.palette' );
 	const [ isPlacing, setIsPlacing ] = useState( false );
+	const [ tool, setTool ] = useState( null ); // null | 'polygon' | 'rect' | 'circle'
 	const [ selectedId, setSelectedId ] = useState( null );
 	const [ drag, setDrag ] = useState( null );
 	const [ copiedStyle, setCopiedStyle ] = useState( null );
@@ -200,7 +205,17 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 		};
 	};
 
+	// Add a shape hotspot (from the draw tools) and select it.
+	const commitShape = ( shape ) => {
+		setAttributes( { hotspots: [ ...hotspots, shape ] } );
+		setSelectedId( shape.id );
+	};
+
 	const onCanvasClick = ( event ) => {
+		// While a draw tool is active, the shape layer owns pointer handling.
+		if ( tool ) {
+			return;
+		}
 		if ( ! isPlacing ) {
 			setSelectedId( null );
 			return;
@@ -323,8 +338,53 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 					icon="plus-alt2"
 					label={ __( 'Add hotspot', 'pinspot' ) }
 					isPressed={ isPlacing }
-					onClick={ () => setIsPlacing( ! isPlacing ) }
+					onClick={ () => {
+						setTool( null );
+						setIsPlacing( ! isPlacing );
+					} }
 				/>
+				<ToolbarGroup>
+					<ToolbarDropdownMenu
+						icon="editor-customchar"
+						label={ __( 'Draw area', 'pinspot' ) }
+						controls={ [
+							{
+								title: __( 'Rectangle', 'pinspot' ),
+								icon: 'grid-view',
+								isActive: tool === 'rect',
+								onClick: () => {
+									setIsPlacing( false );
+									setSelectedId( null );
+									setTool( tool === 'rect' ? null : 'rect' );
+								},
+							},
+							{
+								title: __( 'Circle', 'pinspot' ),
+								icon: 'marker',
+								isActive: tool === 'circle',
+								onClick: () => {
+									setIsPlacing( false );
+									setSelectedId( null );
+									setTool(
+										tool === 'circle' ? null : 'circle'
+									);
+								},
+							},
+							{
+								title: __( 'Polygon', 'pinspot' ),
+								icon: 'admin-customizer',
+								isActive: tool === 'polygon',
+								onClick: () => {
+									setIsPlacing( false );
+									setSelectedId( null );
+									setTool(
+										tool === 'polygon' ? null : 'polygon'
+									);
+								},
+							},
+						] }
+					/>
+				</ToolbarGroup>
 			</BlockControls>
 
 			<InspectorControls>
@@ -659,9 +719,28 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 						) }
 					</Notice>
 				) }
+				{ isSelected && tool && (
+					<Notice
+						status="info"
+						isDismissible={ false }
+						className="pinspot-placing-notice"
+					>
+						{ tool === 'polygon'
+							? __(
+									'Click to add each point; click the first point again, double-click, or press Enter to finish. Press Escape to cancel.',
+									'pinspot'
+							  )
+							: __(
+									'Drag on the image to draw the area. Press Escape to cancel.',
+									'pinspot'
+							  ) }
+					</Notice>
+				) }
 				{ /* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */ }
 				<div
-					className="pinspot__canvas"
+					className={
+						'pinspot__canvas' + ( tool ? ' is-drawing' : '' )
+					}
 					onClick={ onCanvasClick }
 					role="application"
 					aria-label={ __( 'Hotspot placement canvas', 'pinspot' ) }
@@ -673,6 +752,10 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 						alt={ imageAlt }
 					/>
 					{ hotspots.map( ( hotspot, index ) => {
+						// Draw-area shapes are rendered by ShapeLayer, not as markers.
+						if ( isShape( hotspot ) ) {
+							return null;
+						}
 						const isDraggingThis =
 							drag && drag.id === hotspot.id && drag.moved;
 						const x = isDraggingThis ? drag.x : hotspot.x;
@@ -731,14 +814,30 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 							</button>
 						);
 					} ) }
-					{ selectedHotspot && ! isPlacing && ! drag && (
-						<HotspotTooltipEditor
-							hotspot={ selectedHotspot }
-							onChange={ ( changes ) =>
-								updateHotspot( selectedHotspot.id, changes )
-							}
-						/>
-					) }
+					<ShapeLayer
+						hotspots={ hotspots }
+						selectedId={ selectedId }
+						tool={ tool }
+						setTool={ setTool }
+						pointFromEvent={ pointFromEvent }
+						onSelect={ setSelectedId }
+						onCommit={ commitShape }
+						onUpdate={ updateHotspot }
+						defaultColor={
+							( window.pinspotSettings || {} ).defaultMarkerColor
+						}
+					/>
+					{ selectedHotspot &&
+						! isShape( selectedHotspot ) &&
+						! isPlacing &&
+						! drag && (
+							<HotspotTooltipEditor
+								hotspot={ selectedHotspot }
+								onChange={ ( changes ) =>
+									updateHotspot( selectedHotspot.id, changes )
+								}
+							/>
+						) }
 				</div>
 			</figure>
 		</>
