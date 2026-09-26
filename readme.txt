@@ -1,7 +1,7 @@
 === PinSpot - Interactive Image Hotspots ===
 Contributors: rayetun
 Donate link: https://wise.com/pay/me/mdrayhanu2
-Tags: image hotspot, image map, lightbox tooltip, interactive image, visual pins
+Tags: image hotspot, image map, hotspot, interactive images, floor plan
 Requires at least: 6.6
 Tested up to: 7.0
 Requires PHP: 7.4
@@ -9,11 +9,11 @@ Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Turn any image into an interactive experience. Add hotspot pins with rich, accessible tooltips — text, media, video, links, zoom, and lightbox.
+Interactive image hotspots and image maps — clickable pins with rich, accessible tooltips: video, lightbox, zoom, guided tours, and filters.
 
 == Description ==
 
-📌 **PinSpot** turns a flat image into something people explore. Drop pins anywhere on a photo, map, diagram, or product shot — each pin opens a polished, accessible tooltip with a title, description, image or video, and a call-to-action button.
+📌 **PinSpot** turns a flat image into an **interactive image map** people can explore. Drop hotspot pins anywhere on a photo, floor plan, diagram, map, or product shot — each pin opens a polished, accessible tooltip with a title, description, image or video, and a call-to-action button.
 
 It is a single native block built the modern WordPress way — on the Interactivity API, the same technology that powers WordPress core blocks. No jQuery, no shortcodes, no page builder required. The frontend script is under 4 KB and only loads on pages that actually use a hotspot, so it never slows the rest of your site down.
 
@@ -32,11 +32,12 @@ It is a single native block built the modern WordPress way — on the Interactiv
 
 = 🎯 What you can build =
 
-* 🛍️ **Shoppable & product images** — call out features with numbered pins and “Buy now” buttons.
-* 👥 **Team & about pages** — reveal names and roles on hover.
-* 🗺️ **Maps, campus & floor plans** — a zoomable, pannable image with pins visitors can explore.
+* 🏡 **Real-estate floor plans & property tours** — annotate rooms, floors, and features on a plan or photo so buyers can explore.
+* 🛍️ **Shoppable & WooCommerce product images** — call out features with numbered pins and “Buy now” buttons.
+* 🗺️ **Interactive maps, campus & venue guides** — a zoomable, pannable image map with pins visitors can explore.
+* 🎪 **Trade-show & event floor maps** — show booths, stages, and exhibitors on an interactive map.
 * 📊 **Infographics & diagrams** — explain each part in place, without cluttering the graphic.
-* 🏡 **Real-estate & travel** — annotate rooms, landmarks, and points of interest.
+* 👥 **Team & about pages** — reveal names and roles on hover.
 
 = 💬 Rich, flexible tooltips =
 
