@@ -54,6 +54,47 @@
 		}
 	}
 
+	// Draw-area shapes: the hotspot wrapper becomes its bounding box (set
+	// inline) and the shaped button fills it, clipped to the region via an
+	// inline clip-path. Shapes scale with the image, so they are not
+	// counter-scaled for zoom the way point markers are.
+	.pinspot__hotspot--shape {
+		transform: none;
+	}
+
+	.pinspot__shape {
+		background: var(--pinspot-shape-color, #3a5df0);
+		border: 0;
+		cursor: pointer;
+		display: block;
+		height: 100%;
+		margin: 0;
+		opacity: 0.28;
+		padding: 0;
+		transition: opacity 0.15s ease, filter 0.15s ease;
+		width: 100%;
+
+		&:hover {
+			opacity: 0.45;
+		}
+
+		// clip-path also clips an outline, so use a drop-shadow glow that
+		// follows the shape for a visible keyboard-focus indicator.
+		&:focus-visible {
+			opacity: 0.5;
+			filter: drop-shadow(0 0 3px var(--pinspot-shape-color, #3a5df0));
+			outline: none;
+		}
+	}
+
+	.pinspot__hotspot--shape.is-open .pinspot__shape {
+		opacity: 0.5;
+	}
+
+	.pinspot__hotspot--shape-rect .pinspot__shape {
+		border-radius: 2px;
+	}
+
 	.pinspot__marker {
 		align-items: center;
 		background: var(--pinspot-marker-color, #3a5df0);

@@ -23,6 +23,29 @@ const openTourHotspot = ( context, id ) => {
 		context.ty = 0;
 	}
 	context.openId = id;
+	emitOpen( id );
+};
+
+// Notify add-ons (e.g. PinSpot Pro analytics) that a hotspot or draw-area
+// opened, so they can observe engagement without forking this store. The event
+// bubbles from the opened element up to the block root; listen on `document`.
+const emitOpen = ( id ) => {
+	if ( ! id ) {
+		return;
+	}
+	try {
+		const { ref } = getElement();
+		if ( ref && ref.dispatchEvent ) {
+			ref.dispatchEvent(
+				new CustomEvent( 'pinspot:open', {
+					bubbles: true,
+					detail: { id },
+				} )
+			);
+		}
+	} catch ( e ) {
+		// getElement() is only valid inside an action; ignore otherwise.
+	}
 };
 
 // Pan/pinch pointer bookkeeping (transient, non-reactive).
@@ -128,6 +151,9 @@ store(
 					context.ty = 0;
 				}
 				context.openId = opening ? context.id : '';
+					if ( opening ) {
+						emitOpen( context.id );
+					}
 			},
 			hoverOpen() {
 				const context = getContext();
@@ -136,6 +162,7 @@ store(
 				}
 				clearTimeout( hoverTimers.get( context.id ) );
 				hoverTimers.delete( context.id );
+					emitOpen( context.id );
 				context.openId = context.id;
 			},
 			hoverClose( event ) {

@@ -45,6 +45,93 @@ $pinspot_embed_data = static function ( $type, $url ) {
 	);
 };
 
+/**
+ * Resolve a hotspot's shape geometry into a positioned bounding box plus an
+ * optional CSS clip-path, all in image-percentage units. Areas are drawn as a
+ * shaped <button> (clip-path also clips pointer hit-testing) inside the same
+ * hotspot wrapper as a pin, so tooltips, filters, tour, and every extension
+ * hook work unchanged.
+ *
+ * @param array $hotspot The hotspot data.
+ * @return array|null { shape, x, y, w, h, clip, cx, cy } or null when it is a
+ *                    pin or the geometry is invalid (caller falls back to a pin).
+ */
+$pinspot_shape_geometry = static function ( $hotspot ) {
+	$shape = isset( $hotspot['shape'] ) ? (string) $hotspot['shape'] : 'pin';
+	if ( ! in_array( $shape, array( 'rect', 'circle', 'polygon' ), true ) ) {
+		return null;
+	}
+
+	$clampf = static function ( $v ) {
+		return max( 0.0, min( 100.0, (float) $v ) );
+	};
+
+	if ( 'polygon' === $shape ) {
+		$points = ( isset( $hotspot['points'] ) && is_array( $hotspot['points'] ) ) ? $hotspot['points'] : array();
+		$xs     = array();
+		$ys     = array();
+		foreach ( $points as $point ) {
+			if ( is_array( $point ) && isset( $point['x'], $point['y'] ) ) {
+				$xs[] = $clampf( $point['x'] );
+				$ys[] = $clampf( $point['y'] );
+			}
+		}
+		if ( count( $xs ) < 3 ) {
+			return null; // A polygon needs at least three points.
+		}
+		$minx = min( $xs );
+		$miny = min( $ys );
+		$boxw = max( 0.01, max( $xs ) - $minx );
+		$boxh = max( 0.01, max( $ys ) - $miny );
+
+		$clip_points = array();
+		$count       = count( $xs );
+		$sumx        = 0.0;
+		$sumy        = 0.0;
+		for ( $i = 0; $i < $count; $i++ ) {
+			$clip_points[] = sprintf(
+				'%s%% %s%%',
+				rtrim( rtrim( sprintf( '%.2F', ( ( $xs[ $i ] - $minx ) / $boxw ) * 100 ), '0' ), '.' ),
+				rtrim( rtrim( sprintf( '%.2F', ( ( $ys[ $i ] - $miny ) / $boxh ) * 100 ), '0' ), '.' )
+			);
+			$sumx += $xs[ $i ];
+			$sumy += $ys[ $i ];
+		}
+
+		return array(
+			'shape' => 'polygon',
+			'x'     => $minx,
+			'y'     => $miny,
+			'w'     => $boxw,
+			'h'     => $boxh,
+			'clip'  => 'polygon(' . implode( ', ', $clip_points ) . ')',
+			'cx'    => $sumx / $count,
+			'cy'    => $sumy / $count,
+		);
+	}
+
+	// rect and circle share a bounding-box model; circle is an inscribed ellipse.
+	$box = ( isset( $hotspot['rect'] ) && is_array( $hotspot['rect'] ) ) ? $hotspot['rect'] : array();
+	if ( ! isset( $box['x'], $box['y'], $box['w'], $box['h'] ) ) {
+		return null;
+	}
+	$bx   = $clampf( $box['x'] );
+	$by   = $clampf( $box['y'] );
+	$boxw = max( 0.01, min( 100.0 - $bx, (float) $box['w'] ) );
+	$boxh = max( 0.01, min( 100.0 - $by, (float) $box['h'] ) );
+
+	return array(
+		'shape' => $shape,
+		'x'     => $bx,
+		'y'     => $by,
+		'w'     => $boxw,
+		'h'     => $boxh,
+		'clip'  => 'circle' === $shape ? 'ellipse(50% 50% at 50% 50%)' : '',
+		'cx'    => $bx + $boxw / 2,
+		'cy'    => $by + $boxh / 2,
+	);
+};
+
 $pinspot_image_alt = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
 $pinspot_hotspots  = ( isset( $attributes['hotspots'] ) && is_array( $attributes['hotspots'] ) ) ? $attributes['hotspots'] : array();
 
@@ -247,6 +334,14 @@ do_action( 'pinspot_render_before', $attributes );
 				$pinspot_desc  = isset( $pinspot_hotspot['description'] ) ? (string) $pinspot_hotspot['description'] : '';
 				$pinspot_num   = $pinspot_index + 1;
 
+				// Draw-area geometry: null for a pin (or invalid shape → pin).
+				$pinspot_geo = $pinspot_shape_geometry( $pinspot_hotspot );
+				if ( $pinspot_geo ) {
+					// The tooltip anchors at the shape's centre.
+					$pinspot_x = $pinspot_geo['cx'];
+					$pinspot_y = $pinspot_geo['cy'];
+				}
+
 				// Marker appearance.
 				$pinspot_marker_style = isset( $pinspot_hotspot['markerStyle'] ) ? (string) $pinspot_hotspot['markerStyle'] : 'number';
 				$pinspot_marker_size  = isset( $pinspot_hotspot['markerSize'] ) ? (string) $pinspot_hotspot['markerSize'] : 'medium';
@@ -361,8 +456,8 @@ do_action( 'pinspot_render_before', $attributes );
 				}
 				?>
 				<div
-					class="<?php echo esc_attr( $pinspot_hotspot_classes ); ?>"
-					style="<?php echo esc_attr( sprintf( 'left:%F%%;top:%F%%;', $pinspot_x, $pinspot_y ) ); ?>"
+					class="<?php echo esc_attr( $pinspot_geo ? $pinspot_hotspot_classes . ' pinspot__hotspot--shape pinspot__hotspot--shape-' . $pinspot_geo['shape'] : $pinspot_hotspot_classes ); ?>"
+					style="<?php echo esc_attr( $pinspot_geo ? sprintf( 'left:%F%%;top:%F%%;width:%F%%;height:%F%%;', $pinspot_geo['x'], $pinspot_geo['y'], $pinspot_geo['w'], $pinspot_geo['h'] ) : sprintf( 'left:%F%%;top:%F%%;', $pinspot_x, $pinspot_y ) ); ?>"
 					<?php echo wp_kses_data( wp_interactivity_data_wp_context( $pinspot_hotspot_context ) ); ?>
 					data-wp-class--is-open="state.isOpen"
 					<?php if ( $pinspot_has_filters ) : ?>
@@ -378,16 +473,29 @@ do_action( 'pinspot_render_before', $attributes );
 				>
 					<button
 						type="button"
-						class="<?php echo esc_attr( $pinspot_marker_classes ); ?>"
-						<?php if ( $pinspot_marker_color ) : ?>
-						style="<?php echo esc_attr( '--pinspot-marker-color:' . $pinspot_marker_color . ';' ); ?>"
+						class="<?php echo esc_attr( $pinspot_geo ? (string) apply_filters( 'pinspot_shape_classes', 'pinspot__shape pinspot__shape--' . $pinspot_geo['shape'], $pinspot_hotspot, $attributes ) : $pinspot_marker_classes ); ?>"
+						<?php if ( $pinspot_geo || $pinspot_marker_color ) : ?>
+						style="
+						<?php
+						if ( $pinspot_geo ) {
+							echo esc_attr(
+								( '' !== $pinspot_geo['clip'] ? 'clip-path:' . $pinspot_geo['clip'] . ';' : '' )
+								. ( $pinspot_marker_color ? '--pinspot-shape-color:' . $pinspot_marker_color . ';' : '' )
+							);
+						} else {
+							echo esc_attr( '--pinspot-marker-color:' . $pinspot_marker_color . ';' );
+						}
+						?>
+						"
 						<?php endif; ?>
 						data-wp-on--click="actions.toggle"
 						data-wp-bind--aria-expanded="state.isOpen"
 						aria-controls="<?php echo esc_attr( $pinspot_tip_dom ); ?>"
 						aria-label="<?php echo esc_attr( $pinspot_label ); ?>"
 					>
-						<?php if ( 'image' === $pinspot_marker_style ) : ?>
+						<?php if ( $pinspot_geo ) : ?>
+						<?php /* A draw-area shape has no inner glyph; it is the clickable region itself. */ ?>
+						<?php elseif ( 'image' === $pinspot_marker_style ) : ?>
 						<img class="pinspot__marker-img" src="<?php echo esc_url( $pinspot_marker_img ); ?>" alt="" />
 						<?php else : ?>
 						<span aria-hidden="true"><?php echo esc_html( $pinspot_glyph ); ?></span>
