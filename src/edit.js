@@ -115,6 +115,8 @@ export default function Edit( {
 		hotspots,
 		globalTrigger,
 		globalTheme,
+		tooltipBg,
+		tooltipText,
 		enableZoom,
 		maxZoom,
 		tooltipWidth,
@@ -476,6 +478,38 @@ export default function Edit( {
 							setAttributes( { tooltipWidth: value } )
 						}
 					/>
+					<BaseControl
+						__nextHasNoMarginBottom
+						label={ __( 'Tooltip background', 'pinspot' ) }
+						id="pinspot-tooltip-bg"
+						help={ __(
+							'Optional. Overrides the light/dark preset for every tooltip on this image.',
+							'pinspot'
+						) }
+					>
+						<ColorPalette
+							colors={ palette || [] }
+							value={ tooltipBg || undefined }
+							onChange={ ( value ) =>
+								setAttributes( { tooltipBg: value || '' } )
+							}
+							enableAlpha={ false }
+						/>
+					</BaseControl>
+					<BaseControl
+						__nextHasNoMarginBottom
+						label={ __( 'Tooltip text color', 'pinspot' ) }
+						id="pinspot-tooltip-text"
+					>
+						<ColorPalette
+							colors={ palette || [] }
+							value={ tooltipText || undefined }
+							onChange={ ( value ) =>
+								setAttributes( { tooltipText: value || '' } )
+							}
+							enableAlpha={ false }
+						/>
+					</BaseControl>
 				</PanelBody>
 				<PanelBody
 					title={ __( 'Hotspot list & filters', 'pinspot' ) }

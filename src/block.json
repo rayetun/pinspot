@@ -47,6 +47,14 @@
 			"type": "string",
 			"default": "click"
 		},
+		"tooltipBg": {
+			"type": "string",
+			"default": ""
+		},
+		"tooltipText": {
+			"type": "string",
+			"default": ""
+		},
 		"reduceMotion": {
 			"type": "boolean",
 			"default": true

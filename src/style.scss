@@ -194,11 +194,12 @@
 	}
 
 	.pinspot__tooltip {
-		background: #fff;
+		// Light-theme defaults; author-set custom colors override via the vars.
+		background: var(--pinspot-tip-bg, #fff);
 		border-radius: 8px;
 		bottom: calc(100% + 22px);
 		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
-		color: #1e1e1e;
+		color: var(--pinspot-tip-text, #1e1e1e);
 		font-size: 14px;
 		left: 50%;
 		line-height: 1.5;
@@ -366,11 +367,11 @@
 
 	// Dark theme.
 	.pinspot__tooltip--dark {
-		background: #1e1e1e;
-		color: #f0f0f0;
+		background: var(--pinspot-tip-bg, #1e1e1e);
+		color: var(--pinspot-tip-text, #f0f0f0);
 
 		.pinspot__tooltip-title {
-			color: #fff;
+			color: var(--pinspot-tip-text, #fff);
 		}
 	}
 

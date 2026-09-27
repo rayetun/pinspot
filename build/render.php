@@ -247,10 +247,21 @@ if ( $pinspot_enable_tour && $pinspot_tour_count > 1 ) {
 	$pinspot_context['tourInterval'] = (int) round( $pinspot_tour_interval * 1000 );
 }
 
+// Optional custom tooltip colors (override the light/dark preset via CSS vars).
+$pinspot_tip_bg    = isset( $attributes['tooltipBg'] ) ? sanitize_hex_color( $attributes['tooltipBg'] ) : '';
+$pinspot_tip_text  = isset( $attributes['tooltipText'] ) ? sanitize_hex_color( $attributes['tooltipText'] ) : '';
+$pinspot_wrap_style = sprintf( '--pinspot-tooltip-width:%dpx;', $pinspot_tooltip_width );
+if ( $pinspot_tip_bg ) {
+	$pinspot_wrap_style .= '--pinspot-tip-bg:' . $pinspot_tip_bg . ';';
+}
+if ( $pinspot_tip_text ) {
+	$pinspot_wrap_style .= '--pinspot-tip-text:' . $pinspot_tip_text . ';';
+}
+
 $pinspot_wrapper_attributes = get_block_wrapper_attributes(
 	array(
 		'class' => 'pinspot',
-		'style' => sprintf( '--pinspot-tooltip-width:%dpx;', $pinspot_tooltip_width ),
+		'style' => $pinspot_wrap_style,
 	)
 );
 
