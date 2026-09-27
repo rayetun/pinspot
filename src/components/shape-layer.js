@@ -342,6 +342,9 @@ export default function ShapeLayer( {
 				fillOpacity: opacityOf( hotspot ),
 			},
 			onPointerDown: onShapeDown( hotspot ),
+			// Stop the click from bubbling to the canvas, which would clear the
+			// selection (mirrors what the marker buttons do for pins).
+			onClick: ( e ) => e.stopPropagation(),
 		};
 		if ( hotspot.shape === 'polygon' ) {
 			const pts = polygonPoints( hotspot );
@@ -500,6 +503,7 @@ export default function ShapeLayer( {
 					style={ { left: `${ h.x }%`, top: `${ h.y }%` } }
 					aria-label={ __( 'Drag to reshape', 'pinspot' ) }
 					onPointerDown={ onHandleDown( h.hotspot, h.handle ) }
+					onClick={ ( e ) => e.stopPropagation() }
 				/>
 			) ) }
 		</>
