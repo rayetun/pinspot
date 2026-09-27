@@ -29,6 +29,8 @@ targets.
 | `pinspot_should_render_hotspot` | `bool $render, array $hotspot, array $attrs` | Return `false` to hide a hotspot server-side (conditional display / scheduling). Hidden hotspots are excluded from markers, tour, and list consistently; marker numbers stay stable. |
 | `pinspot_marker_classes` | `string $classes, array $hotspot, array $attrs` | Append CSS classes to the marker button (premium FX). |
 | `pinspot_hotspot_classes` | `string $classes, array $hotspot, array $attrs` | Append CSS classes to the hotspot wrapper. |
+| `pinspot_shape_classes` | `string $classes, array $hotspot, array $attrs` | Append CSS classes to a draw-area shape element (premium fills / always-show / FX). |
+| `pinspot_hotspot_has_content` | `bool $has, array $hotspot, array $attrs` | Whether a hotspot's tooltip has content. Defaults to true when the free plugin found a title/description/media/CTA. Return `true` so an otherwise-empty hotspot still opens its tooltip (e.g. a WooCommerce product-bound pin whose only content the add-on injects via `pinspot_tooltip_end`). When false, the marker is non-interactive and no empty tooltip is shown. |
 
 ## PHP actions
 

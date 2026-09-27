@@ -26,6 +26,7 @@ import {
 	ColorPalette,
 } from '@wordpress/components';
 import { useState, useRef } from '@wordpress/element';
+import { useDispatch } from '@wordpress/data';
 
 import HotspotInspector from './components/hotspot-inspector';
 import HotspotList from './components/hotspot-list';
@@ -100,7 +101,13 @@ const STYLE_KEYS = [
 const pickStyle = ( hotspot ) =>
 	Object.fromEntries( STYLE_KEYS.map( ( key ) => [ key, hotspot[ key ] ] ) );
 
-export default function Edit( { attributes, setAttributes, isSelected } ) {
+export default function Edit( {
+	attributes,
+	setAttributes,
+	isSelected,
+	clientId,
+} ) {
+	const { selectBlock } = useDispatch( 'core/block-editor' );
 	const {
 		imageId,
 		imageUrl,
@@ -822,6 +829,7 @@ export default function Edit( { attributes, setAttributes, isSelected } ) {
 						setTool={ setTool }
 						pointFromEvent={ pointFromEvent }
 						canvasRef={ canvasRef }
+						onEnsureSelected={ () => selectBlock( clientId ) }
 						onSelect={ setSelectedId }
 						onCommit={ commitShape }
 						onUpdate={ updateHotspot }

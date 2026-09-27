@@ -69,26 +69,28 @@
 		display: block;
 		height: 100%;
 		margin: 0;
-		opacity: 0.28;
+		// The fill opacity is author-controlled; hover/open give feedback via
+		// brightness so the chosen opacity is preserved.
+		opacity: var(--pinspot-shape-opacity, 0.3);
 		padding: 0;
-		transition: opacity 0.15s ease, filter 0.15s ease;
+		transition: filter 0.15s ease;
 		width: 100%;
 
 		&:hover {
-			opacity: 0.45;
+			filter: brightness(1.15);
 		}
 
 		// clip-path also clips an outline, so use a drop-shadow glow that
 		// follows the shape for a visible keyboard-focus indicator.
 		&:focus-visible {
-			opacity: 0.5;
-			filter: drop-shadow(0 0 3px var(--pinspot-shape-color, #3a5df0));
+			filter: brightness(1.15)
+				drop-shadow(0 0 3px var(--pinspot-shape-color, #3a5df0));
 			outline: none;
 		}
 	}
 
 	.pinspot__hotspot--shape.is-open .pinspot__shape {
-		opacity: 0.5;
+		filter: brightness(1.2);
 	}
 
 	.pinspot__hotspot--shape-rect .pinspot__shape {

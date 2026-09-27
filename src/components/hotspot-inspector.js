@@ -16,6 +16,7 @@ import {
 	TextareaControl,
 	SelectControl,
 	ToggleControl,
+	RangeControl,
 	Button,
 	BaseControl,
 	ColorPalette,
@@ -426,6 +427,18 @@ export default function HotspotInspector( {
 						enableAlpha={ false }
 					/>
 				</BaseControl>
+				{ isArea && (
+					<RangeControl
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+						label={ __( 'Fill opacity (%)', 'pinspot' ) }
+						value={ hotspot.shapeOpacity ?? 30 }
+						min={ 5 }
+						max={ 100 }
+						step={ 5 }
+						onChange={ ( v ) => onChange( { shapeOpacity: v } ) }
+					/>
+				) }
 				{ ! isArea && (
 					<SelectControl
 						__next40pxDefaultSize

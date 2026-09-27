@@ -48,11 +48,13 @@ export default function ShapeLayer( {
 	setTool,
 	pointFromEvent,
 	canvasRef,
+	onEnsureSelected,
 	onSelect,
 	onCommit,
 	onUpdate,
 	defaultColor,
 } ) {
+	const ensureSelected = () => onEnsureSelected && onEnsureSelected();
 	// In-progress drawing: rect/circle box (start/cur) or a growing polygon.
 	const [ draft, setDraft ] = useState( null );
 	// Live pointer position (% units) for the polygon preview.
@@ -261,6 +263,7 @@ export default function ShapeLayer( {
 		}
 		event.preventDefault();
 		event.stopPropagation();
+		ensureSelected();
 		const point = pointFromEvent( event );
 
 		if ( tool === 'polygon' ) {
@@ -298,6 +301,9 @@ export default function ShapeLayer( {
 		}
 		event.preventDefault();
 		event.stopPropagation();
+		// SVG shapes are not focusable, so keep the Gutenberg block selected
+		// explicitly — otherwise the Inspector (right sidebar) would close.
+		ensureSelected();
 		onSelect( hotspot.id );
 		startDrag(
 			{
@@ -313,6 +319,7 @@ export default function ShapeLayer( {
 	const onHandleDown = ( hotspot, handle ) => ( event ) => {
 		event.preventDefault();
 		event.stopPropagation();
+		ensureSelected();
 		onSelect( hotspot.id );
 		startDrag(
 			{ kind: 'handle', handle, snapshot: hotspot },
@@ -322,12 +329,18 @@ export default function ShapeLayer( {
 
 	// --- Rendering. ---
 
+	const opacityOf = ( hotspot ) => ( hotspot.shapeOpacity ?? 30 ) / 100;
+
 	const svgShape = ( hotspot ) => {
 		const color = colorFor( hotspot );
 		const isSel = hotspot.id === selectedId;
 		const common = {
 			className: `pinspot-editor__shape${ isSel ? ' is-selected' : '' }`,
-			style: { fill: color, stroke: color },
+			style: {
+				fill: color,
+				stroke: color,
+				fillOpacity: opacityOf( hotspot ),
+			},
 			onPointerDown: onShapeDown( hotspot ),
 		};
 		if ( hotspot.shape === 'polygon' ) {

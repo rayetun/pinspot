@@ -450,7 +450,12 @@ do_action( 'pinspot_render_before', $attributes );
 				 */
 				$pinspot_hotspot_classes = (string) apply_filters( 'pinspot_hotspot_classes', 'pinspot__hotspot', $pinspot_hotspot, $attributes );
 
-				$pinspot_tooltip_classes = 'pinspot__tooltip pinspot__tooltip--' . $pinspot_theme;
+				// A tooltip renders only when it would have content — an empty one
+					// (no title/description/media/CTA and no add-on content) would
+					// otherwise open as a small empty box.
+					$pinspot_show_tip = (bool) apply_filters( 'pinspot_hotspot_has_content', ( '' !== $pinspot_title || '' !== $pinspot_desc || ( 'image' === $pinspot_media_type && '' !== $pinspot_media_url ) || ( 'video' === $pinspot_media_type && '' !== $pinspot_media_url ) || '' !== $pinspot_embed['embed'] || ( '' !== $pinspot_link_url && '' !== $pinspot_link_text ) ), $pinspot_hotspot, $attributes );
+
+					$pinspot_tooltip_classes = 'pinspot__tooltip pinspot__tooltip--' . $pinspot_theme;
 				if ( 'auto' !== $pinspot_placement ) {
 					$pinspot_tooltip_classes .= ' pinspot__tooltip--' . $pinspot_placement;
 				}
@@ -464,7 +469,7 @@ do_action( 'pinspot_render_before', $attributes );
 					data-wp-bind--hidden="!state.hotspotVisible"
 					<?php endif; ?>
 					data-wp-init="callbacks.initHotspot"
-					<?php if ( 'hover' === $pinspot_trigger ) : ?>
+					<?php if ( 'hover' === $pinspot_trigger && $pinspot_show_tip ) : ?>
 					data-wp-on--mouseenter="actions.hoverOpen"
 					data-wp-on--mouseleave="actions.hoverClose"
 					data-wp-on--focusin="actions.hoverOpen"
@@ -481,6 +486,7 @@ do_action( 'pinspot_render_before', $attributes );
 							echo esc_attr(
 								( '' !== $pinspot_geo['clip'] ? 'clip-path:' . $pinspot_geo['clip'] . ';' : '' )
 								. ( $pinspot_marker_color ? '--pinspot-shape-color:' . $pinspot_marker_color . ';' : '' )
+								. '--pinspot-shape-opacity:' . ( ( isset( $pinspot_hotspot['shapeOpacity'] ) ? max( 0, min( 100, (int) $pinspot_hotspot['shapeOpacity'] ) ) : 30 ) / 100 ) . ';'
 							);
 						} else {
 							echo esc_attr( '--pinspot-marker-color:' . $pinspot_marker_color . ';' );
@@ -488,9 +494,13 @@ do_action( 'pinspot_render_before', $attributes );
 						?>
 						"
 						<?php endif; ?>
+						<?php if ( $pinspot_show_tip ) : ?>
 						data-wp-on--click="actions.toggle"
 						data-wp-bind--aria-expanded="state.isOpen"
 						aria-controls="<?php echo esc_attr( $pinspot_tip_dom ); ?>"
+						<?php else : ?>
+						tabindex="-1"
+						<?php endif; ?>
 						aria-label="<?php echo esc_attr( $pinspot_label ); ?>"
 					>
 						<?php if ( $pinspot_geo ) : ?>
