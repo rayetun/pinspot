@@ -2,14 +2,14 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: PinSpot - Interactive Image Hotspots 1.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/PinSpot\n"
+"Project-Id-Version: PinSpot - Interactive Image Hotspots 1.2.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/pinspot\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-04T21:11:25+00:00\n"
+"POT-Creation-Date: 2026-09-28T06:35:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: pinspot\n"
@@ -39,7 +39,9 @@ msgstr ""
 msgid "https://rayetun.com/"
 msgstr ""
 
-#: includes/class-pinspot-plugin.php:60
+#: includes/class-pinspot-admin.php:106
+#: includes/class-pinspot-admin.php:107
+#: includes/class-pinspot-plugin.php:96
 msgid "PinSpot"
 msgstr ""
 
@@ -136,351 +138,851 @@ msgid "Role or fun fact."
 msgstr ""
 
 #. translators: %d: hotspot number.
-#: src/render.php:108
-#: src/render.php:291
-#: src/render.php:488
-#: src/components/hotspot-inspector.js:113
-#: src/edit.js:700
+#: src/render.php:211
+#: src/render.php:421
+#: src/render.php:682
+#: src/components/hotspot-inspector.js:115
+#: src/edit.js:830
 #, php-format,js-format
 msgid "Hotspot %d"
 msgstr ""
 
-#: src/render.php:164
+#: src/render.php:286
 msgid "Zoom in"
 msgstr ""
 
-#: src/render.php:165
+#: src/render.php:287
 msgid "Zoom out"
 msgstr ""
 
-#: src/render.php:166
+#: src/render.php:288
 msgid "Reset zoom"
 msgstr ""
 
-#: src/render.php:170
+#: src/render.php:292
 msgid "Filter hotspots by group"
 msgstr ""
 
-#: src/render.php:177
+#: src/render.php:299
 msgid "All"
 msgstr ""
 
-#: src/render.php:364
+#: src/render.php:536
 msgid "View image full size"
 msgstr ""
 
-#: src/render.php:378
+#: src/render.php:550
 msgid "Play video"
 msgstr ""
 
-#: src/render.php:431
+#: src/render.php:625
 msgid "Hotspot tour"
 msgstr ""
 
-#: src/render.php:443
+#: src/render.php:637
 msgid "Play or pause the tour"
 msgstr ""
 
-#: src/render.php:449
+#: src/render.php:643
 msgid "Previous hotspot"
 msgstr ""
 
-#: src/render.php:455
+#: src/render.php:649
 msgid "Next hotspot"
 msgstr ""
 
-#: src/render.php:469
+#: src/render.php:663
 msgid "Close"
 msgstr ""
 
-#: src/render.php:473
+#: src/render.php:667
 msgid "On this image"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:25
-msgid "Numbered"
+#: src/admin/app.js:24
+#: src/admin/app.js:350
+msgid "Dashboard"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:26
-msgid "Dot"
+#: src/admin/app.js:25
+#: src/admin/app.js:445
+msgid "Blocks"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:27
-msgid "Plus"
+#: src/admin/app.js:28
+#: src/admin/app.js:513
+msgid "Settings"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:28
-msgid "Info"
+#: src/admin/app.js:33
+msgid "Upgrade to Pro"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:29
-msgid "Question"
+#: src/admin/app.js:42
+msgid "Rich tooltips"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:30
-#: src/components/hotspot-inspector.js:305
-msgid "Emoji"
+#: src/admin/app.js:43
+msgid "Title, text, image, video, and a call-to-action button in every pin."
 msgstr ""
 
-#: src/components/hotspot-inspector.js:31
-msgid "Custom image"
+#: src/admin/app.js:50
+#: src/edit.js:715
+msgid "Zoom & pan"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:49
-#: src/edit.js:550
-msgid "Small"
+#: src/admin/app.js:51
+msgid "Explore large images; markers stay crisp and anchored."
 msgstr ""
 
-#: src/components/hotspot-inspector.js:50
-#: src/edit.js:554
-msgid "Medium"
+#: src/admin/app.js:58
+#: src/edit.js:565
+msgid "Guided tour"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:51
-#: src/edit.js:558
-msgid "Large"
+#: src/admin/app.js:59
+msgid "Step visitors through the hotspots, with optional autoplay."
 msgstr ""
 
-#: src/components/hotspot-inspector.js:55
-#: src/components/hotspot-inspector.js:61
-msgid "None"
+#: src/admin/app.js:66
+msgid "Group filters"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:56
-msgid "Pulse"
+#: src/admin/app.js:67
+msgid "Let visitors show or hide pins by category with chips."
 msgstr ""
 
-#: src/components/hotspot-inspector.js:57
-msgid "Bounce"
+#: src/admin/app.js:74
+msgid "Emoji & image markers"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:62
-msgid "Image"
+#: src/admin/app.js:75
+msgid "Any emoji or your own image as a marker."
 msgstr ""
 
-#: src/components/hotspot-inspector.js:63
-msgid "Video (media library)"
+#: src/admin/app.js:79
+msgid "Lightbox"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:64
-msgid "YouTube"
+#: src/admin/app.js:80
+msgid "Open tooltip images full-screen in an accessible lightbox."
 msgstr ""
 
-#: src/components/hotspot-inspector.js:65
-msgid "Vimeo"
+#: src/admin/app.js:87
+msgid "Accessible list"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:69
-#: src/components/hotspot-inspector.js:83
-msgid "Inherit from block"
+#: src/admin/app.js:88
+msgid "An optional text alternative of every pin for SEO and screen readers."
 msgstr ""
 
-#: src/components/hotspot-inspector.js:70
-#: src/edit.js:359
+#: src/admin/app.js:95
+msgid "Import / export"
+msgstr ""
+
+#: src/admin/app.js:96
+msgid "Save a layout as JSON and reuse it anywhere."
+msgstr ""
+
+#: src/admin/app.js:103
+msgid "Add a hotspot image"
+msgstr ""
+
+#: src/admin/app.js:104
+msgid "Create a post or page and insert the PinSpot block."
+msgstr ""
+
+#: src/admin/app.js:109
+msgid "Try a starter pattern"
+msgstr ""
+
+#: src/admin/app.js:110
+msgid "Insert a ready-made layout and edit it in seconds."
+msgstr ""
+
+#: src/admin/app.js:115
+msgid "Read the docs"
+msgstr ""
+
+#: src/admin/app.js:116
+msgid "Guides and tips for building interactive images."
+msgstr ""
+
+#: src/admin/app.js:125
+msgid "Image Hotspots"
+msgstr ""
+
+#: src/admin/app.js:126
+msgid "Place clickable pins on any image with rich, accessible tooltips."
+msgstr ""
+
+#: src/admin/app.js:134
+msgid "Live Map"
+msgstr ""
+
+#: src/admin/app.js:135
+msgid "Real geo pins on a Leaflet + OpenStreetMap map — no API key."
+msgstr ""
+
+#: src/admin/app.js:143
+msgid "Video Hotspots"
+msgstr ""
+
+#: src/admin/app.js:144
+msgid "Time-coded pins over self-hosted or YouTube video."
+msgstr ""
+
+#: src/admin/app.js:152
+msgid "360° / Panorama"
+msgstr ""
+
+#: src/admin/app.js:153
+msgid "Drag-to-look scenes with hotspots inside them."
+msgstr ""
+
+#: src/admin/app.js:158
+msgid "Audio Guide"
+msgstr ""
+
+#: src/admin/app.js:159
+msgid "Pins that stream narration with accessible controls."
+msgstr ""
+
+#: src/admin/app.js:171
+msgid "WooCommerce shoppable"
+msgstr ""
+
+#: src/admin/app.js:172
+msgid "Bind a pin to a product: live price, stock, and add-to-cart right in the tooltip."
+msgstr ""
+
+#: src/admin/app.js:179
+msgid "Conditional display"
+msgstr ""
+
+#: src/admin/app.js:180
+msgid "Show or hide pins by user role, or schedule them for a date or sale window."
+msgstr ""
+
+#: src/admin/app.js:187
+msgid "Deep analytics"
+msgstr ""
+
+#: src/admin/app.js:188
+msgid "Per-hotspot clicks, CTA conversions, funnels, date ranges, and CSV export."
+msgstr ""
+
+#: src/admin/app.js:195
+msgid "Premium marker FX"
+msgstr ""
+
+#: src/admin/app.js:196
+msgid "Radar ping, ripple, and floating effects, plus premium icon packs."
+msgstr ""
+
+#: src/admin/app.js:203
+msgid "Advanced tour"
+msgstr ""
+
+#: src/admin/app.js:204
+msgid "Spotlight dimming, step highlighting, and narration."
+msgstr ""
+
+#: src/admin/app.js:208
+msgid "Companion blocks"
+msgstr ""
+
+#: src/admin/app.js:209
+msgid "Live Map, Video Hotspots, 360°, and Audio Guide."
+msgstr ""
+
+#: src/admin/app.js:215
+msgid "Personal"
+msgstr ""
+
+#: src/admin/app.js:217
+msgid "1 site"
+msgstr ""
+
+#: src/admin/app.js:221
+msgid "Business"
+msgstr ""
+
+#: src/admin/app.js:223
+msgid "5 sites"
+msgstr ""
+
+#: src/admin/app.js:227
+msgid "Agency"
+msgstr ""
+
+#: src/admin/app.js:229
+msgid "25 sites"
+msgstr ""
+
+#: src/admin/app.js:235
+msgid "Image Hotspots block"
+msgstr ""
+
+#: src/admin/app.js:237
+msgid "Rich tooltips, zoom, lightbox, tour, filters"
+msgstr ""
+
+#: src/admin/app.js:241
+msgid "Emoji & custom-image markers"
+msgstr ""
+
+#: src/admin/app.js:242
+msgid "WooCommerce shoppable images"
+msgstr ""
+
+#: src/admin/app.js:243
+msgid "Conditional display & scheduling"
+msgstr ""
+
+#: src/admin/app.js:244
+msgid "Deep analytics & CSV export"
+msgstr ""
+
+#: src/admin/app.js:245
+msgid "Premium marker effects & icon packs"
+msgstr ""
+
+#: src/admin/app.js:247
+msgid "Companion blocks (Map, Video, 360°, Audio)"
+msgstr ""
+
+#: src/admin/app.js:251
+msgid "Priority email support"
+msgstr ""
+
+#: src/admin/app.js:256
+msgid "Do I need the free PinSpot plugin?"
+msgstr ""
+
+#: src/admin/app.js:257
+msgid "Yes. PinSpot Pro is an add-on that extends the free plugin, so keep the free plugin active."
+msgstr ""
+
+#: src/admin/app.js:263
+msgid "Is there a free trial?"
+msgstr ""
+
+#: src/admin/app.js:264
+msgid "Yes — a no-card free trial so you can try every Pro feature before you buy."
+msgstr ""
+
+#: src/admin/app.js:270
+msgid "How many sites can I use it on?"
+msgstr ""
+
+#: src/admin/app.js:271
+msgid "Depends on your plan: 1, 5, or 25 sites. Every plan includes every Pro feature."
+msgstr ""
+
+#: src/admin/app.js:277
+msgid "Will it work with my theme?"
+msgstr ""
+
+#: src/admin/app.js:278
+msgid "Yes. Pro uses the same block-native, accessible approach as the free plugin."
+msgstr ""
+
+#: src/admin/app.js:284
+msgid "What happens if my licence lapses?"
+msgstr ""
+
+#: src/admin/app.js:285
+msgid "Your site keeps working; you stop getting Pro updates and support until you renew."
+msgstr ""
+
+#: src/admin/app.js:323
+msgid "Posts using PinSpot"
+msgstr ""
+
+#: src/admin/app.js:329
+msgid "Starter patterns"
+msgstr ""
+
+#: src/admin/app.js:335
+msgid "Marker styles"
+msgstr ""
+
+#: src/admin/app.js:341
+#: src/admin/app.js:466
+msgid "Active"
+msgstr ""
+
+#: src/admin/app.js:342
+#: src/admin/app.js:616
+#: src/admin/app.js:712
+msgid "Free"
+msgstr ""
+
+#: src/admin/app.js:343
+#: src/admin/app.js:601
+msgid "PinSpot Pro"
+msgstr ""
+
+#: src/admin/app.js:351
+msgid "Overview of your interactive images and active features."
+msgstr ""
+
+#: src/admin/app.js:372
+msgid "Active features"
+msgstr ""
+
+#: src/admin/app.js:394
+msgid "Quick actions"
+msgstr ""
+
+#: src/admin/app.js:420
+msgid "Turn images into sales with PinSpot Pro"
+msgstr ""
+
+#: src/admin/app.js:426
+msgid "WooCommerce shoppable images, conditional display, deep analytics, and companion blocks."
+msgstr ""
+
+#: src/admin/app.js:433
+msgid "See Pro features"
+msgstr ""
+
+#: src/admin/app.js:446
+msgid "The blocks PinSpot adds to the editor. Pro adds a family of companion blocks."
+msgstr ""
+
+#: src/admin/app.js:472
+#: src/admin/app.js:713
+msgid "Pro"
+msgstr ""
+
+#: src/admin/app.js:502
+msgid "Settings saved."
+msgstr ""
+
+#: src/admin/app.js:505
+msgid "Could not save settings."
+msgstr ""
+
+#: src/admin/app.js:514
+msgid "Defaults applied to new PinSpot blocks. Each block can still override them."
+msgstr ""
+
+#: src/admin/app.js:522
+msgid "Default trigger"
+msgstr ""
+
+#: src/admin/app.js:525
+#: src/components/hotspot-inspector.js:71
+#: src/edit.js:434
 msgid "Click"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:71
-#: src/edit.js:363
+#: src/admin/app.js:526
+#: src/components/hotspot-inspector.js:72
+#: src/edit.js:438
 msgid "Hover"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:75
-msgid "Auto"
+#: src/admin/app.js:532
+msgid "Default tooltip theme"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:76
-msgid "Top"
-msgstr ""
-
-#: src/components/hotspot-inspector.js:77
-msgid "Bottom"
-msgstr ""
-
-#: src/components/hotspot-inspector.js:78
-msgid "Left"
-msgstr ""
-
-#: src/components/hotspot-inspector.js:79
-msgid "Right"
-msgstr ""
-
-#: src/components/hotspot-inspector.js:84
-#: src/edit.js:382
+#: src/admin/app.js:535
+#: src/components/hotspot-inspector.js:85
+#: src/edit.js:457
 msgid "Light"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:85
-#: src/edit.js:386
+#: src/admin/app.js:536
+#: src/components/hotspot-inspector.js:86
+#: src/edit.js:461
 msgid "Dark"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:120
+#: src/admin/app.js:542
+msgid "Default marker color"
+msgstr ""
+
+#: src/admin/app.js:559
+msgid "Save settings"
+msgstr ""
+
+#: src/admin/app.js:603
+msgid "Turn images into sales"
+msgstr ""
+
+#: src/admin/app.js:605
+msgid "The only accessible, block-native way to build shoppable images in WordPress — plus conditional display, deep analytics, premium effects, and a family of companion blocks."
+msgstr ""
+
+#: src/admin/app.js:613
+msgid "Pro features"
+msgstr ""
+
+#: src/admin/app.js:617
+msgid "trial"
+msgstr ""
+
+#: src/admin/app.js:620
+msgid "No"
+msgstr ""
+
+#: src/admin/app.js:621
+msgid "monthly fees"
+msgstr ""
+
+#: src/admin/app.js:630
+#: src/admin/app.js:750
+msgid "Get PinSpot Pro"
+msgstr ""
+
+#: src/admin/app.js:634
+msgid "Free trial · Annual billing · Cancel anytime"
+msgstr ""
+
+#: src/admin/app.js:646
+msgid "Everything in Pro"
+msgstr ""
+
+#: src/admin/app.js:665
+msgid "Simple, transparent pricing"
+msgstr ""
+
+#: src/admin/app.js:668
+msgid "Every plan includes every Pro feature — now and in future updates."
+msgstr ""
+
+#: src/admin/app.js:683
+msgid "Most popular"
+msgstr ""
+
+#: src/admin/app.js:689
+msgid "yr"
+msgstr ""
+
+#: src/admin/app.js:698
+msgid "Get started"
+msgstr ""
+
+#: src/admin/app.js:705
+msgid "Free vs Pro"
+msgstr ""
+
+#: src/admin/app.js:711
+msgid "Feature"
+msgstr ""
+
+#: src/admin/app.js:735
+msgid "Frequently asked questions"
+msgstr ""
+
+#: src/admin/app.js:817
+msgid "Pro active"
+msgstr ""
+
+#: src/admin/app.js:826
+msgid "Go Pro"
+msgstr ""
+
+#: src/admin/app.js:832
+msgid "Toggle theme"
+msgstr ""
+
+#: src/admin/app.js:870
+#: src/admin/app.js:922
+msgid "Get Support"
+msgstr ""
+
+#: src/admin/app.js:883
+msgid "Enjoying PinSpot?"
+msgstr ""
+
+#: src/admin/app.js:886
+msgid "PinSpot is free and built by an independent developer. A review or small donation keeps it maintained."
+msgstr ""
+
+#: src/admin/app.js:901
+msgid "Leave a Review"
+msgstr ""
+
+#: src/admin/app.js:912
+msgid "Donate"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:26
+msgid "Numbered"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:27
+msgid "Dot"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:28
+msgid "Plus"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:29
+msgid "Info"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:30
+msgid "Question"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:31
+#: src/components/hotspot-inspector.js:315
+msgid "Emoji"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:32
+msgid "Custom image"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:50
+#: src/edit.js:657
+msgid "Small"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:51
+#: src/edit.js:661
+msgid "Medium"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:52
+#: src/edit.js:665
+msgid "Large"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:56
+#: src/components/hotspot-inspector.js:62
+msgid "None"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:57
+msgid "Pulse"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:58
+msgid "Bounce"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:63
+msgid "Image"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:64
+msgid "Video (media library)"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:65
+msgid "YouTube"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:66
+msgid "Vimeo"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:70
+#: src/components/hotspot-inspector.js:84
+msgid "Inherit from block"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:76
+msgid "Auto"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:77
+msgid "Top"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:78
+msgid "Bottom"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:79
+msgid "Left"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:80
+msgid "Right"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:122
 msgid "Title"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:126
+#: src/components/hotspot-inspector.js:128
 msgid "Description"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:129
+#: src/components/hotspot-inspector.js:131
 msgid "Line breaks are kept. Basic HTML allowed: <strong>, <em>, <a>."
 msgstr ""
 
-#: src/components/hotspot-inspector.js:137
+#: src/components/hotspot-inspector.js:139
 msgid "Group"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:140
+#: src/components/hotspot-inspector.js:142
 msgid "Optional. Hotspots that share a group can be shown or hidden together with the frontend filter chips."
 msgstr ""
 
-#: src/components/hotspot-inspector.js:165
+#: src/components/hotspot-inspector.js:167
 msgid "Remove hotspot"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:169
+#: src/components/hotspot-inspector.js:171
 msgid "Media"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:173
+#: src/components/hotspot-inspector.js:175
 msgid "Media type"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:219
+#: src/components/hotspot-inspector.js:221
 msgid "Replace media"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:220
+#: src/components/hotspot-inspector.js:222
 msgid "Select media"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:233
+#: src/components/hotspot-inspector.js:235
 msgid "Clear"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:247
+#: src/components/hotspot-inspector.js:249
 msgid "YouTube URL"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:248
+#: src/components/hotspot-inspector.js:250
 msgid "Vimeo URL"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:253
+#: src/components/hotspot-inspector.js:255
 msgid "Paste the video page URL — the embed is generated automatically."
 msgstr ""
 
-#: src/components/hotspot-inspector.js:262
+#: src/components/hotspot-inspector.js:264
 msgid "Call to action"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:268
+#: src/components/hotspot-inspector.js:270
 msgid "Button text"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:275
+#: src/components/hotspot-inspector.js:277
 msgid "Link URL"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:282
+#: src/components/hotspot-inspector.js:284
 msgid "Open in new tab"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:289
+#: src/components/hotspot-inspector.js:293
+msgid "Area style"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:294
 msgid "Marker"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:295
+#: src/components/hotspot-inspector.js:302
 msgid "Style"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:310
+#: src/components/hotspot-inspector.js:320
 msgid "Paste any emoji to use as the marker."
 msgstr ""
 
-#: src/components/hotspot-inspector.js:334
+#: src/components/hotspot-inspector.js:344
 msgid "Marker image"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:336
+#: src/components/hotspot-inspector.js:346
 msgid "A small, ideally square PNG or SVG works best."
 msgstr ""
 
-#: src/components/hotspot-inspector.js:365
-#: src/edit.js:315
+#: src/components/hotspot-inspector.js:375
+#: src/edit.js:344
 msgid "Replace image"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:369
+#: src/components/hotspot-inspector.js:379
 msgid "Select image"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:385
+#: src/components/hotspot-inspector.js:395
 msgid "Remove"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:397
+#: src/components/hotspot-inspector.js:408
 msgid "Size"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:404
+#: src/components/hotspot-inspector.js:418
 msgid "Color"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:419
+#: src/components/hotspot-inspector.js:434
+msgid "Fill opacity (%)"
+msgstr ""
+
+#: src/components/hotspot-inspector.js:446
 msgid "Animation"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:423
+#: src/components/hotspot-inspector.js:450
 msgid "Shown on the site. Respects reduced-motion preferences."
 msgstr ""
 
-#: src/components/hotspot-inspector.js:430
+#: src/components/hotspot-inspector.js:458
 msgid "Reuse this style"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:434
+#: src/components/hotspot-inspector.js:462
 msgid "Paste applies the copied look & behavior to this pin."
 msgstr ""
 
-#: src/components/hotspot-inspector.js:438
+#: src/components/hotspot-inspector.js:466
 msgid "Copies this pin’s look & behavior (not its text) so you can paste it onto another."
 msgstr ""
 
-#: src/components/hotspot-inspector.js:450
+#: src/components/hotspot-inspector.js:478
 msgid "Copy style"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:459
+#: src/components/hotspot-inspector.js:487
 msgid "Paste style"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:467
+#: src/components/hotspot-inspector.js:495
 msgid "Apply to all"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:477
+#: src/components/hotspot-inspector.js:505
 msgid "Behavior"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:483
+#: src/components/hotspot-inspector.js:511
 msgid "Open on"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:491
+#: src/components/hotspot-inspector.js:519
 msgid "Tooltip placement"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:499
+#: src/components/hotspot-inspector.js:527
 msgid "Theme"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:506
+#: src/components/hotspot-inspector.js:534
 msgid "Open media in lightbox"
 msgstr ""
 
-#: src/components/hotspot-inspector.js:509
+#: src/components/hotspot-inspector.js:537
 msgid "Clicking the tooltip media opens it full-size."
 msgstr ""
 
@@ -556,147 +1058,179 @@ msgstr ""
 msgid "Off: imported hotspots are added to the current ones."
 msgstr ""
 
-#: src/edit.js:292
+#: src/components/shape-layer.js:504
+msgid "Drag to reshape"
+msgstr ""
+
+#: src/edit.js:321
 msgid "PinSpot - Image Hotspots"
 msgstr ""
 
-#: src/edit.js:293
+#: src/edit.js:322
 msgid "Upload or select the image you want to annotate with hotspots."
 msgstr ""
 
-#: src/edit.js:319
+#: src/edit.js:348
 msgid "Add hotspot"
 msgstr ""
 
-#: src/edit.js:349
+#: src/edit.js:358
+msgid "Draw area"
+msgstr ""
+
+#: src/edit.js:361
+msgid "Rectangle"
+msgstr ""
+
+#: src/edit.js:371
+msgid "Circle"
+msgstr ""
+
+#: src/edit.js:383
+msgid "Polygon"
+msgstr ""
+
+#: src/edit.js:424
 msgid "Tooltips"
 msgstr ""
 
-#: src/edit.js:355
+#: src/edit.js:430
 msgid "Open tooltips on"
 msgstr ""
 
-#: src/edit.js:370
+#: src/edit.js:445
 msgid "Hover tooltips still open on click for touch devices."
 msgstr ""
 
-#: src/edit.js:378
+#: src/edit.js:453
 msgid "Tooltip theme"
 msgstr ""
 
-#: src/edit.js:397
+#: src/edit.js:472
 msgid "Tooltip width (px)"
 msgstr ""
 
-#: src/edit.js:408
+#: src/edit.js:483
+msgid "Tooltip background"
+msgstr ""
+
+#: src/edit.js:485
+msgid "Optional. Overrides the light/dark preset for every tooltip on this image."
+msgstr ""
+
+#: src/edit.js:501
+msgid "Tooltip text color"
+msgstr ""
+
+#: src/edit.js:515
 msgid "Hotspot list & filters"
 msgstr ""
 
-#: src/edit.js:413
+#: src/edit.js:520
 msgid "Show hotspot list below image"
 msgstr ""
 
-#: src/edit.js:421
+#: src/edit.js:528
 msgid "A plain, accessible list of all hotspot content — great for screen readers and SEO."
 msgstr ""
 
-#: src/edit.js:428
+#: src/edit.js:535
 msgid "Enable group filters"
 msgstr ""
 
-#: src/edit.js:433
+#: src/edit.js:540
 msgid "Adds filter chips so visitors can show or hide hotspots by group. Assign a group to each hotspot in its panel; chips appear once two or more groups exist."
 msgstr ""
 
-#: src/edit.js:441
+#: src/edit.js:548
 msgid "Filter chip color"
 msgstr ""
 
-#: src/edit.js:458
-msgid "Guided tour"
-msgstr ""
-
-#: src/edit.js:463
+#: src/edit.js:570
 msgid "Enable guided tour"
 msgstr ""
 
-#: src/edit.js:468
+#: src/edit.js:575
 msgid "Adds Previous/Next controls that step visitors through the hotspots in order."
 msgstr ""
 
-#: src/edit.js:476
+#: src/edit.js:583
 msgid "Autoplay the tour"
 msgstr ""
 
-#: src/edit.js:481
+#: src/edit.js:588
 msgid "Advances automatically. Visitors get a pause button, and autoplay stays off for anyone who prefers reduced motion."
 msgstr ""
 
-#: src/edit.js:491
+#: src/edit.js:598
 msgid "Seconds per hotspot"
 msgstr ""
 
-#: src/edit.js:505
+#: src/edit.js:612
 msgid "Show position counter"
 msgstr ""
 
-#: src/edit.js:513
+#: src/edit.js:620
 msgid "Displays the “2 / 5” position numbers between the arrows."
 msgstr ""
 
-#: src/edit.js:521
+#: src/edit.js:628
 msgid "Tour bar position"
 msgstr ""
 
-#: src/edit.js:525
+#: src/edit.js:632
 msgid "Below the image"
 msgstr ""
 
-#: src/edit.js:532
+#: src/edit.js:639
 msgid "Overlaid on the image"
 msgstr ""
 
-#: src/edit.js:546
+#: src/edit.js:653
 msgid "Button size"
 msgstr ""
 
-#: src/edit.js:569
+#: src/edit.js:676
 msgid "Button shape"
 msgstr ""
 
-#: src/edit.js:573
+#: src/edit.js:680
 msgid "Round"
 msgstr ""
 
-#: src/edit.js:577
+#: src/edit.js:684
 msgid "Rounded square"
 msgstr ""
 
-#: src/edit.js:590
+#: src/edit.js:697
 msgid "Button color"
 msgstr ""
 
-#: src/edit.js:608
-msgid "Zoom & pan"
-msgstr ""
-
-#: src/edit.js:613
+#: src/edit.js:720
 msgid "Enable zoom & pan"
 msgstr ""
 
-#: src/edit.js:618
+#: src/edit.js:725
 msgid "Adds zoom controls, double-click zoom, pinch, and drag-to-pan on the site."
 msgstr ""
 
-#: src/edit.js:627
+#: src/edit.js:734
 msgid "Maximum zoom"
 msgstr ""
 
-#: src/edit.js:651
+#: src/edit.js:758
 msgid "Click anywhere on the image to place the hotspot."
 msgstr ""
 
-#: src/edit.js:662
+#: src/edit.js:771
+msgid "Click to add each point; click the first point again, double-click, or press Enter to finish. Press Escape to cancel."
+msgstr ""
+
+#: src/edit.js:775
+msgid "Drag on the image to draw the area. Press Escape to cancel."
+msgstr ""
+
+#: src/edit.js:788
 msgid "Hotspot placement canvas"
 msgstr ""
 

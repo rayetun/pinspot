@@ -5,7 +5,7 @@ Tags: image hotspot, image map, hotspot, interactive images, floor plan
 Requires at least: 6.6
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,9 @@ It is a single native block built the modern WordPress way — on the Interactiv
 
 * 📌 **Unlimited hotspots** on any image, with percentage-based positions that stay responsive at every screen size
 * 💬 **Rich tooltips** — title, description, an image, a self-hosted video, or a YouTube / Vimeo embed, plus a call-to-action button
+* 📐 **Draw clickable areas** — polygon, rectangle, or circle regions, not just point pins — ideal for floor plans, maps, and infographics
 * 🎨 **Marker styles** — numbered, dot, plus, info, question, any emoji, or your own custom image, in any size and color
+* 🖌️ **Custom tooltip colors** — set a background and text color, on top of the light/dark presets
 * 🧭 **Guided tour** — Previous / Next controls with optional autoplay to walk visitors through every pin in order
 * 🏷️ **Group filters** — let visitors show or hide pins by category, perfect for maps and floor plans
 * 🔍 **Zoom & pan** plus an image **lightbox** for large, detailed graphics
@@ -190,8 +192,18 @@ Privacy Policy: https://vimeo.com/privacy
 7. The optional accessible list beneath the image — a full text alternative for screen readers and SEO.
 8. Edit right on the image — type a pin’s title and description in the on-canvas tooltip editor.
 9. The block editor: place pins, reorder them, and configure content, marker, and behavior in the sidebar.
+10. Interactive floor plan — draw polygon, rectangle, or circle areas over rooms, each opening its own tooltip.
+11. A draw-area region with a custom-colored tooltip (title, description, and a call-to-action button).
 
 == Changelog ==
+
+= 1.2.0 =
+* New: 📐 **Draw clickable areas** — draw polygon, rectangle, or circle regions directly on the image, with drag handles to move and reshape them. Great for floor plans, maps, and infographics.
+* New: 🖌️ **Custom tooltip colors** — pick a background and text color for tooltips, alongside the light/dark presets.
+* New: 🩸 **Area fill opacity** — control how strong each drawn region's highlight appears.
+* New: 🛠️ **PinSpot admin screen** — a Welcome/overview and global default settings (trigger, theme, marker color) in one place.
+* New (developers): a documented **extension API** — PHP filters/actions and a JS/Interactivity contract (see HOOKS.md) so add-ons can extend PinSpot without editing it.
+* Improve: an empty tooltip (no title, description, media, or call-to-action) no longer shows as a small empty box; such markers and areas are non-interactive.
 
 = 1.1.0 =
 * New: 🧭 **Guided tour** — Previous / Next controls that step visitors through the hotspots in order, with optional autoplay and a pause button. Autoplay stays off automatically for anyone who prefers reduced motion, and each stop is announced to screen readers. Style the bar to taste: below the image or overlaid on it, show/hide the position counter, and set the button color, size, and shape.
@@ -207,6 +219,9 @@ Privacy Policy: https://vimeo.com/privacy
 * Initial release: interactive image hotspots block with rich tooltips, media, light/dark themes, click or hover triggers, smart placement, zoom & pan, lightbox, click-to-load video facades, deep links, import/export, three starter patterns, an optional accessible hotspot list, and full keyboard, screen-reader, reduced-motion, and RTL support.
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+Adds draw-able clickable areas (polygon/rectangle/circle), custom tooltip colors, area fill opacity, a PinSpot admin screen, and a developer extension API.
 
 = 1.1.0 =
 Adds a guided tour, group filters, emoji and custom-image markers, on-canvas tooltip editing, and copy/paste pin style — plus a tidier sidebar and a tooltip scrollbar fix.
