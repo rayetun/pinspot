@@ -85,6 +85,31 @@ document.addEventListener( 'pinspot:open', ( e ) => {
 - `data-pinspot-post` — on the block root `<figure>`, the ID of the post/page the block
   renders in, for attribution. Stable from **1.2.0**.
 
+## Admin dashboard pages (JS)
+
+The PinSpot admin app (top-level **PinSpot** menu) lets a licensed add-on add its own
+sidebar page — inheriting the app's dark/light theme and chrome — instead of registering a
+separate `admin.php` submenu. Push a descriptor to `window.pinspotAdminPages` **before** the
+`pinspot-admin` bundle runs (use a `before` inline script on that handle):
+
+```php
+wp_enqueue_script( 'my-addon-admin', $url, array(), $ver, true ); // defines the renderer
+wp_add_inline_script(
+    'pinspot-admin',
+    '(window.pinspotAdminPages=window.pinspotAdminPages||[]).push({'
+    . 'id:"analytics",label:"Analytics",icon:"chart-bar",'
+    . 'mount:function(el,ctx){ window.myAddonRenderAnalytics(el,ctx); }});',
+    'before'
+);
+```
+
+Each entry is `{ id, label, icon, mount(el, ctx) }`. `mount` renders imperatively into `el`
+and receives `ctx = { apiFetch, data, links }` (`apiFetch` is `@wordpress/api-fetch`, so REST
+calls carry the nonce). The page appears in the sidebar and its content sits inside
+`.pinspot-admin__content` — style it with the app's CSS variables (`--card`, `--text`,
+`--muted`, `--border`, `--shadow`) so it themes automatically. Pages register only when Pro
+is licensed (the add-on enqueues on the PinSpot screen). Stable from **1.2.0**.
+
 ## Guarantees
 
 - These names are a stable public API from 1.2.0; breaking changes will bump the major and

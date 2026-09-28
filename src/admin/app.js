@@ -2,7 +2,7 @@
  * PinSpot admin dashboard — a small React app rendered under the top-level
  * "PinSpot" menu. Dark sidebar + light/dark content, matching the house style.
  */
-import { useState, useEffect } from '@wordpress/element';
+import { useState, useEffect, useRef } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import {
@@ -15,6 +15,48 @@ import {
 
 const data = window.pinspotAdmin || {};
 const links = data.links || {};
+
+/*
+ * Admin-app extension seam: a licensed add-on (PinSpot Pro) can register extra
+ * dashboard pages by pushing to `window.pinspotAdminPages` BEFORE this bundle
+ * runs (via a `before` inline script on the `pinspot-admin` handle). Each entry
+ * is { id, label, icon, mount(el, ctx) } — `mount` renders imperatively into the
+ * given element and receives { apiFetch, data, links }. Content inherits the
+ * app's theme automatically through the shared CSS variables. See HOOKS.md.
+ */
+const PRO_PAGES = Array.isArray( window.pinspotAdminPages )
+	? window.pinspotAdminPages.filter( ( p ) => p && p.id && typeof p.mount === 'function' )
+	: [];
+
+/**
+ * Host for an add-on page: renders a container and lets the add-on mount into it.
+ *
+ * @param {Object} props      Component props.
+ * @param {Object} props.page The registered page descriptor.
+ * @return {JSX.Element} The mount container.
+ */
+function ProMount( { page } ) {
+	const ref = useRef( null );
+	useEffect( () => {
+		const el = ref.current;
+		if ( ! el ) {
+			return undefined;
+		}
+		el.innerHTML = '';
+		let cleanup;
+		try {
+			cleanup = page.mount( el, { apiFetch, data, links } );
+		} catch ( e ) {
+			el.textContent = '';
+		}
+		return () => {
+			if ( typeof cleanup === 'function' ) {
+				cleanup();
+			}
+		};
+	}, [ page ] );
+	return <div ref={ ref } className="pinspot-admin__promount" />;
+}
 
 /* -------------------------------------------------------------------------- */
 /* Static content                                                             */
@@ -763,12 +805,26 @@ export default function App() {
 		settings: <Settings />,
 		upgrade: <Upgrade />,
 	};
+	// Add-on-registered pages (only meaningful when Pro is licensed).
+	const proPages = data.proActive ? PRO_PAGES : [];
+	proPages.forEach( ( p ) => {
+		PAGES[ p.id ] = <ProMount key={ p.id } page={ p } />;
+	} );
 
-	// The upsell (nav tab + page) disappears entirely once Pro is licensed.
-	const navItems = data.proActive
-		? NAV.filter( ( n ) => n.id !== 'upgrade' )
-		: NAV;
-	const activePage = data.proActive && page === 'upgrade' ? 'overview' : page;
+	// The upsell (nav tab + page) disappears entirely once Pro is licensed; any
+	// add-on pages slot in after the core items.
+	const navItems = [
+		...( data.proActive ? NAV.filter( ( n ) => n.id !== 'upgrade' ) : NAV ),
+		...proPages.map( ( p ) => ( {
+			id: p.id,
+			label: p.label,
+			icon: p.icon || 'chart-bar',
+		} ) ),
+	];
+	let activePage = data.proActive && page === 'upgrade' ? 'overview' : page;
+	if ( ! PAGES[ activePage ] ) {
+		activePage = 'overview';
+	}
 
 	return (
 		<div className={ `pinspot-admin theme-${ theme }` }>
