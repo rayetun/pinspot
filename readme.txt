@@ -3,7 +3,7 @@ Contributors: rayetun
 Donate link: https://wise.com/pay/me/mdrayhanu2
 Tags: image hotspot, image map, hotspot, interactive images, floor plan
 Requires at least: 6.6
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 1.2.0
 License: GPLv2 or later
