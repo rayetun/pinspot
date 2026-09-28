@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-28T06:35:23+00:00\n"
+"POT-Creation-Date: 2026-09-28T22:32:24+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: pinspot\n"
@@ -39,8 +39,8 @@ msgstr ""
 msgid "https://rayetun.com/"
 msgstr ""
 
-#: includes/class-pinspot-admin.php:106
-#: includes/class-pinspot-admin.php:107
+#: includes/class-pinspot-admin.php:125
+#: includes/class-pinspot-admin.php:126
 #: includes/class-pinspot-plugin.php:96
 msgid "PinSpot"
 msgstr ""
@@ -200,17 +200,17 @@ msgid "On this image"
 msgstr ""
 
 #: src/admin/app.js:24
-#: src/admin/app.js:350
+#: src/admin/app.js:338
 msgid "Dashboard"
 msgstr ""
 
 #: src/admin/app.js:25
-#: src/admin/app.js:445
+#: src/admin/app.js:433
 msgid "Blocks"
 msgstr ""
 
 #: src/admin/app.js:28
-#: src/admin/app.js:513
+#: src/admin/app.js:501
 msgid "Settings"
 msgstr ""
 
@@ -308,406 +308,385 @@ msgstr ""
 msgid "Guides and tips for building interactive images."
 msgstr ""
 
-#: src/admin/app.js:125
+#: src/admin/app.js:127
 msgid "Image Hotspots"
 msgstr ""
 
-#: src/admin/app.js:126
+#: src/admin/app.js:128
 msgid "Place clickable pins on any image with rich, accessible tooltips."
 msgstr ""
 
-#: src/admin/app.js:134
+#: src/admin/app.js:136
 msgid "Live Map"
 msgstr ""
 
-#: src/admin/app.js:135
+#: src/admin/app.js:137
 msgid "Real geo pins on a Leaflet + OpenStreetMap map — no API key."
 msgstr ""
 
-#: src/admin/app.js:143
+#: src/admin/app.js:145
 msgid "Video Hotspots"
 msgstr ""
 
-#: src/admin/app.js:144
+#: src/admin/app.js:146
 msgid "Time-coded pins over self-hosted or YouTube video."
 msgstr ""
 
-#: src/admin/app.js:152
+#: src/admin/app.js:154
 msgid "360° / Panorama"
 msgstr ""
 
-#: src/admin/app.js:153
+#: src/admin/app.js:155
 msgid "Drag-to-look scenes with hotspots inside them."
 msgstr ""
 
-#: src/admin/app.js:158
+#: src/admin/app.js:160
 msgid "Audio Guide"
 msgstr ""
 
-#: src/admin/app.js:159
+#: src/admin/app.js:161
 msgid "Pins that stream narration with accessible controls."
 msgstr ""
 
-#: src/admin/app.js:171
+#: src/admin/app.js:175
 msgid "WooCommerce shoppable"
 msgstr ""
 
-#: src/admin/app.js:172
+#: src/admin/app.js:176
 msgid "Bind a pin to a product: live price, stock, and add-to-cart right in the tooltip."
 msgstr ""
 
-#: src/admin/app.js:179
+#: src/admin/app.js:183
+msgid "Shoppable drawn areas"
+msgstr ""
+
+#: src/admin/app.js:184
+msgid "Turn a whole drawn region — a room, a district — into a single buy point."
+msgstr ""
+
+#: src/admin/app.js:191
 msgid "Conditional display"
 msgstr ""
 
-#: src/admin/app.js:180
+#: src/admin/app.js:192
 msgid "Show or hide pins by user role, or schedule them for a date or sale window."
 msgstr ""
 
-#: src/admin/app.js:187
-msgid "Deep analytics"
-msgstr ""
-
-#: src/admin/app.js:188
-msgid "Per-hotspot clicks, CTA conversions, funnels, date ranges, and CSV export."
-msgstr ""
-
-#: src/admin/app.js:195
+#: src/admin/app.js:199
 msgid "Premium marker FX"
 msgstr ""
 
-#: src/admin/app.js:196
-msgid "Radar ping, ripple, and floating effects, plus premium icon packs."
-msgstr ""
-
-#: src/admin/app.js:203
-msgid "Advanced tour"
-msgstr ""
-
-#: src/admin/app.js:204
-msgid "Spotlight dimming, step highlighting, and narration."
-msgstr ""
-
-#: src/admin/app.js:208
-msgid "Companion blocks"
+#: src/admin/app.js:200
+msgid "Radar ping, ripple, and floating effects — all reduced-motion aware."
 msgstr ""
 
 #: src/admin/app.js:209
-msgid "Live Map, Video Hotspots, 360°, and Audio Guide."
+msgid "Single"
 msgstr ""
 
-#: src/admin/app.js:215
-msgid "Personal"
-msgstr ""
-
-#: src/admin/app.js:217
+#: src/admin/app.js:211
 msgid "1 site"
 msgstr ""
 
+#: src/admin/app.js:215
+msgid "5 Sites"
+msgstr ""
+
+#: src/admin/app.js:217
+msgid "Freelancers & agencies"
+msgstr ""
+
 #: src/admin/app.js:221
-msgid "Business"
-msgstr ""
-
-#: src/admin/app.js:223
-msgid "5 sites"
-msgstr ""
-
-#: src/admin/app.js:227
 msgid "Agency"
 msgstr ""
 
-#: src/admin/app.js:229
-msgid "25 sites"
+#: src/admin/app.js:223
+msgid "20 sites"
 msgstr ""
 
-#: src/admin/app.js:235
+#: src/admin/app.js:229
 msgid "Image Hotspots block"
 msgstr ""
 
-#: src/admin/app.js:237
+#: src/admin/app.js:231
 msgid "Rich tooltips, zoom, lightbox, tour, filters"
 msgstr ""
 
-#: src/admin/app.js:241
+#: src/admin/app.js:235
 msgid "Emoji & custom-image markers"
 msgstr ""
 
-#: src/admin/app.js:242
-msgid "WooCommerce shoppable images"
+#: src/admin/app.js:236
+msgid "WooCommerce shoppable pins & drawn areas"
 msgstr ""
 
-#: src/admin/app.js:243
+#: src/admin/app.js:237
 msgid "Conditional display & scheduling"
 msgstr ""
 
-#: src/admin/app.js:244
-msgid "Deep analytics & CSV export"
+#: src/admin/app.js:238
+msgid "Premium marker effects"
 msgstr ""
 
-#: src/admin/app.js:245
-msgid "Premium marker effects & icon packs"
-msgstr ""
-
-#: src/admin/app.js:247
-msgid "Companion blocks (Map, Video, 360°, Audio)"
-msgstr ""
-
-#: src/admin/app.js:251
+#: src/admin/app.js:239
 msgid "Priority email support"
 msgstr ""
 
-#: src/admin/app.js:256
+#: src/admin/app.js:244
 msgid "Do I need the free PinSpot plugin?"
 msgstr ""
 
-#: src/admin/app.js:257
+#: src/admin/app.js:245
 msgid "Yes. PinSpot Pro is an add-on that extends the free plugin, so keep the free plugin active."
 msgstr ""
 
-#: src/admin/app.js:263
+#: src/admin/app.js:251
 msgid "Is there a free trial?"
 msgstr ""
 
-#: src/admin/app.js:264
+#: src/admin/app.js:252
 msgid "Yes — a no-card free trial so you can try every Pro feature before you buy."
 msgstr ""
 
-#: src/admin/app.js:270
+#: src/admin/app.js:258
 msgid "How many sites can I use it on?"
 msgstr ""
 
-#: src/admin/app.js:271
+#: src/admin/app.js:259
 msgid "Depends on your plan: 1, 5, or 25 sites. Every plan includes every Pro feature."
 msgstr ""
 
-#: src/admin/app.js:277
+#: src/admin/app.js:265
 msgid "Will it work with my theme?"
 msgstr ""
 
-#: src/admin/app.js:278
+#: src/admin/app.js:266
 msgid "Yes. Pro uses the same block-native, accessible approach as the free plugin."
 msgstr ""
 
-#: src/admin/app.js:284
+#: src/admin/app.js:272
 msgid "What happens if my licence lapses?"
 msgstr ""
 
-#: src/admin/app.js:285
+#: src/admin/app.js:273
 msgid "Your site keeps working; you stop getting Pro updates and support until you renew."
 msgstr ""
 
-#: src/admin/app.js:323
+#: src/admin/app.js:311
 msgid "Posts using PinSpot"
 msgstr ""
 
-#: src/admin/app.js:329
+#: src/admin/app.js:317
 msgid "Starter patterns"
 msgstr ""
 
-#: src/admin/app.js:335
+#: src/admin/app.js:323
 msgid "Marker styles"
 msgstr ""
 
-#: src/admin/app.js:341
-#: src/admin/app.js:466
+#: src/admin/app.js:329
+#: src/admin/app.js:454
 msgid "Active"
 msgstr ""
 
-#: src/admin/app.js:342
-#: src/admin/app.js:616
-#: src/admin/app.js:712
+#: src/admin/app.js:330
+#: src/admin/app.js:604
+#: src/admin/app.js:700
 msgid "Free"
 msgstr ""
 
-#: src/admin/app.js:343
-#: src/admin/app.js:601
+#: src/admin/app.js:331
+#: src/admin/app.js:589
 msgid "PinSpot Pro"
 msgstr ""
 
-#: src/admin/app.js:351
+#: src/admin/app.js:339
 msgid "Overview of your interactive images and active features."
 msgstr ""
 
-#: src/admin/app.js:372
+#: src/admin/app.js:360
 msgid "Active features"
 msgstr ""
 
-#: src/admin/app.js:394
+#: src/admin/app.js:382
 msgid "Quick actions"
 msgstr ""
 
-#: src/admin/app.js:420
+#: src/admin/app.js:408
 msgid "Turn images into sales with PinSpot Pro"
 msgstr ""
 
-#: src/admin/app.js:426
-msgid "WooCommerce shoppable images, conditional display, deep analytics, and companion blocks."
+#: src/admin/app.js:414
+msgid "WooCommerce shoppable pins & drawn areas, conditional display, and premium marker effects."
 msgstr ""
 
-#: src/admin/app.js:433
+#: src/admin/app.js:421
 msgid "See Pro features"
 msgstr ""
 
-#: src/admin/app.js:446
-msgid "The blocks PinSpot adds to the editor. Pro adds a family of companion blocks."
+#: src/admin/app.js:434
+msgid "The block PinSpot adds to the editor today, plus companion blocks on the roadmap."
 msgstr ""
 
-#: src/admin/app.js:472
-#: src/admin/app.js:713
-msgid "Pro"
+#: src/admin/app.js:460
+msgid "Planned"
 msgstr ""
 
-#: src/admin/app.js:502
+#: src/admin/app.js:490
 msgid "Settings saved."
 msgstr ""
 
-#: src/admin/app.js:505
+#: src/admin/app.js:493
 msgid "Could not save settings."
 msgstr ""
 
-#: src/admin/app.js:514
+#: src/admin/app.js:502
 msgid "Defaults applied to new PinSpot blocks. Each block can still override them."
 msgstr ""
 
-#: src/admin/app.js:522
+#: src/admin/app.js:510
 msgid "Default trigger"
 msgstr ""
 
-#: src/admin/app.js:525
+#: src/admin/app.js:513
 #: src/components/hotspot-inspector.js:71
 #: src/edit.js:434
 msgid "Click"
 msgstr ""
 
-#: src/admin/app.js:526
+#: src/admin/app.js:514
 #: src/components/hotspot-inspector.js:72
 #: src/edit.js:438
 msgid "Hover"
 msgstr ""
 
-#: src/admin/app.js:532
+#: src/admin/app.js:520
 msgid "Default tooltip theme"
 msgstr ""
 
-#: src/admin/app.js:535
+#: src/admin/app.js:523
 #: src/components/hotspot-inspector.js:85
 #: src/edit.js:457
 msgid "Light"
 msgstr ""
 
-#: src/admin/app.js:536
+#: src/admin/app.js:524
 #: src/components/hotspot-inspector.js:86
 #: src/edit.js:461
 msgid "Dark"
 msgstr ""
 
-#: src/admin/app.js:542
+#: src/admin/app.js:530
 msgid "Default marker color"
 msgstr ""
 
-#: src/admin/app.js:559
+#: src/admin/app.js:547
 msgid "Save settings"
 msgstr ""
 
-#: src/admin/app.js:603
+#: src/admin/app.js:591
 msgid "Turn images into sales"
 msgstr ""
 
-#: src/admin/app.js:605
-msgid "The only accessible, block-native way to build shoppable images in WordPress — plus conditional display, deep analytics, premium effects, and a family of companion blocks."
+#: src/admin/app.js:593
+msgid "The accessible, block-native way to build shoppable images in WordPress — bind pins or whole drawn areas to WooCommerce products, plus conditional display and premium marker effects."
 msgstr ""
 
-#: src/admin/app.js:613
+#: src/admin/app.js:601
 msgid "Pro features"
 msgstr ""
 
-#: src/admin/app.js:617
+#: src/admin/app.js:605
 msgid "trial"
 msgstr ""
 
-#: src/admin/app.js:620
-msgid "No"
+#: src/admin/app.js:608
+msgid "7-day"
 msgstr ""
 
-#: src/admin/app.js:621
-msgid "monthly fees"
+#: src/admin/app.js:609
+msgid "money-back"
 msgstr ""
 
-#: src/admin/app.js:630
-#: src/admin/app.js:750
+#: src/admin/app.js:618
+#: src/admin/app.js:738
 msgid "Get PinSpot Pro"
 msgstr ""
 
-#: src/admin/app.js:634
+#: src/admin/app.js:622
 msgid "Free trial · Annual billing · Cancel anytime"
 msgstr ""
 
-#: src/admin/app.js:646
+#: src/admin/app.js:634
 msgid "Everything in Pro"
 msgstr ""
 
-#: src/admin/app.js:665
+#: src/admin/app.js:653
 msgid "Simple, transparent pricing"
 msgstr ""
 
-#: src/admin/app.js:668
+#: src/admin/app.js:656
 msgid "Every plan includes every Pro feature — now and in future updates."
 msgstr ""
 
-#: src/admin/app.js:683
+#: src/admin/app.js:671
 msgid "Most popular"
 msgstr ""
 
-#: src/admin/app.js:689
+#: src/admin/app.js:677
 msgid "yr"
 msgstr ""
 
-#: src/admin/app.js:698
+#: src/admin/app.js:686
 msgid "Get started"
 msgstr ""
 
-#: src/admin/app.js:705
+#: src/admin/app.js:693
 msgid "Free vs Pro"
 msgstr ""
 
-#: src/admin/app.js:711
+#: src/admin/app.js:699
 msgid "Feature"
 msgstr ""
 
-#: src/admin/app.js:735
+#: src/admin/app.js:701
+msgid "Pro"
+msgstr ""
+
+#: src/admin/app.js:723
 msgid "Frequently asked questions"
 msgstr ""
 
-#: src/admin/app.js:817
+#: src/admin/app.js:805
 msgid "Pro active"
 msgstr ""
 
-#: src/admin/app.js:826
+#: src/admin/app.js:814
 msgid "Go Pro"
 msgstr ""
 
-#: src/admin/app.js:832
+#: src/admin/app.js:820
 msgid "Toggle theme"
 msgstr ""
 
-#: src/admin/app.js:870
-#: src/admin/app.js:922
+#: src/admin/app.js:858
+#: src/admin/app.js:910
 msgid "Get Support"
 msgstr ""
 
-#: src/admin/app.js:883
+#: src/admin/app.js:871
 msgid "Enjoying PinSpot?"
 msgstr ""
 
-#: src/admin/app.js:886
+#: src/admin/app.js:874
 msgid "PinSpot is free and built by an independent developer. A review or small donation keeps it maintained."
 msgstr ""
 
-#: src/admin/app.js:901
+#: src/admin/app.js:889
 msgid "Leave a Review"
 msgstr ""
 
-#: src/admin/app.js:912
+#: src/admin/app.js:900
 msgid "Donate"
 msgstr ""
 
