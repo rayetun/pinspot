@@ -275,6 +275,7 @@ do_action( 'pinspot_render_before', $attributes );
 ?>
 <figure
 	<?php echo wp_kses_data( $pinspot_wrapper_attributes ); ?>
+	data-pinspot-post="<?php echo (int) get_the_ID(); ?>"
 	data-wp-interactive="pinspot"
 	<?php echo wp_kses_data( wp_interactivity_data_wp_context( $pinspot_context ) ); ?>
 	data-wp-watch="callbacks.syncZoom"
@@ -473,6 +474,7 @@ do_action( 'pinspot_render_before', $attributes );
 				?>
 				<div
 					class="<?php echo esc_attr( $pinspot_geo ? $pinspot_hotspot_classes . ' pinspot__hotspot--shape pinspot__hotspot--shape-' . $pinspot_geo['shape'] : $pinspot_hotspot_classes ); ?>"
+					data-pinspot-id="<?php echo esc_attr( $pinspot_id ); ?>"
 					style="<?php echo esc_attr( $pinspot_geo ? sprintf( 'left:%F%%;top:%F%%;width:%F%%;height:%F%%;', $pinspot_geo['x'], $pinspot_geo['y'], $pinspot_geo['w'], $pinspot_geo['h'] ) : sprintf( 'left:%F%%;top:%F%%;', $pinspot_x, $pinspot_y ) ); ?>"
 					<?php echo wp_kses_data( wp_interactivity_data_wp_context( $pinspot_hotspot_context ) ); ?>
 					data-wp-class--is-open="state.isOpen"

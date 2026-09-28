@@ -66,6 +66,25 @@ The frontend Interactivity store namespace is `pinspot`; the `data-wp-context` s
 stable — add-ons may register additional actions/state on the same namespace rather than
 forking `view.js`.
 
+## Frontend engagement event + attribution (for analytics)
+
+When a hotspot or draw-area opens, the store dispatches a bubbling DOM event so add-ons can
+observe engagement without forking `view.js`:
+
+```js
+document.addEventListener( 'pinspot:open', ( e ) => {
+    const hotspotId = e.detail.id;                         // the opened hotspot's id
+    const root = e.target.closest( '[data-pinspot-post]' ); // the block <figure>
+    const postId = root ? parseInt( root.dataset.pinspotPost, 10 ) : 0;
+    // record (postId, hotspotId) — aggregate only, no PII needed.
+} );
+```
+
+- `pinspot:open` — `CustomEvent`, `bubbles: true`, `detail: { id }`. Fires for pins and
+  drawn areas alike (click, hover-open, and tour navigation).
+- `data-pinspot-post` — on the block root `<figure>`, the ID of the post/page the block
+  renders in, for attribution. Stable from **1.2.0**.
+
 ## Guarantees
 
 - These names are a stable public API from 1.2.0; breaking changes will bump the major and
