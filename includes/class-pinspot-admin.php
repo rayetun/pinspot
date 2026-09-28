@@ -35,6 +35,25 @@ final class Pinspot_Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 		add_action( 'rest_api_init', array( $this, 'register_rest' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'expose_settings_to_editor' ) );
+		// Keep the PinSpot dashboard clean: suppress unrelated plugins' admin notices
+		// on our own screen only (never site-wide). Fires just before notices render.
+		add_action( 'in_admin_header', array( $this, 'silence_foreign_notices' ), 1000 );
+	}
+
+	/**
+	 * Remove third-party admin notices on the PinSpot admin page so the dashboard
+	 * stays focused. Scoped strictly to our screen — other admin pages are untouched.
+	 *
+	 * @return void
+	 */
+	public function silence_foreign_notices() {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		if ( ! $screen || $this->hook === '' || $screen->id !== $this->hook ) {
+			return;
+		}
+		remove_all_actions( 'admin_notices' );
+		remove_all_actions( 'all_admin_notices' );
+		remove_all_actions( 'user_admin_notices' );
 	}
 
 	/**
@@ -162,11 +181,13 @@ final class Pinspot_Admin {
 	 */
 	private function app_data() {
 		/**
-		 * Filter the storefront/pricing URL the dashboard links to.
+		 * Filter the storefront/pricing URL the dashboard links to. Defaults to the
+		 * Freemius checkout for PinSpot Pro (product 40383, plan 69621); the checkout
+		 * lets the buyer pick a site tier.
 		 *
 		 * @param string $url Upgrade URL.
 		 */
-		$upgrade = apply_filters( 'pinspot_upgrade_url', 'https://rayetun.com/pinspot-pro/' );
+		$upgrade = apply_filters( 'pinspot_upgrade_url', 'https://checkout.freemius.com/plugin/40383/plan/69621/' );
 
 		return array(
 			'version'   => PINSPOT_VERSION,

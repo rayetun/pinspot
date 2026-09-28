@@ -118,7 +118,9 @@ const QUICK_ACTIONS = [
 	],
 ];
 
-// The one free block + Pro-only companion blocks (teasers).
+// The one shipped free block + planned companion blocks (roadmap teasers — NOT
+// part of Pro v1.0, which extends the Image Hotspots block rather than adding
+// new blocks). Labeled "Planned" so we never advertise unshipped blocks as buyable.
 const BLOCKS = [
 	{
 		icon: 'location',
@@ -136,7 +138,7 @@ const BLOCKS = [
 			'Real geo pins on a Leaflet + OpenStreetMap map — no API key.',
 			'pinspot'
 		),
-		status: 'pro',
+		status: 'soon',
 	},
 	{
 		icon: 'video-alt3',
@@ -145,13 +147,13 @@ const BLOCKS = [
 			'Time-coded pins over self-hosted or YouTube video.',
 			'pinspot'
 		),
-		status: 'pro',
+		status: 'soon',
 	},
 	{
 		icon: 'images-alt2',
 		name: __( '360° / Panorama', 'pinspot' ),
 		desc: __( 'Drag-to-look scenes with hotspots inside them.', 'pinspot' ),
-		status: 'pro',
+		status: 'soon',
 	},
 	{
 		icon: 'controls-volumeon',
@@ -160,17 +162,27 @@ const BLOCKS = [
 			'Pins that stream narration with accessible controls.',
 			'pinspot'
 		),
-		status: 'pro',
+		status: 'soon',
 	},
 ];
 
-// What Pro unlocks (Upgrade page cards).
+// What Pro unlocks today (Upgrade page cards). Ships in Pro v1.0 only — no
+// vaporware. Roadmap items (analytics, companion blocks) are shown separately
+// as "Planned", never sold here.
 const PRO_FEATURES = [
 	[
 		'cart',
 		__( 'WooCommerce shoppable', 'pinspot' ),
 		__(
 			'Bind a pin to a product: live price, stock, and add-to-cart right in the tooltip.',
+			'pinspot'
+		),
+	],
+	[
+		'location-alt',
+		__( 'Shoppable drawn areas', 'pinspot' ),
+		__(
+			'Turn a whole drawn region — a room, a district — into a single buy point.',
 			'pinspot'
 		),
 	],
@@ -183,50 +195,32 @@ const PRO_FEATURES = [
 		),
 	],
 	[
-		'chart-bar',
-		__( 'Deep analytics', 'pinspot' ),
-		__(
-			'Per-hotspot clicks, CTA conversions, funnels, date ranges, and CSV export.',
-			'pinspot'
-		),
-	],
-	[
 		'marker',
 		__( 'Premium marker FX', 'pinspot' ),
 		__(
-			'Radar ping, ripple, and floating effects, plus premium icon packs.',
+			'Radar ping, ripple, and floating effects — all reduced-motion aware.',
 			'pinspot'
 		),
-	],
-	[
-		'controls-play',
-		__( 'Advanced tour', 'pinspot' ),
-		__( 'Spotlight dimming, step highlighting, and narration.', 'pinspot' ),
-	],
-	[
-		'images-alt2',
-		__( 'Companion blocks', 'pinspot' ),
-		__( 'Live Map, Video Hotspots, 360°, and Audio Guide.', 'pinspot' ),
 	],
 ];
 
 const PLANS = [
 	{
-		name: __( 'Personal', 'pinspot' ),
-		price: '49',
+		name: __( 'Single', 'pinspot' ),
+		price: '39',
 		sites: __( '1 site', 'pinspot' ),
 		popular: false,
 	},
 	{
-		name: __( 'Business', 'pinspot' ),
+		name: __( '5 Sites', 'pinspot' ),
 		price: '99',
-		sites: __( '5 sites', 'pinspot' ),
+		sites: __( 'Freelancers & agencies', 'pinspot' ),
 		popular: true,
 	},
 	{
 		name: __( 'Agency', 'pinspot' ),
 		price: '199',
-		sites: __( '25 sites', 'pinspot' ),
+		sites: __( '20 sites', 'pinspot' ),
 		popular: false,
 	},
 ];
@@ -239,15 +233,9 @@ const COMPARE = [
 		true,
 	],
 	[ __( 'Emoji & custom-image markers', 'pinspot' ), true, true ],
-	[ __( 'WooCommerce shoppable images', 'pinspot' ), false, true ],
+	[ __( 'WooCommerce shoppable pins & drawn areas', 'pinspot' ), false, true ],
 	[ __( 'Conditional display & scheduling', 'pinspot' ), false, true ],
-	[ __( 'Deep analytics & CSV export', 'pinspot' ), false, true ],
-	[ __( 'Premium marker effects & icon packs', 'pinspot' ), false, true ],
-	[
-		__( 'Companion blocks (Map, Video, 360°, Audio)', 'pinspot' ),
-		false,
-		true,
-	],
+	[ __( 'Premium marker effects', 'pinspot' ), false, true ],
 	[ __( 'Priority email support', 'pinspot' ), false, true ],
 ];
 
@@ -424,7 +412,7 @@ function Overview( { go } ) {
 						</strong>
 						<p>
 							{ __(
-								'WooCommerce shoppable images, conditional display, deep analytics, and companion blocks.',
+								'WooCommerce shoppable pins & drawn areas, conditional display, and premium marker effects.',
 								'pinspot'
 							) }
 						</p>
@@ -444,7 +432,7 @@ function Blocks() {
 			<PageHeader
 				title={ __( 'Blocks', 'pinspot' ) }
 				subtitle={ __(
-					'The blocks PinSpot adds to the editor. Pro adds a family of companion blocks.',
+					'The block PinSpot adds to the editor today, plus companion blocks on the roadmap.',
 					'pinspot'
 				) }
 			/>
@@ -453,7 +441,7 @@ function Blocks() {
 					<Card
 						key={ i }
 						className={ `pinspot-block ${
-							b.status === 'pro' ? 'is-pro' : ''
+							b.status === 'soon' ? 'is-soon' : ''
 						}` }
 					>
 						<div className="pinspot-block__top">
@@ -466,10 +454,10 @@ function Blocks() {
 									{ __( 'Active', 'pinspot' ) }
 								</span>
 							) }
-							{ b.status === 'pro' && (
-								<span className="pinspot-pill pinspot-pill--pro">
-									<Dashicon icon="lock" />{ ' ' }
-									{ __( 'Pro', 'pinspot' ) }
+							{ b.status === 'soon' && (
+								<span className="pinspot-pill pinspot-pill--soon">
+									<Dashicon icon="clock" />{ ' ' }
+									{ __( 'Planned', 'pinspot' ) }
 								</span>
 							) }
 						</div>
@@ -603,7 +591,7 @@ function Upgrade() {
 					<h1>{ __( 'Turn images into sales', 'pinspot' ) }</h1>
 					<p>
 						{ __(
-							'The only accessible, block-native way to build shoppable images in WordPress — plus conditional display, deep analytics, premium effects, and a family of companion blocks.',
+							'The accessible, block-native way to build shoppable images in WordPress — bind pins or whole drawn areas to WooCommerce products, plus conditional display and premium marker effects.',
 							'pinspot'
 						) }
 					</p>
@@ -617,8 +605,8 @@ function Upgrade() {
 							<span>{ __( 'trial', 'pinspot' ) }</span>
 						</div>
 						<div>
-							<strong>{ __( 'No', 'pinspot' ) }</strong>
-							<span>{ __( 'monthly fees', 'pinspot' ) }</span>
+							<strong>{ __( '7-day', 'pinspot' ) }</strong>
+							<span>{ __( 'money-back', 'pinspot' ) }</span>
 						</div>
 					</div>
 					<a

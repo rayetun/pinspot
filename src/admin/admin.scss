@@ -486,9 +486,15 @@ $sidebar: #171e3f;
 	width: 40px;
 }
 
-.pinspot-block.is-pro .pinspot-block__icon {
+.pinspot-block.is-pro .pinspot-block__icon,
+.pinspot-block.is-soon .pinspot-block__icon {
 	background: rgba(123, 47, 247, 0.12);
 	color: $brand-2;
+}
+
+// Planned (roadmap) block cards read as muted, not purchasable.
+.pinspot-block.is-soon {
+	opacity: 0.72;
 }
 
 .pinspot-block__title {
@@ -518,6 +524,7 @@ $sidebar: #171e3f;
 
 	&--on { background: rgba(38, 174, 96, 0.14); color: #1e9e57; }
 	&--pro { background: rgba(123, 47, 247, 0.14); color: $brand-2; }
+	&--soon { background: rgba(148, 163, 184, 0.18); color: #94a3b8; }
 }
 
 /* Settings */
