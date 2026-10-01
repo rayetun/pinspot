@@ -31,6 +31,9 @@
 # Developer docs — public on GitHub, not shipped in the .org package
 /HOOKS.md
 
+# Pro screenshot parked for re-add when Pro launches — not shipped, not a wp.org asset
+/assets-hold
+
 # Noise
 *.log
 *.zip
