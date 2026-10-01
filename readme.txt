@@ -202,6 +202,7 @@ Privacy Policy: https://vimeo.com/privacy
 * New: 🩸 **Area fill opacity** — control how strong each drawn region's highlight appears.
 * New: 🛠️ **PinSpot admin screen** — a Welcome/overview and global default settings (trigger, theme, marker color) in one place.
 * New (developers): a documented **extension API** — PHP filters/actions and a JS/Interactivity contract (see HOOKS.md) so add-ons can extend PinSpot without editing it.
+* Improve: tooltips now open with a subtle, snappy animation (and stay instant for anyone who prefers reduced motion).
 * Improve: an empty tooltip (no title, description, media, or call-to-action) no longer shows as a small empty box; such markers and areas are non-interactive.
 
 = 1.1.0 =
