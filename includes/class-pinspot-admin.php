@@ -189,9 +189,21 @@ final class Pinspot_Admin {
 		 */
 		$upgrade = apply_filters( 'pinspot_upgrade_url', 'https://checkout.freemius.com/plugin/40383/plan/69621/' );
 
+		/**
+		 * Whether the dashboard shows PinSpot Pro advertising (feature list, plans,
+		 * upgrade button, "Pro"/"Planned" block badges). Off until PinSpot Pro is
+		 * publicly purchasable — advertising a product that cannot yet be bought
+		 * frustrates users and breaches WordPress.org's upsell guidance. Flip the
+		 * default to true (or return true from this filter) when Pro goes live.
+		 *
+		 * @param bool $show Whether to show Pro advertising.
+		 */
+		$show_pro = (bool) apply_filters( 'pinspot_show_pro', false );
+
 		return array(
 			'version'   => PINSPOT_VERSION,
 			'proActive' => function_exists( 'pinspot_is_pro_active' ) && pinspot_is_pro_active(),
+			'showPro'   => $show_pro,
 			'settings'  => $this->get_settings(),
 			'stats'     => $this->stats(),
 			'links'     => array(

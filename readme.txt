@@ -192,8 +192,7 @@ Privacy Policy: https://vimeo.com/privacy
 7. The optional accessible list beneath the image — a full text alternative for screen readers and SEO.
 8. Edit right on the image — type a pin’s title and description in the on-canvas tooltip editor.
 9. The block editor: place pins, reorder them, and configure content, marker, and behavior in the sidebar.
-10. Draw clickable areas — polygon, rectangle, or circle regions over any image (here, districts on a city map), each opening its own tooltip. Drawing is free.
-11. Shop the look with PinSpot Pro (premium add-on) — bind pins or drawn areas to WooCommerce products for live price, stock, add-to-cart, and automatic sale badges.
+10. Draw clickable areas — polygon, rectangle, or circle regions over any image (here, districts on a city map), each opening its own tooltip.
 
 == Changelog ==
 

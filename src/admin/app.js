@@ -16,6 +16,12 @@ import {
 const data = window.pinspotAdmin || {};
 const links = data.links || {};
 
+// Whether to surface PinSpot Pro advertising (upgrade tab/page, plans, roadmap
+// block teasers, "Go Pro"). Off until Pro is publicly purchasable — set server-
+// side via the `pinspot_show_pro` filter. Pro, once licensed, is handled by
+// `data.proActive` independently of this flag.
+const showPro = !! data.showPro;
+
 /*
  * Admin-app extension seam: a licensed add-on (PinSpot Pro) can register extra
  * dashboard pages by pushing to `window.pinspotAdminPages` BEFORE this bundle
@@ -365,15 +371,17 @@ function Overview( { go } ) {
 			__( 'Marker styles', 'pinspot' ),
 			'c',
 		],
-		[
+	];
+	// Only reference Pro in the overview when advertising is enabled, or when a
+	// licence is already active (status is useful to a Pro owner regardless).
+	if ( showPro || data.proActive ) {
+		tiles.push( [
 			data.proActive ? 'yes-alt' : 'star-filled',
-			data.proActive
-				? __( 'Active', 'pinspot' )
-				: __( 'Free', 'pinspot' ),
+			data.proActive ? __( 'Active', 'pinspot' ) : __( 'Free', 'pinspot' ),
 			__( 'PinSpot Pro', 'pinspot' ),
 			'd',
-		],
-	];
+		] );
+	}
 	return (
 		<div className="pinspot-page">
 			<PageHeader
@@ -443,7 +451,7 @@ function Overview( { go } ) {
 				) ) }
 			</div>
 
-			{ ! data.proActive && (
+			{ showPro && ! data.proActive && (
 				<Card className="pinspot-cta">
 					<div>
 						<strong>
@@ -469,17 +477,27 @@ function Overview( { go } ) {
 }
 
 function Blocks() {
+	// Roadmap/companion blocks are Pro teasers — only show them while Pro
+	// advertising is on; otherwise list just the shipped free block(s).
+	const list = showPro ? BLOCKS : BLOCKS.filter( ( b ) => b.status === 'core' );
 	return (
 		<div className="pinspot-page">
 			<PageHeader
 				title={ __( 'Blocks', 'pinspot' ) }
-				subtitle={ __(
-					'The block PinSpot adds to the editor today, plus companion blocks on the roadmap.',
-					'pinspot'
-				) }
+				subtitle={
+					showPro
+						? __(
+								'The block PinSpot adds to the editor today, plus companion blocks on the roadmap.',
+								'pinspot'
+						  )
+						: __(
+								'The block PinSpot adds to the editor.',
+								'pinspot'
+						  )
+				}
 			/>
 			<div className="pinspot-grid pinspot-grid--3">
-				{ BLOCKS.map( ( b, i ) => (
+				{ list.map( ( b, i ) => (
 					<Card
 						key={ i }
 						className={ `pinspot-block ${
@@ -803,18 +821,24 @@ export default function App() {
 		overview: <Overview go={ setPage } />,
 		blocks: <Blocks />,
 		settings: <Settings />,
-		upgrade: <Upgrade />,
 	};
+	// The upsell page exists only while Pro advertising is on and no licence is
+	// active yet.
+	if ( showPro && ! data.proActive ) {
+		PAGES.upgrade = <Upgrade />;
+	}
 	// Add-on-registered pages (only meaningful when Pro is licensed).
 	const proPages = data.proActive ? PRO_PAGES : [];
 	proPages.forEach( ( p ) => {
 		PAGES[ p.id ] = <ProMount key={ p.id } page={ p } />;
 	} );
 
-	// The upsell (nav tab + page) disappears entirely once Pro is licensed; any
-	// add-on pages slot in after the core items.
+	// The upsell tab shows only when advertising is on and Pro isn't licensed;
+	// any add-on pages slot in after the core items.
 	const navItems = [
-		...( data.proActive ? NAV.filter( ( n ) => n.id !== 'upgrade' ) : NAV ),
+		...NAV.filter(
+			( n ) => n.id !== 'upgrade' || ( showPro && ! data.proActive )
+		),
 		...proPages.map( ( p ) => ( {
 			id: p.id,
 			label: p.label,
@@ -855,12 +879,13 @@ export default function App() {
 
 			<div className="pinspot-admin__main">
 				<header className="pinspot-admin__topbar">
-					{ data.proActive ? (
+					{ data.proActive && (
 						<span className="pinspot-tag pinspot-tag--pro">
 							<Dashicon icon="yes-alt" />{ ' ' }
 							{ __( 'Pro active', 'pinspot' ) }
 						</span>
-					) : (
+					) }
+					{ ! data.proActive && showPro && (
 						<button
 							type="button"
 							className="pinspot-tag pinspot-tag--go"
