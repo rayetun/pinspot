@@ -3,13 +3,14 @@
  * "PinSpot" menu. Dark sidebar + light/dark content, matching the house style.
  */
 import { useState, useEffect, useRef } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import {
 	Button,
 	SelectControl,
 	ColorPalette,
 	BaseControl,
+	RangeControl,
 	Snackbar,
 } from '@wordpress/components';
 
@@ -32,6 +33,17 @@ const showPro = !! data.showPro;
  */
 const PRO_PAGES = Array.isArray( window.pinspotAdminPages )
 	? window.pinspotAdminPages.filter( ( p ) => p && p.id && typeof p.mount === 'function' )
+	: [];
+
+/*
+ * Companion-block registry seam (parallel to pinspotAdminPages): a licensed add-on
+ * declares each companion block it actually registers by pushing { id, icon, name,
+ * desc } to `window.pinspotAdminBlocks` on the dashboard page. The Blocks tab lists
+ * exactly these as active Pro blocks, so the free plugin never hardcodes — or
+ * mis-states — which add-on blocks are live. See HOOKS.md.
+ */
+const PRO_BLOCKS = Array.isArray( window.pinspotAdminBlocks )
+	? window.pinspotAdminBlocks.filter( ( b ) => b && b.name )
 	: [];
 
 /**
@@ -166,9 +178,9 @@ const QUICK_ACTIONS = [
 	],
 ];
 
-// The one shipped free block + planned companion blocks (roadmap teasers — NOT
-// part of Pro v1.0, which extends the Image Hotspots block rather than adding
-// new blocks). Labeled "Planned" so we never advertise unshipped blocks as buyable.
+// The free block (core), the Pro companion blocks (surfaced as upgrade teasers
+// when Pro advertising is on; shown as *active* from the live registry once Pro is
+// installed — see Blocks()), and genuine roadmap blocks (Planned, never sold).
 const BLOCKS = [
 	{
 		icon: 'location',
@@ -180,34 +192,39 @@ const BLOCKS = [
 		status: 'core',
 	},
 	{
+		id: 'pinspot/live-map',
 		icon: 'admin-site-alt3',
 		name: __( 'Live Map', 'pinspot' ),
 		desc: __(
 			'Real geo pins on a Leaflet + OpenStreetMap map — no API key.',
 			'pinspot'
 		),
-		status: 'soon',
+		status: 'pro',
 	},
 	{
+		id: 'pinspot/video-hotspots',
 		icon: 'video-alt3',
 		name: __( 'Video Hotspots', 'pinspot' ),
 		desc: __(
-			'Time-coded pins over self-hosted or YouTube video.',
+			'Time-coded, shoppable pins over self-hosted or YouTube video.',
 			'pinspot'
 		),
-		status: 'soon',
+		status: 'pro',
 	},
 	{
 		icon: 'images-alt2',
 		name: __( '360° / Panorama', 'pinspot' ),
-		desc: __( 'Drag-to-look scenes with hotspots inside them.', 'pinspot' ),
+		desc: __(
+			'Shoppable 360° showrooms and virtual tours with in-scene hotspots.',
+			'pinspot'
+		),
 		status: 'soon',
 	},
 	{
 		icon: 'controls-volumeon',
 		name: __( 'Audio Guide', 'pinspot' ),
 		desc: __(
-			'Pins that stream narration with accessible controls.',
+			'Narrated, accessible hotspots with a guided audio-tour player.',
 			'pinspot'
 		),
 		status: 'soon',
@@ -476,18 +493,74 @@ function Overview( { go } ) {
 	);
 }
 
+// Pill rendered on a block card, keyed by its resolved display state.
+function BlockPill( { state } ) {
+	if ( state === 'active' ) {
+		return (
+			<span className="pinspot-pill pinspot-pill--on">
+				<Dashicon icon="yes-alt" /> { __( 'Active', 'pinspot' ) }
+			</span>
+		);
+	}
+	if ( state === 'active-pro' ) {
+		return (
+			<span className="pinspot-pill pinspot-pill--pro-on">
+				<Dashicon icon="yes-alt" /> { __( 'Active · Pro', 'pinspot' ) }
+			</span>
+		);
+	}
+	if ( state === 'pro' ) {
+		return (
+			<span className="pinspot-pill pinspot-pill--pro">
+				<Dashicon icon="star-filled" /> { __( 'Pro', 'pinspot' ) }
+			</span>
+		);
+	}
+	return (
+		<span className="pinspot-pill pinspot-pill--soon">
+			<Dashicon icon="clock" /> { __( 'Planned', 'pinspot' ) }
+		</span>
+	);
+}
+
 function Blocks() {
-	// Roadmap/companion blocks are Pro teasers — only show them while Pro
-	// advertising is on; otherwise list just the shipped free block(s).
-	const list = showPro ? BLOCKS : BLOCKS.filter( ( b ) => b.status === 'core' );
+	// Resolve the card list from three sources, in priority order:
+	//  1. The free core block — always active.
+	//  2. Pro companion blocks — from the live registry (pinspotAdminBlocks) as
+	//     *active* when Pro is installed; otherwise shown as upgrade teasers while
+	//     Pro advertising is on. The free plugin never asserts a Pro block is live.
+	//  3. Genuine roadmap blocks — "Planned", shown to anyone in the Pro-aware view.
+	const core = BLOCKS.filter( ( b ) => b.status === 'core' );
+	const proStatic = BLOCKS.filter( ( b ) => b.status === 'pro' );
+	const roadmap = BLOCKS.filter( ( b ) => b.status === 'soon' );
+
+	let proCards = [];
+	if ( data.proActive && PRO_BLOCKS.length ) {
+		proCards = PRO_BLOCKS.map( ( b ) => ( { ...b, state: 'active-pro' } ) );
+	} else if ( data.proActive ) {
+		// Pro is on but nothing registered (defensive) — fall back to the known set.
+		proCards = proStatic.map( ( b ) => ( { ...b, state: 'active-pro' } ) );
+	} else if ( showPro ) {
+		proCards = proStatic.map( ( b ) => ( { ...b, state: 'pro' } ) );
+	}
+
+	const coreCards = core.map( ( b ) => ( { ...b, state: 'active' } ) );
+	const roadmapCards =
+		showPro || data.proActive
+			? roadmap.map( ( b ) => ( { ...b, state: 'soon' } ) )
+			: [];
+
+	const list = [ ...coreCards, ...proCards, ...roadmapCards ];
+	const hasExtras = proCards.length > 0 || roadmapCards.length > 0;
+
 	return (
 		<div className="pinspot-page">
 			<PageHeader
 				title={ __( 'Blocks', 'pinspot' ) }
 				subtitle={
-					showPro
+					hasExtras
 						? __(
-								'The block PinSpot adds to the editor today, plus companion blocks on the roadmap.',
+								'The blocks PinSpot adds to the editor — plus companion blocks and what is on the roadmap.',
 								'pinspot'
 						  )
 						: __(
@@ -499,27 +572,16 @@ function Blocks() {
 			<div className="pinspot-grid pinspot-grid--3">
 				{ list.map( ( b, i ) => (
 					<Card
-						key={ i }
+						key={ b.id || b.name || i }
 						className={ `pinspot-block ${
-							b.status === 'soon' ? 'is-soon' : ''
-						}` }
+							b.state === 'soon' ? 'is-soon' : ''
+						} ${ b.state === 'pro' ? 'is-pro' : '' }` }
 					>
 						<div className="pinspot-block__top">
 							<span className="pinspot-block__icon">
 								<Dashicon icon={ b.icon } />
 							</span>
-							{ b.status === 'core' && (
-								<span className="pinspot-pill pinspot-pill--on">
-									<Dashicon icon="yes-alt" />{ ' ' }
-									{ __( 'Active', 'pinspot' ) }
-								</span>
-							) }
-							{ b.status === 'soon' && (
-								<span className="pinspot-pill pinspot-pill--soon">
-									<Dashicon icon="clock" />{ ' ' }
-									{ __( 'Planned', 'pinspot' ) }
-								</span>
-							) }
+							<BlockPill state={ b.state } />
 						</div>
 						<div className="pinspot-block__title">{ b.name }</div>
 						<p>{ b.desc }</p>
@@ -530,23 +592,78 @@ function Blocks() {
 	);
 }
 
+// Baseline defaults — kept in sync with the server schema (class-pinspot-admin.php).
+const SETTINGS_DEFAULTS = {
+	defaultTrigger: 'click',
+	defaultTheme: 'light',
+	defaultMarkerColor: '#3a5df0',
+	defaultTooltipWidth: 280,
+};
+
+// A small, live sample of what the current defaults produce in the editor.
+function SettingsPreview( { trigger, theme, color, width } ) {
+	const tip = Math.max( 180, Math.min( 480, Number( width ) || 280 ) );
+	return (
+		<div className="pinspot-settings-preview" aria-hidden="true">
+			<div className="pinspot-settings-preview__stage">
+				<span
+					className="pinspot-settings-preview__pin"
+					style={ { background: color } }
+				>
+					<Dashicon icon="location" />
+				</span>
+				<div
+					className={ `pinspot-settings-preview__tip is-${ theme }` }
+					style={ { maxWidth: `${ Math.min( tip, 240 ) }px` } }
+				>
+					<strong>{ __( 'Sample hotspot', 'pinspot' ) }</strong>
+					<span>
+						{ __(
+							'New blocks start with these defaults.',
+							'pinspot'
+						) }
+					</span>
+				</div>
+			</div>
+			<p className="pinspot-settings-preview__meta">
+				{ sprintf(
+					/* translators: 1: trigger, 2: tooltip width in px. */
+					__( 'Opens on %1$s · %2$dpx wide', 'pinspot' ),
+					trigger === 'hover'
+						? __( 'hover', 'pinspot' )
+						: __( 'click', 'pinspot' ),
+					tip
+				) }
+			</p>
+		</div>
+	);
+}
+
 function Settings() {
-	const [ settings, setSettings ] = useState( data.settings || {} );
+	const [ settings, setSettings ] = useState( {
+		...SETTINGS_DEFAULTS,
+		...( data.settings || {} ),
+	} );
 	const [ saving, setSaving ] = useState( false );
 	const [ notice, setNotice ] = useState( '' );
 
 	const update = ( key, value ) =>
 		setSettings( { ...settings, [ key ]: value } );
 
-	const save = () => {
+	const trigger = settings.defaultTrigger || 'click';
+	const theme = settings.defaultTheme || 'light';
+	const color = settings.defaultMarkerColor || '#3a5df0';
+	const width = settings.defaultTooltipWidth || 280;
+
+	const persist = ( next ) => {
 		setSaving( true );
 		apiFetch( {
 			path: 'pinspot/v1/settings',
 			method: 'POST',
-			data: settings,
+			data: next,
 		} )
 			.then( ( saved ) => {
-				setSettings( saved );
+				setSettings( { ...SETTINGS_DEFAULTS, ...saved } );
 				setNotice( __( 'Settings saved.', 'pinspot' ) );
 			} )
 			.catch( () =>
@@ -554,6 +671,18 @@ function Settings() {
 			)
 			.finally( () => setSaving( false ) );
 	};
+
+	const save = () => persist( settings );
+	const reset = () => {
+		setSettings( SETTINGS_DEFAULTS );
+		persist( SETTINGS_DEFAULTS );
+	};
+
+	const isDefault =
+		trigger === SETTINGS_DEFAULTS.defaultTrigger &&
+		theme === SETTINGS_DEFAULTS.defaultTheme &&
+		color.toLowerCase() === SETTINGS_DEFAULTS.defaultMarkerColor &&
+		Number( width ) === SETTINGS_DEFAULTS.defaultTooltipWidth;
 
 	return (
 		<div className="pinspot-page">
@@ -564,50 +693,126 @@ function Settings() {
 					'pinspot'
 				) }
 			/>
-			<Card className="pinspot-settings">
-				<SelectControl
-					__nextHasNoMarginBottom
-					label={ __( 'Default trigger', 'pinspot' ) }
-					value={ settings.defaultTrigger || 'click' }
-					options={ [
-						{ label: __( 'Click', 'pinspot' ), value: 'click' },
-						{ label: __( 'Hover', 'pinspot' ), value: 'hover' },
-					] }
-					onChange={ ( v ) => update( 'defaultTrigger', v ) }
-				/>
-				<SelectControl
-					__nextHasNoMarginBottom
-					label={ __( 'Default tooltip theme', 'pinspot' ) }
-					value={ settings.defaultTheme || 'light' }
-					options={ [
-						{ label: __( 'Light', 'pinspot' ), value: 'light' },
-						{ label: __( 'Dark', 'pinspot' ), value: 'dark' },
-					] }
-					onChange={ ( v ) => update( 'defaultTheme', v ) }
-				/>
-				<BaseControl
-					__nextHasNoMarginBottom
-					label={ __( 'Default marker color', 'pinspot' ) }
-					id="pinspot-default-color"
-				>
-					<ColorPalette
-						value={ settings.defaultMarkerColor || '#3a5df0' }
-						onChange={ ( v ) =>
-							update( 'defaultMarkerColor', v || '#3a5df0' )
-						}
-						enableAlpha={ false }
-					/>
-				</BaseControl>
-				<div className="pinspot-settings__actions">
-					<Button
-						variant="primary"
-						isBusy={ saving }
-						onClick={ save }
-					>
-						{ __( 'Save settings', 'pinspot' ) }
-					</Button>
+			<div className="pinspot-settings-layout">
+				<div className="pinspot-settings-main">
+					<Card className="pinspot-settings">
+						<div className="pinspot-settings__group">
+							<h3 className="pinspot-settings__legend">
+								{ __( 'Tooltip', 'pinspot' ) }
+							</h3>
+							<SelectControl
+								__nextHasNoMarginBottom
+								label={ __( 'Default trigger', 'pinspot' ) }
+								help={ __(
+									'How a tooltip opens on new blocks.',
+									'pinspot'
+								) }
+								value={ trigger }
+								options={ [
+									{
+										label: __( 'Click', 'pinspot' ),
+										value: 'click',
+									},
+									{
+										label: __( 'Hover', 'pinspot' ),
+										value: 'hover',
+									},
+								] }
+								onChange={ ( v ) =>
+									update( 'defaultTrigger', v )
+								}
+							/>
+							<SelectControl
+								__nextHasNoMarginBottom
+								label={ __( 'Default theme', 'pinspot' ) }
+								value={ theme }
+								options={ [
+									{
+										label: __( 'Light', 'pinspot' ),
+										value: 'light',
+									},
+									{
+										label: __( 'Dark', 'pinspot' ),
+										value: 'dark',
+									},
+								] }
+								onChange={ ( v ) => update( 'defaultTheme', v ) }
+							/>
+							<RangeControl
+								__next40pxDefaultSize
+								__nextHasNoMarginBottom
+								label={ __( 'Default width (px)', 'pinspot' ) }
+								value={ Number( width ) }
+								min={ 180 }
+								max={ 480 }
+								step={ 10 }
+								onChange={ ( v ) =>
+									update(
+										'defaultTooltipWidth',
+										v || 280
+									)
+								}
+							/>
+						</div>
+
+						<div className="pinspot-settings__group">
+							<h3 className="pinspot-settings__legend">
+								{ __( 'Marker', 'pinspot' ) }
+							</h3>
+							<BaseControl
+								__nextHasNoMarginBottom
+								label={ __(
+									'Default marker color',
+									'pinspot'
+								) }
+								id="pinspot-default-color"
+							>
+								<ColorPalette
+									value={ color }
+									onChange={ ( v ) =>
+										update(
+											'defaultMarkerColor',
+											v || '#3a5df0'
+										)
+									}
+									enableAlpha={ false }
+								/>
+							</BaseControl>
+						</div>
+
+						<div className="pinspot-settings__actions">
+							<Button
+								variant="primary"
+								isBusy={ saving }
+								onClick={ save }
+							>
+								{ __( 'Save settings', 'pinspot' ) }
+							</Button>
+							<Button
+								variant="tertiary"
+								disabled={ saving || isDefault }
+								onClick={ reset }
+							>
+								{ __( 'Reset to defaults', 'pinspot' ) }
+							</Button>
+						</div>
+					</Card>
 				</div>
-			</Card>
+
+				<aside className="pinspot-settings-aside">
+					<Card className="pinspot-settings-previewcard">
+						<h3 className="pinspot-settings__legend">
+							{ __( 'Preview', 'pinspot' ) }
+						</h3>
+						<SettingsPreview
+							trigger={ trigger }
+							theme={ theme }
+							color={ color }
+							width={ width }
+						/>
+					</Card>
+				</aside>
+			</div>
 			{ notice && (
 				<Snackbar onRemove={ () => setNotice( '' ) }>
 					{ notice }

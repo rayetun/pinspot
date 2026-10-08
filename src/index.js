@@ -33,6 +33,12 @@ addFilter(
 				default: site.defaultTheme,
 			};
 		}
+		if ( site.defaultTooltipWidth && attributes.tooltipWidth ) {
+			attributes.tooltipWidth = {
+				...attributes.tooltipWidth,
+				default: Number( site.defaultTooltipWidth ),
+			};
+		}
 		return { ...settings, attributes };
 	}
 );

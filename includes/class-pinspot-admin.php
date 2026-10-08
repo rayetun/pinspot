@@ -75,9 +75,10 @@ final class Pinspot_Admin {
 	 */
 	private function defaults() {
 		return array(
-			'defaultTrigger'     => 'click',
-			'defaultTheme'       => 'light',
-			'defaultMarkerColor' => '#3a5df0',
+			'defaultTrigger'      => 'click',
+			'defaultTheme'        => 'light',
+			'defaultMarkerColor'  => '#3a5df0',
+			'defaultTooltipWidth' => 280,
 		);
 	}
 
@@ -111,6 +112,13 @@ final class Pinspot_Admin {
 			$color = sanitize_hex_color( $input['defaultMarkerColor'] );
 			if ( $color ) {
 				$out['defaultMarkerColor'] = $color;
+			}
+		}
+		if ( isset( $input['defaultTooltipWidth'] ) ) {
+			// Clamp to the same range the block inspector allows.
+			$width = (int) $input['defaultTooltipWidth'];
+			if ( $width >= 180 && $width <= 480 ) {
+				$out['defaultTooltipWidth'] = $width;
 			}
 		}
 
@@ -198,7 +206,7 @@ final class Pinspot_Admin {
 		 *
 		 * @param bool $show Whether to show Pro advertising.
 		 */
-		$show_pro = (bool) apply_filters( 'pinspot_show_pro', false );
+		$show_pro = (bool) apply_filters( 'pinspot_show_pro', true );
 
 		return array(
 			'version'   => PINSPOT_VERSION,

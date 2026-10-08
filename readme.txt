@@ -5,7 +5,7 @@ Tags: image hotspot, image map, hotspot, interactive images, floor plan
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -193,8 +193,14 @@ Privacy Policy: https://vimeo.com/privacy
 8. Edit right on the image — type a pin’s title and description in the on-canvas tooltip editor.
 9. The block editor: place pins, reorder them, and configure content, marker, and behavior in the sidebar.
 10. Draw clickable areas — polygon, rectangle, or circle regions over any image (here, districts on a city map), each opening its own tooltip.
+11. “Shop the look” — turn a room photo into an interactive image with a hotspot on each item (bind hotspots to WooCommerce products with PinSpot Pro).
 
 == Changelog ==
+
+= 1.2.1 =
+* Improve: redesigned Settings screen — grouped sections, a live preview of your defaults, a default tooltip width, and a one-click reset.
+* Improve: the Blocks screen now reflects the blocks available in the editor, including companion blocks when PinSpot Pro is active.
+* New: an Upgrade tab introduces PinSpot Pro (shoppable WooCommerce images, Live Map, Video Hotspots, and 360°/Panorama) — a link-only upsell that hides itself automatically when Pro is active.
 
 = 1.2.0 =
 * New: 📐 **Draw clickable areas** — draw polygon, rectangle, or circle regions directly on the image, with drag handles to move and reshape them. Great for floor plans, maps, and infographics.
@@ -219,6 +225,9 @@ Privacy Policy: https://vimeo.com/privacy
 * Initial release: interactive image hotspots block with rich tooltips, media, light/dark themes, click or hover triggers, smart placement, zoom & pan, lightbox, click-to-load video facades, deep links, import/export, three starter patterns, an optional accessible hotspot list, and full keyboard, screen-reader, reduced-motion, and RTL support.
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+A refreshed Settings screen (live preview, default width, reset), a Blocks overview, and an optional introduction to PinSpot Pro.
 
 = 1.2.0 =
 Adds draw-able clickable areas (polygon/rectangle/circle), custom tooltip colors, area fill opacity, a PinSpot admin screen, and a developer extension API.

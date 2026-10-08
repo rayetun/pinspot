@@ -110,6 +110,25 @@ calls carry the nonce). The page appears in the sidebar and its content sits ins
 `--muted`, `--border`, `--shadow`) so it themes automatically. Pages register only when Pro
 is licensed (the add-on enqueues on the PinSpot screen). Stable from **1.2.0**.
 
+## Admin dashboard companion blocks (JS)
+
+So the dashboard **Blocks** tab can list the companion blocks an add-on actually registers
+(shown as **Active · Pro**) — rather than the free plugin hardcoding which add-on blocks are
+live — push a descriptor to `window.pinspotAdminBlocks` the same way, on the PinSpot screen:
+
+```php
+wp_add_inline_script(
+    'pinspot-admin',
+    '(window.pinspotAdminBlocks=window.pinspotAdminBlocks||[]).push({'
+    . 'id:"pinspot/live-map",icon:"admin-site-alt3",'
+    . 'name:"Live Map",desc:"Interactive map with clickable geo pins."});',
+    'before'
+);
+```
+
+Each entry is `{ id, icon, name, desc }`. The free plugin lists these only when Pro is active;
+if none are registered it falls back to its built-in set. Stable from **1.2.1**.
+
 ## Guarantees
 
 - These names are a stable public API from 1.2.0; breaking changes will bump the major and
