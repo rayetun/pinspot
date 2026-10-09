@@ -212,13 +212,14 @@ const BLOCKS = [
 		status: 'pro',
 	},
 	{
+		id: 'pinspot/panorama',
 		icon: 'images-alt2',
 		name: __( '360° / Panorama', 'pinspot' ),
 		desc: __(
 			'Shoppable 360° showrooms and virtual tours with in-scene hotspots.',
 			'pinspot'
 		),
-		status: 'soon',
+		status: 'pro',
 	},
 	{
 		icon: 'controls-volumeon',
@@ -248,6 +249,38 @@ const PRO_FEATURES = [
 		__( 'Shoppable drawn areas', 'pinspot' ),
 		__(
 			'Turn a whole drawn region — a room, a district — into a single buy point.',
+			'pinspot'
+		),
+	],
+	[
+		'admin-site-alt3',
+		__( 'Live Map block', 'pinspot' ),
+		__(
+			'An interactive Leaflet + OpenStreetMap map with clickable geo pins. No API key.',
+			'pinspot'
+		),
+	],
+	[
+		'video-alt3',
+		__( 'Video Hotspots block', 'pinspot' ),
+		__(
+			'Time-coded, shoppable pins over self-hosted, YouTube, or Vimeo video.',
+			'pinspot'
+		),
+	],
+	[
+		'images-alt2',
+		__( '360° / Panorama block', 'pinspot' ),
+		__(
+			'Drag-to-look 360° showrooms and multi-scene virtual tours with shoppable in-scene hotspots.',
+			'pinspot'
+		),
+	],
+	[
+		'chart-bar',
+		__( 'Engagement analytics', 'pinspot' ),
+		__(
+			'Privacy-first dashboards for image, video, and 360° hotspots — opens, clicks, and add-to-carts.',
 			'pinspot'
 		),
 	],
@@ -299,6 +332,10 @@ const COMPARE = [
 	],
 	[ __( 'Emoji & custom-image markers', 'pinspot' ), true, true ],
 	[ __( 'WooCommerce shoppable pins & drawn areas', 'pinspot' ), false, true ],
+	[ __( 'Live Map block (Leaflet + OpenStreetMap)', 'pinspot' ), false, true ],
+	[ __( 'Video Hotspots block', 'pinspot' ), false, true ],
+	[ __( '360° / Panorama block', 'pinspot' ), false, true ],
+	[ __( 'Engagement analytics dashboards', 'pinspot' ), false, true ],
 	[ __( 'Conditional display & scheduling', 'pinspot' ), false, true ],
 	[ __( 'Premium marker effects', 'pinspot' ), false, true ],
 	[ __( 'Priority email support', 'pinspot' ), false, true ],
@@ -856,7 +893,7 @@ function Upgrade() {
 					<h1>{ __( 'Turn images into sales', 'pinspot' ) }</h1>
 					<p>
 						{ __(
-							'The accessible, block-native way to build shoppable images in WordPress — bind pins or whole drawn areas to WooCommerce products, plus conditional display and premium marker effects.',
+							'The accessible, block-native way to build shoppable media in WordPress — bind pins or whole drawn areas to WooCommerce products, add Live Map, Video Hotspots, and 360°/Panorama blocks, and see what converts with privacy-first analytics.',
 							'pinspot'
 						) }
 					</p>
