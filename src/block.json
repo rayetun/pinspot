@@ -2,12 +2,12 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "pinspot/image-hotspots",
-	"version": "1.2.0",
+	"version": "1.3.0",
 	"title": "PinSpot - Image Hotspots",
 	"category": "media",
 	"icon": "location",
 	"description": "Place clickable hotspot pins on any image, each opening a rich, accessible tooltip with text, media, and links.",
-	"keywords": [ "hotspot", "image map", "pin", "tooltip", "interactive" ],
+	"keywords": [ "hotspot", "image map", "pin", "tooltip", "interactive", "floor plan", "layers" ],
 	"textdomain": "pinspot",
 	"attributes": {
 		"imageId": {
@@ -113,6 +113,17 @@
 			"items": {
 				"type": "object"
 			}
+		},
+		"layers": {
+			"type": "array",
+			"default": [],
+			"items": {
+				"type": "object"
+			}
+		},
+		"tourAcrossLayers": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"supports": {

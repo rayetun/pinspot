@@ -60,8 +60,33 @@ const sanitizeHotspot = ( raw, index ) => {
 	};
 };
 
-export default function ImportExport( { attributes, setAttributes } ) {
-	const { imageUrl, imageAlt, hotspots } = attributes;
+/**
+ * Import / Export for ONE image layer.
+ *
+ * A block can hold several layered images, each with its own hotspots, so this
+ * panel deliberately works on the layer currently being edited: exporting gives
+ * you that image's hotspots, and importing adds to (or replaces) that image's
+ * hotspots. The JSON format is unchanged, so files exported by earlier versions
+ * still import.
+ *
+ * @param {Object}   props            Props.
+ * @param {string}   props.imageUrl   Active layer's image URL.
+ * @param {string}   props.imageAlt   Active layer's alt text.
+ * @param {Object[]} props.hotspots   Active layer's hotspots.
+ * @param {string}   props.layerName  Active layer's label, or '' when single.
+ * @param {Function} props.onChange   Receives the replacement hotspots array.
+ * @param {Function} props.onSetImage Receives { url, alt } when the layer has
+ *                                    no image yet and the file supplies one.
+ * @return {JSX.Element} Panel.
+ */
+export default function ImportExport( {
+	imageUrl,
+	imageAlt,
+	hotspots,
+	layerName = '',
+	onChange,
+	onSetImage,
+} ) {
 	const [ replaceOnImport, setReplaceOnImport ] = useState( false );
 	const [ status, setStatus ] = useState( null );
 	const fileInputRef = useRef();
@@ -81,7 +106,12 @@ export default function ImportExport( { attributes, setAttributes } ) {
 		const url = URL.createObjectURL( blob );
 		const link = document.createElement( 'a' );
 		link.href = url;
-		link.download = 'pinspot-hotspots.json';
+		link.download = layerName
+			? `pinspot-hotspots-${ layerName
+					.toLowerCase()
+					.replace( /[^a-z0-9]+/g, '-' )
+					.replace( /^-+|-+$/g, '' ) }.json`
+			: 'pinspot-hotspots.json';
 		document.body.appendChild( link );
 		link.click();
 		link.remove();
@@ -108,16 +138,19 @@ export default function ImportExport( { attributes, setAttributes } ) {
 				if ( ! imported.length ) {
 					throw new Error( 'empty' );
 				}
-				const changes = {
-					hotspots: replaceOnImport
-						? imported
-						: [ ...hotspots, ...imported ],
-				};
-				if ( ! imageUrl && str( data && data.imageUrl ) ) {
-					changes.imageUrl = data.imageUrl;
-					changes.imageAlt = str( data.imageAlt );
+				onChange(
+					replaceOnImport ? imported : [ ...hotspots, ...imported ]
+				);
+				if (
+					! imageUrl &&
+					str( data && data.imageUrl ) &&
+					onSetImage
+				) {
+					onSetImage( {
+						url: data.imageUrl,
+						alt: str( data.imageAlt ),
+					} );
 				}
-				setAttributes( changes );
 				setStatus( {
 					type: 'success',
 					message: sprintf(

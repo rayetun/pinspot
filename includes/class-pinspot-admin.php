@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Pinspot_Admin {
 
 	const OPTION   = 'pinspot_settings';
+	const REVIEW   = 'pinspot_review';
 	const REST_NS  = 'pinspot/v1';
 	const CAP      = 'manage_options';
 	const MENU_POS = 58;
@@ -208,12 +209,15 @@ final class Pinspot_Admin {
 		 */
 		$show_pro = (bool) apply_filters( 'pinspot_show_pro', true );
 
+		$stats = $this->stats();
+
 		return array(
 			'version'   => PINSPOT_VERSION,
 			'proActive' => function_exists( 'pinspot_is_pro_active' ) && pinspot_is_pro_active(),
 			'showPro'   => $show_pro,
 			'settings'  => $this->get_settings(),
-			'stats'     => $this->stats(),
+			'stats'     => $stats,
+			'askReview' => $this->review_ask( (int) $stats['blocksInUse'] ),
 			'links'     => array(
 				'upgrade' => esc_url( $upgrade ),
 				'review'  => 'https://wordpress.org/support/plugin/pinspot/reviews/#new-post',
@@ -245,15 +249,71 @@ final class Pinspot_Admin {
 
 		return array(
 			'blocksInUse'  => $in_use,
-			'patterns'     => 3,
+			'patterns'     => 6,
 			'markerStyles' => 7,
 		);
 	}
 
 	/**
-	 * Register the settings REST route.
+	 * Whether the dashboard should ask for a WordPress.org review.
+	 *
+	 * Deliberately conservative, and deliberately NOT a site-wide admin notice:
+	 * the ask lives on PinSpot's own screen, appears only once the plugin is
+	 * genuinely being used, waits a week after that, and never comes back once
+	 * dismissed.
+	 *
+	 * The clock starts the first time a published post actually contains a
+	 * hotspot block — asking someone who has not built anything yet is noise,
+	 * and a prompt shown too early is what earns a one-star review rather than
+	 * a five-star one.
+	 *
+	 * @param int $blocks_in_use Count of published posts using the block.
+	 * @return bool
+	 */
+	private function review_ask( $blocks_in_use ) {
+		$state = get_option( self::REVIEW, array() );
+		if ( ! is_array( $state ) ) {
+			$state = array();
+		}
+		if ( ! empty( $state['dismissed'] ) ) {
+			return false;
+		}
+		if ( $blocks_in_use < 1 ) {
+			return false;
+		}
+		if ( empty( $state['since'] ) ) {
+			// First time we could have asked — start the clock, ask later.
+			$state['since'] = time();
+			update_option( self::REVIEW, $state, false );
+			return false;
+		}
+
+		/**
+		 * How long to wait, after a hotspot block first appears in published
+		 * content, before the dashboard asks for a review. Default one week.
+		 *
+		 * @param int $delay Delay in seconds.
+		 */
+		$delay = (int) apply_filters( 'pinspot_review_delay', WEEK_IN_SECONDS );
+
+		return ( time() - (int) $state['since'] ) >= $delay;
+	}
+
+	/**
+	 * Register the settings REST routes.
 	 */
 	public function register_rest() {
+		register_rest_route(
+			self::REST_NS,
+			'/review-dismiss',
+			array(
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'rest_review_dismiss' ),
+					'permission_callback' => array( $this, 'rest_permission' ),
+				),
+			)
+		);
 		register_rest_route(
 			self::REST_NS,
 			'/settings',
@@ -300,5 +360,20 @@ final class Pinspot_Admin {
 		$clean = $this->sanitize_settings( (array) $request->get_json_params() );
 		update_option( self::OPTION, $clean );
 		return rest_ensure_response( $clean );
+	}
+
+	/**
+	 * POST /review-dismiss — never ask this site for a review again.
+	 *
+	 * @return WP_REST_Response
+	 */
+	public function rest_review_dismiss() {
+		$state = get_option( self::REVIEW, array() );
+		if ( ! is_array( $state ) ) {
+			$state = array();
+		}
+		$state['dismissed'] = true;
+		update_option( self::REVIEW, $state, false );
+		return rest_ensure_response( array( 'dismissed' => true ) );
 	}
 }

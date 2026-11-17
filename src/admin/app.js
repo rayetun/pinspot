@@ -32,7 +32,9 @@ const showPro = !! data.showPro;
  * app's theme automatically through the shared CSS variables. See HOOKS.md.
  */
 const PRO_PAGES = Array.isArray( window.pinspotAdminPages )
-	? window.pinspotAdminPages.filter( ( p ) => p && p.id && typeof p.mount === 'function' )
+	? window.pinspotAdminPages.filter(
+			( p ) => p && p.id && typeof p.mount === 'function'
+	  )
 	: [];
 
 /*
@@ -186,7 +188,7 @@ const BLOCKS = [
 		icon: 'location',
 		name: __( 'Image Hotspots', 'pinspot' ),
 		desc: __(
-			'Place clickable pins on any image with rich, accessible tooltips.',
+			'Clickable pins with rich, accessible tooltips — on one image or several layered ones.',
 			'pinspot'
 		),
 		status: 'core',
@@ -331,8 +333,16 @@ const COMPARE = [
 		true,
 	],
 	[ __( 'Emoji & custom-image markers', 'pinspot' ), true, true ],
-	[ __( 'WooCommerce shoppable pins & drawn areas', 'pinspot' ), false, true ],
-	[ __( 'Live Map block (Leaflet + OpenStreetMap)', 'pinspot' ), false, true ],
+	[
+		__( 'WooCommerce shoppable pins & drawn areas', 'pinspot' ),
+		false,
+		true,
+	],
+	[
+		__( 'Live Map block (Leaflet + OpenStreetMap)', 'pinspot' ),
+		false,
+		true,
+	],
 	[ __( 'Video Hotspots block', 'pinspot' ), false, true ],
 	[ __( '360° / Panorama block', 'pinspot' ), false, true ],
 	[ __( 'Engagement analytics dashboards', 'pinspot' ), false, true ],
@@ -404,6 +414,63 @@ function PageHeader( { title, subtitle } ) {
 /* Pages                                                                      */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * A one-time ask for a WordPress.org review.
+ *
+ * Shown on PinSpot's own dashboard only — never as a site-wide admin notice —
+ * and only once the server says the plugin is genuinely in use and has been for
+ * a week (see Pinspot_Admin::review_ask). "No thanks" is permanent.
+ *
+ * @return {JSX.Element|null} The card, or null when it should not be asked.
+ */
+function ReviewAsk() {
+	const [ gone, setGone ] = useState( false );
+
+	if ( gone || ! data.askReview || ! links.review ) {
+		return null;
+	}
+
+	const dismiss = () => {
+		setGone( true );
+		// Fire and forget: the card is already gone for this visitor, and a
+		// failed dismissal only means it may be offered again later.
+		apiFetch( {
+			path: '/pinspot/v1/review-dismiss',
+			method: 'POST',
+		} ).catch( () => {} );
+	};
+
+	return (
+		<Card className="pinspot-review">
+			<div className="pinspot-review__body">
+				<div className="pinspot-review__title">
+					{ __( 'Enjoying PinSpot?', 'pinspot' ) }
+				</div>
+				<p className="pinspot-review__text">
+					{ __(
+						'A quick review on WordPress.org helps other people find the plugin — it is the single biggest thing that helps a small plugin grow. It takes a minute.',
+						'pinspot'
+					) }
+				</p>
+				<div className="pinspot-review__actions">
+					<Button
+						variant="primary"
+						href={ links.review }
+						target="_blank"
+						rel="noreferrer noopener"
+						onClick={ dismiss }
+					>
+						{ __( 'Leave a review', 'pinspot' ) }
+					</Button>
+					<Button variant="tertiary" onClick={ dismiss }>
+						{ __( 'No thanks', 'pinspot' ) }
+					</Button>
+				</div>
+			</div>
+		</Card>
+	);
+}
+
 function Overview( { go } ) {
 	const stats = data.stats || {};
 	const tiles = [
@@ -415,7 +482,7 @@ function Overview( { go } ) {
 		],
 		[
 			'screenoptions',
-			stats.patterns ?? 3,
+			stats.patterns ?? 6,
 			__( 'Starter patterns', 'pinspot' ),
 			'b',
 		],
@@ -431,7 +498,9 @@ function Overview( { go } ) {
 	if ( showPro || data.proActive ) {
 		tiles.push( [
 			data.proActive ? 'yes-alt' : 'star-filled',
-			data.proActive ? __( 'Active', 'pinspot' ) : __( 'Free', 'pinspot' ),
+			data.proActive
+				? __( 'Active', 'pinspot' )
+				: __( 'Free', 'pinspot' ),
 			__( 'PinSpot Pro', 'pinspot' ),
 			'd',
 		] );
@@ -459,6 +528,8 @@ function Overview( { go } ) {
 					</Card>
 				) ) }
 			</div>
+
+			<ReviewAsk />
 
 			<h2 className="pinspot-section">
 				{ __( 'Active features', 'pinspot' ) }
@@ -773,7 +844,9 @@ function Settings() {
 										value: 'dark',
 									},
 								] }
-								onChange={ ( v ) => update( 'defaultTheme', v ) }
+								onChange={ ( v ) =>
+									update( 'defaultTheme', v )
+								}
 							/>
 							<RangeControl
 								__next40pxDefaultSize
@@ -784,10 +857,7 @@ function Settings() {
 								max={ 480 }
 								step={ 10 }
 								onChange={ ( v ) =>
-									update(
-										'defaultTooltipWidth',
-										v || 280
-									)
+									update( 'defaultTooltipWidth', v || 280 )
 								}
 							/>
 						</div>

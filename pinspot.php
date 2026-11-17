@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name:       PinSpot - Interactive Image Hotspots
+ * Plugin Name:       PinSpot – Interactive Image Hotspots & Image Map
  * Plugin URI:        https://wordpress.org/plugins/pinspot/
- * Description:       Create interactive image hotspots with rich, accessible tooltips. Easily drop pins on photos, maps, or diagrams using a fast, native block.
- * Version:           1.2.1
+ * Description:       Create interactive image hotspots and image maps — clickable pins and drawn areas with rich, accessible tooltips, for floor plans, diagrams, and shoppable images.
+ * Version:           1.3.0
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            Md Rayhan Uddin
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'PINSPOT_VERSION', '1.2.1' );
+define( 'PINSPOT_VERSION', '1.3.0' );
 define( 'PINSPOT_DIR', plugin_dir_path( __FILE__ ) );
 define( 'PINSPOT_URL', plugin_dir_url( __FILE__ ) );
 
@@ -28,6 +28,7 @@ if ( ! defined( 'PINSPOT_MIN_PRO_VERSION' ) ) {
 	define( 'PINSPOT_MIN_PRO_VERSION', '1.0.0' );
 }
 
+require_once PINSPOT_DIR . 'includes/class-pinspot-layers.php';
 require_once PINSPOT_DIR . 'includes/class-pinspot-plugin.php';
 
 Pinspot_Plugin::get_instance();

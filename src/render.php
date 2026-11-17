@@ -15,7 +15,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( empty( $attributes['imageUrl'] ) ) {
+/*
+ * One or more image layers (floor plan floors, before/after, wide shot plus
+ * detail). A single-image block normalizes to exactly one layer, so everything
+ * below has a single code path. See Pinspot_Layers for the storage shapes.
+ */
+$pinspot_layers = Pinspot_Layers::get( $attributes );
+if ( ! $pinspot_layers ) {
 	return;
 }
 
@@ -132,22 +138,53 @@ $pinspot_shape_geometry = static function ( $hotspot ) {
 	);
 };
 
-$pinspot_image_alt = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
-$pinspot_hotspots  = ( isset( $attributes['hotspots'] ) && is_array( $attributes['hotspots'] ) ) ? $attributes['hotspots'] : array();
+/**
+ * Fallback id for a hotspot saved without one (hand-written or imported JSON;
+ * the editor always assigns an id).
+ *
+ * Layer 0 keeps the historical `hs-<index>` form so ids already recorded by
+ * earlier versions — and by PinSpot Pro's analytics — keep matching. Later
+ * layers get a layer-qualified form, so two id-less hotspots on different
+ * layers can never collide and open together.
+ *
+ * @param int $layer_index Zero-based layer index.
+ * @param int $index       Hotspot index within that layer.
+ * @return string
+ */
+$pinspot_fallback_id = static function ( $layer_index, $index ) {
+	return 0 === (int) $layer_index
+		? 'hs-' . (int) $index
+		: sprintf( 'hs-l%d-%d', (int) $layer_index, (int) $index );
+};
 
 /**
  * Extension seam: let add-ons (conditional display / scheduling) hide a
  * hotspot server-side. Original array keys are preserved so marker numbers
  * stay stable, and the hidden hotspot is excluded everywhere (markers, tour,
- * list) consistently.
+ * list) consistently. Applied per layer.
  *
  * @param bool  $render     Whether to render this hotspot. Default true.
  * @param array $hotspot    The hotspot data.
  * @param array $attributes The block attributes.
  */
-foreach ( $pinspot_hotspots as $pinspot_hs_index => $pinspot_hs ) {
-	if ( is_array( $pinspot_hs ) && ! apply_filters( 'pinspot_should_render_hotspot', true, $pinspot_hs, $attributes ) ) {
-		unset( $pinspot_hotspots[ $pinspot_hs_index ] );
+foreach ( $pinspot_layers as $pinspot_lk => $pinspot_lv ) {
+	foreach ( $pinspot_lv['hotspots'] as $pinspot_hs_index => $pinspot_hs ) {
+		if ( is_array( $pinspot_hs ) && ! apply_filters( 'pinspot_should_render_hotspot', true, $pinspot_hs, $attributes ) ) {
+			unset( $pinspot_layers[ $pinspot_lk ]['hotspots'][ $pinspot_hs_index ] );
+		}
+	}
+}
+
+$pinspot_layer_count = count( $pinspot_layers );
+$pinspot_is_multi    = $pinspot_layer_count > 1;
+
+// Every surviving hotspot across every layer, for group chips and counts.
+$pinspot_all_hotspots = array();
+foreach ( $pinspot_layers as $pinspot_lv ) {
+	foreach ( $pinspot_lv['hotspots'] as $pinspot_hs ) {
+		if ( is_array( $pinspot_hs ) ) {
+			$pinspot_all_hotspots[] = $pinspot_hs;
+		}
 	}
 }
 
@@ -164,12 +201,13 @@ $pinspot_show_list     = ! empty( $attributes['showList'] );
 
 // Group filters: assign hotspots to named groups; visitors toggle groups
 // on/off via chips. The distinct group names are gathered in the order the
-// groups first appear across the hotspots.
+// groups first appear across the hotspots — across *all* layers, so a chip
+// never appears or vanishes just because the visitor switched layer.
 $pinspot_enable_filters = ! empty( $attributes['enableFilters'] );
 $pinspot_filter_color   = isset( $attributes['filterColor'] ) ? sanitize_hex_color( $attributes['filterColor'] ) : '';
 $pinspot_groups         = array();
 if ( $pinspot_enable_filters ) {
-	foreach ( $pinspot_hotspots as $pinspot_gh ) {
+	foreach ( $pinspot_all_hotspots as $pinspot_gh ) {
 		if ( ! is_array( $pinspot_gh ) ) {
 			continue;
 		}
@@ -197,18 +235,29 @@ $pinspot_tour_size       = isset( $attributes['tourButtonSize'] ) && in_array( $
 	: 'medium';
 $pinspot_tour_shape      = ( isset( $attributes['tourButtonShape'] ) && 'rounded' === $attributes['tourButtonShape'] ) ? 'rounded' : 'round';
 
-// Ordered hotspot ids + accessible titles, seeded into context for the tour.
+/*
+ * Ordered hotspot ids + accessible titles, seeded into context for the tour.
+ * Every layer's hotspots are seeded, alongside a parallel array of layer
+ * indices. The client narrows the tour to the active layer, unless the tour is
+ * set to run across layers — then advancing past a layer's last hotspot
+ * switches to the next layer, which is what makes "walk the building" work.
+ */
 $pinspot_tour_ids    = array();
 $pinspot_tour_titles = array();
+$pinspot_tour_layers = array();
+$pinspot_tour_across = $pinspot_is_multi && ! empty( $attributes['tourAcrossLayers'] );
 if ( $pinspot_enable_tour ) {
-	foreach ( $pinspot_hotspots as $pinspot_ti => $pinspot_th ) {
-		if ( ! is_array( $pinspot_th ) ) {
-			continue;
+	foreach ( $pinspot_layers as $pinspot_tl => $pinspot_tlayer ) {
+		foreach ( $pinspot_tlayer['hotspots'] as $pinspot_ti => $pinspot_th ) {
+			if ( ! is_array( $pinspot_th ) ) {
+				continue;
+			}
+			$pinspot_tour_ids[]    = isset( $pinspot_th['id'] ) ? (string) $pinspot_th['id'] : $pinspot_fallback_id( $pinspot_tl, $pinspot_ti );
+			$pinspot_th_title      = isset( $pinspot_th['title'] ) ? (string) $pinspot_th['title'] : '';
+			/* translators: %d: hotspot number. */
+			$pinspot_tour_titles[] = '' !== $pinspot_th_title ? $pinspot_th_title : sprintf( __( 'Hotspot %d', 'pinspot' ), $pinspot_ti + 1 );
+			$pinspot_tour_layers[] = $pinspot_tl;
 		}
-		$pinspot_tour_ids[]      = isset( $pinspot_th['id'] ) ? (string) $pinspot_th['id'] : 'hs-' . $pinspot_ti;
-		$pinspot_th_title        = isset( $pinspot_th['title'] ) ? (string) $pinspot_th['title'] : '';
-		/* translators: %d: hotspot number. */
-		$pinspot_tour_titles[]   = '' !== $pinspot_th_title ? $pinspot_th_title : sprintf( __( 'Hotspot %d', 'pinspot' ), $pinspot_ti + 1 );
 	}
 }
 $pinspot_tour_count = count( $pinspot_tour_ids );
@@ -234,6 +283,12 @@ $pinspot_context = array(
 	'lightboxSrc' => '',
 );
 
+if ( $pinspot_is_multi ) {
+	// Index of the layer currently on screen; the switcher buttons set it.
+	$pinspot_context['activeLayer'] = 0;
+	$pinspot_context['layerCount']  = $pinspot_layer_count;
+}
+
 if ( $pinspot_has_filters ) {
 	// Group names currently filtered out; empty means all groups are shown.
 	$pinspot_context['hiddenGroups'] = array();
@@ -242,6 +297,8 @@ if ( $pinspot_has_filters ) {
 if ( $pinspot_enable_tour && $pinspot_tour_count > 1 ) {
 	$pinspot_context['tourIds']      = $pinspot_tour_ids;
 	$pinspot_context['tourTitles']   = $pinspot_tour_titles;
+	$pinspot_context['tourLayers']   = $pinspot_tour_layers;
+	$pinspot_context['tourAcross']   = $pinspot_tour_across;
 	$pinspot_context['tourPlaying']  = false;
 	$pinspot_context['tourAutoplay'] = $pinspot_tour_autoplay;
 	$pinspot_context['tourInterval'] = (int) round( $pinspot_tour_interval * 1000 );
@@ -289,6 +346,30 @@ do_action( 'pinspot_render_before', $attributes );
 			<button type="button" class="pinspot__zoom-btn" data-wp-on--click="actions.resetZoom" data-wp-bind--hidden="!state.isZoomed" aria-label="<?php esc_attr_e( 'Reset zoom', 'pinspot' ); ?>" hidden>&#8634;</button>
 		</div>
 	<?php endif; ?>
+	<?php if ( $pinspot_is_multi ) : ?>
+		<?php
+		/*
+		 * Layer switcher. Deliberately the same toggle-button idiom as the group
+		 * filters below (role="group" + aria-pressed) rather than a tablist,
+		 * which would also owe arrow-key navigation and a roving tabindex.
+		 * The active state is rendered server-side as well as bound, so the
+		 * first layer reads as current before the module hydrates.
+		 */
+		?>
+		<div class="pinspot__layers" role="group" aria-label="<?php esc_attr_e( 'Choose which image to show', 'pinspot' ); ?>">
+			<?php foreach ( $pinspot_layers as $pinspot_lsi => $pinspot_ls ) : ?>
+				<button
+					type="button"
+					class="pinspot__layer-btn<?php echo 0 === $pinspot_lsi ? ' is-active' : ''; ?>"
+					aria-pressed="<?php echo 0 === $pinspot_lsi ? 'true' : 'false'; ?>"
+					<?php echo wp_kses_data( wp_interactivity_data_wp_context( array( 'layerIndex' => $pinspot_lsi ) ) ); ?>
+					data-wp-on--click="actions.switchLayer"
+					data-wp-bind--aria-pressed="state.layerActive"
+					data-wp-class--is-active="state.layerActive"
+				><?php echo esc_html( $pinspot_ls['name'] ); ?></button>
+			<?php endforeach; ?>
+		</div>
+	<?php endif; ?>
 	<?php if ( $pinspot_has_filters ) : ?>
 		<div class="pinspot__filters" role="group" aria-label="<?php esc_attr_e( 'Filter hotspots by group', 'pinspot' ); ?>"<?php echo $pinspot_filter_color ? ' style="' . esc_attr( '--pinspot-filter-color:' . $pinspot_filter_color . ';' ) . '"' : ''; ?>>
 			<button
@@ -324,13 +405,37 @@ do_action( 'pinspot_render_before', $attributes );
 		<?php endif; ?>
 	>
 		<div class="pinspot__stage" data-wp-style--transform="state.stageTransform">
+			<?php foreach ( $pinspot_layers as $pinspot_layer_index => $pinspot_layer ) : ?>
+			<?php $pinspot_hotspots = $pinspot_layer['hotspots']; ?>
+			<div
+				class="pinspot__layer"
+				<?php if ( $pinspot_is_multi ) : ?>
+				<?php echo wp_kses_data( wp_interactivity_data_wp_context( array( 'layerIndex' => $pinspot_layer_index ) ) ); ?>
+				data-wp-bind--hidden="!state.layerActive"
+				<?php echo 0 === $pinspot_layer_index ? '' : 'hidden'; ?>
+				<?php endif; ?>
+			>
 			<img
 				class="pinspot__image"
-				src="<?php echo esc_url( $attributes['imageUrl'] ); ?>"
-				alt="<?php echo esc_attr( $pinspot_image_alt ); ?>"
-				<?php if ( ! empty( $attributes['imageWidth'] ) && ! empty( $attributes['imageHeight'] ) ) : ?>
-				width="<?php echo absint( $attributes['imageWidth'] ); ?>"
-				height="<?php echo absint( $attributes['imageHeight'] ); ?>"
+				src="<?php echo esc_url( $pinspot_layer['imageUrl'] ); ?>"
+				alt="<?php echo esc_attr( $pinspot_layer['imageAlt'] ); ?>"
+				<?php if ( $pinspot_layer['imageWidth'] && $pinspot_layer['imageHeight'] ) : ?>
+				width="<?php echo absint( $pinspot_layer['imageWidth'] ); ?>"
+				height="<?php echo absint( $pinspot_layer['imageHeight'] ); ?>"
+				<?php endif; ?>
+				<?php if ( $pinspot_layer_index > 0 ) : ?>
+				<?php
+				/*
+				 * Deliberately NOT loading="lazy". A lazy image inside a hidden
+				 * layer is never in the viewport, so the browser defers it until
+				 * the visitor switches — and they then watch an empty frame
+				 * while it downloads, on the one interaction this feature is
+				 * about. Low fetch priority instead: it still loads up front,
+				 * but behind the visible layer and everything else that matters.
+				 */
+				?>
+				fetchpriority="low"
+				decoding="async"
 				<?php endif; ?>
 			/>
 			<?php foreach ( $pinspot_hotspots as $pinspot_index => $pinspot_hotspot ) : ?>
@@ -339,7 +444,7 @@ do_action( 'pinspot_render_before', $attributes );
 					continue;
 				}
 
-				$pinspot_id    = isset( $pinspot_hotspot['id'] ) ? (string) $pinspot_hotspot['id'] : 'hs-' . $pinspot_index;
+				$pinspot_id    = isset( $pinspot_hotspot['id'] ) ? (string) $pinspot_hotspot['id'] : $pinspot_fallback_id( $pinspot_layer_index, $pinspot_index );
 				$pinspot_x     = isset( $pinspot_hotspot['x'] ) ? (float) $pinspot_hotspot['x'] : 50;
 				$pinspot_y     = isset( $pinspot_hotspot['y'] ) ? (float) $pinspot_hotspot['y'] : 50;
 				$pinspot_title = isset( $pinspot_hotspot['title'] ) ? (string) $pinspot_hotspot['title'] : '';
@@ -607,6 +712,8 @@ do_action( 'pinspot_render_before', $attributes );
 					?>
 				</div>
 			<?php endforeach; ?>
+			</div>
+			<?php endforeach; ?>
 		</div>
 	</div>
 	<?php if ( $pinspot_enable_tour && $pinspot_tour_count > 1 ) : ?>
@@ -646,7 +753,8 @@ do_action( 'pinspot_render_before', $attributes );
 				<span class="pinspot__tour-chevron" aria-hidden="true"></span>
 			</button>
 			<?php if ( $pinspot_tour_show_count ) : ?>
-			<span class="pinspot__tour-count" aria-hidden="true"><span data-wp-text="state.tourCurrent">0</span> / <?php echo absint( $pinspot_tour_count ); ?></span>
+			<?php // The total is reactive: a per-layer tour counts only the active layer's hotspots. ?>
+			<span class="pinspot__tour-count" aria-hidden="true"><span data-wp-text="state.tourCurrent">0</span> / <span data-wp-text="state.tourTotal"><?php echo absint( $pinspot_tour_count ); ?></span></span>
 			<?php endif; ?>
 			<button type="button" class="pinspot__tour-btn pinspot__tour-next" data-wp-on--click="actions.tourNext" aria-label="<?php esc_attr_e( 'Next hotspot', 'pinspot' ); ?>">
 				<span class="pinspot__tour-chevron" aria-hidden="true"></span>
@@ -664,9 +772,33 @@ do_action( 'pinspot_render_before', $attributes );
 		<img class="pinspot__lightbox-img" data-wp-bind--src="state.lightboxSrc" alt="" />
 		<button type="button" class="pinspot__lightbox-close" data-wp-on--click="actions.closeLightbox" aria-label="<?php esc_attr_e( 'Close', 'pinspot' ); ?>">&times;</button>
 	</div>
-	<?php if ( $pinspot_show_list && ! empty( $pinspot_hotspots ) ) : ?>
+	<?php if ( $pinspot_show_list && ! empty( $pinspot_all_hotspots ) ) : ?>
+		<?php
+		/*
+		 * The accessible text equivalent. Every layer is listed, not just the
+		 * active one — this list is the non-visual route to the content, so
+		 * hiding layers behind a control a screen-reader user has to find first
+		 * would make part of the content unreachable.
+		 */
+		?>
 		<div class="pinspot__list-wrap">
-			<p class="pinspot__list-heading"><?php esc_html_e( 'On this image', 'pinspot' ); ?></p>
+			<p class="pinspot__list-heading">
+				<?php
+				echo $pinspot_is_multi
+					? esc_html__( 'On these images', 'pinspot' )
+					: esc_html__( 'On this image', 'pinspot' );
+				?>
+			</p>
+			<?php foreach ( $pinspot_layers as $pinspot_layer_index => $pinspot_layer ) : ?>
+			<?php
+			$pinspot_hotspots = $pinspot_layer['hotspots'];
+			if ( empty( $pinspot_hotspots ) ) {
+				continue;
+			}
+			?>
+			<?php if ( $pinspot_is_multi ) : ?>
+				<p class="pinspot__list-layer"><?php echo esc_html( $pinspot_layer['name'] ); ?></p>
+			<?php endif; ?>
 			<ol class="pinspot__list">
 				<?php foreach ( $pinspot_hotspots as $pinspot_index => $pinspot_hotspot ) : ?>
 					<?php
@@ -704,6 +836,7 @@ do_action( 'pinspot_render_before', $attributes );
 					</li>
 				<?php endforeach; ?>
 			</ol>
+			<?php endforeach; ?>
 		</div>
 	<?php endif; ?>
 </figure>

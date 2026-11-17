@@ -96,7 +96,14 @@ final class Pinspot_Plugin {
 			array( 'label' => __( 'PinSpot', 'pinspot' ) )
 		);
 
-		$patterns = array( 'product-showcase', 'team-intro', 'map-tour' );
+		$patterns = array(
+			'product-showcase',
+			'team-intro',
+			'map-tour',
+			'floor-plan',
+			'shop-the-look',
+			'before-after',
+		);
 		foreach ( $patterns as $slug ) {
 			$file = PINSPOT_DIR . 'patterns/' . $slug . '.php';
 			if ( ! file_exists( $file ) ) {

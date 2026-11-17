@@ -250,3 +250,40 @@
 	gap: 8px;
 	margin-bottom: 12px;
 }
+
+// Layers panel (Inspector → Images & layers).
+.pinspot-layers__help {
+	color: #757575;
+	font-size: 12px;
+	margin: 0 0 12px;
+}
+
+.pinspot-layers__list {
+	list-style: none;
+	margin: 0 0 12px;
+	padding: 0;
+}
+
+.pinspot-layers__row {
+	align-items: center;
+	display: flex;
+	gap: 4px;
+	justify-content: space-between;
+	margin: 0 0 4px;
+
+	.pinspot-layers__pick {
+		flex: 1 1 auto;
+		justify-content: flex-start;
+		// Long labels wrap rather than pushing the row controls off-panel.
+		height: auto;
+		min-height: 30px;
+		text-align: left;
+		white-space: normal;
+	}
+}
+
+.pinspot-layers__ops {
+	display: flex;
+	flex: 0 0 auto;
+	gap: 0;
+}

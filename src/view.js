@@ -14,16 +14,50 @@ const prefersReducedMotion = () =>
 	window.matchMedia &&
 	window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
 
+/*
+ * The hotspots the guided tour steps through, as { id, layer, title } entries.
+ *
+ * Every layer's hotspots are seeded server-side. By default the tour walks only
+ * the layer currently on screen; with "tour across layers" on it walks them all
+ * in order and switches layer as it goes, which is what makes stepping through
+ * a whole building work. A single-image block has no activeLayer and so takes
+ * the across path, giving exactly the pre-layers behaviour.
+ */
+const tourList = ( context ) => {
+	const ids = context.tourIds || [];
+	const layers = context.tourLayers || [];
+	const titles = context.tourTitles || [];
+	const across = !! context.tourAcross || undefined === context.activeLayer;
+	const out = [];
+	ids.forEach( ( id, i ) => {
+		const layer = layers[ i ] || 0;
+		if ( across || layer === context.activeLayer ) {
+			out.push( { id, layer, title: titles[ i ] || '' } );
+		}
+	} );
+	return out;
+};
+
 // Open a hotspot as part of the guided tour. Like clicking its marker, a
 // zoomed view is reset first so the tooltip shows complete and unclipped.
-const openTourHotspot = ( context, id ) => {
+// Switches layer first when the next stop lives on another image.
+const openTourHotspot = ( context, entry ) => {
+	if ( ! entry ) {
+		return;
+	}
+	if (
+		undefined !== context.activeLayer &&
+		entry.layer !== context.activeLayer
+	) {
+		context.activeLayer = entry.layer;
+	}
 	if ( context.scale > 1 ) {
 		context.scale = 1;
 		context.tx = 0;
 		context.ty = 0;
 	}
-	context.openId = id;
-	emitOpen( id );
+	context.openId = entry.id;
+	emitOpen( entry.id );
 };
 
 // Notify add-ons (e.g. PinSpot Pro analytics) that a hotspot or draw-area
@@ -107,15 +141,31 @@ store(
 			},
 			// Tour: 1-based position of the open hotspot (0 when none is open).
 			get tourCurrent() {
-				const { tourIds, openId } = getContext();
-				const i = ( tourIds || [] ).indexOf( openId );
+				const context = getContext();
+				const i = tourList( context ).findIndex(
+					( e ) => e.id === context.openId
+				);
 				return i < 0 ? 0 : i + 1;
+			},
+			// Tour: how many stops the tour has. Reactive, because a per-layer
+			// tour counts only the hotspots on the layer currently shown.
+			get tourTotal() {
+				return tourList( getContext() ).length;
 			},
 			// Tour: title of the open hotspot, announced via a polite live region.
 			get tourStatus() {
-				const { tourIds, tourTitles, openId } = getContext();
-				const i = ( tourIds || [] ).indexOf( openId );
-				return i < 0 || ! tourTitles ? '' : tourTitles[ i ] || '';
+				const context = getContext();
+				const entry = tourList( context ).find(
+					( e ) => e.id === context.openId
+				);
+				return entry ? entry.title : '';
+			},
+			// Layers: whether this element's layer is the one on screen. Both
+			// the switcher buttons and the layer panels put `layerIndex` in
+			// their own context, so one getter serves both.
+			get layerActive() {
+				const { layerIndex, activeLayer } = getContext();
+				return ( layerIndex || 0 ) === ( activeLayer || 0 );
 			},
 			// Filters: a hotspot shows unless its group is toggled off.
 			get hotspotVisible() {
@@ -151,9 +201,9 @@ store(
 					context.ty = 0;
 				}
 				context.openId = opening ? context.id : '';
-					if ( opening ) {
-						emitOpen( context.id );
-					}
+				if ( opening ) {
+					emitOpen( context.id );
+				}
 			},
 			hoverOpen() {
 				const context = getContext();
@@ -162,7 +212,7 @@ store(
 				}
 				clearTimeout( hoverTimers.get( context.id ) );
 				hoverTimers.delete( context.id );
-					emitOpen( context.id );
+				emitOpen( context.id );
 				context.openId = context.id;
 			},
 			hoverClose( event ) {
@@ -215,30 +265,52 @@ store(
 				context.hiddenGroups = [];
 				context.openId = '';
 			},
+			// Layers: show another image. Closes any open tooltip, since it may
+			// belong to the layer being hidden, and drops back to 1x — a pan
+			// offset computed for one image means nothing on the next. Also
+			// stops autoplay, because switching is the visitor taking over.
+			switchLayer( event ) {
+				event.stopPropagation();
+				const context = getContext();
+				const next = context.layerIndex || 0;
+				if ( next === context.activeLayer ) {
+					return;
+				}
+				context.activeLayer = next;
+				context.openId = '';
+				if ( undefined !== context.tourPlaying ) {
+					context.tourPlaying = false;
+				}
+				if ( context.scale > 1 ) {
+					context.scale = 1;
+					context.tx = 0;
+					context.ty = 0;
+				}
+			},
 			tourNext( event ) {
 				event.stopPropagation();
 				const context = getContext();
-				const ids = context.tourIds || [];
-				if ( ! ids.length ) {
+				const list = tourList( context );
+				if ( ! list.length ) {
 					return;
 				}
-				const cur = ids.indexOf( context.openId );
+				const cur = list.findIndex( ( e ) => e.id === context.openId );
 				openTourHotspot(
 					context,
-					ids[ cur < 0 ? 0 : ( cur + 1 ) % ids.length ]
+					list[ cur < 0 ? 0 : ( cur + 1 ) % list.length ]
 				);
 			},
 			tourPrev( event ) {
 				event.stopPropagation();
 				const context = getContext();
-				const ids = context.tourIds || [];
-				if ( ! ids.length ) {
+				const list = tourList( context );
+				if ( ! list.length ) {
 					return;
 				}
-				const cur = ids.indexOf( context.openId );
+				const cur = list.findIndex( ( e ) => e.id === context.openId );
 				openTourHotspot(
 					context,
-					ids[ cur <= 0 ? ids.length - 1 : cur - 1 ]
+					list[ cur <= 0 ? list.length - 1 : cur - 1 ]
 				);
 			},
 			tourTogglePlay( event ) {
@@ -448,7 +520,7 @@ store(
 				if (
 					context.tourAutoplay &&
 					! prefersReducedMotion() &&
-					( context.tourIds || [] ).length > 1
+					tourList( context ).length > 1
 				) {
 					context.tourPlaying = true;
 				}
@@ -458,16 +530,16 @@ store(
 			// (or a marker click) restarts the countdown from that hotspot.
 			tourAutoplay() {
 				const context = getContext();
-				const ids = context.tourIds || [];
+				const list = tourList( context );
 				const { openId, tourPlaying, tourInterval } = context;
-				if ( ! tourPlaying || ids.length < 2 ) {
+				if ( ! tourPlaying || list.length < 2 ) {
 					return;
 				}
 				const timer = setTimeout( () => {
-					const cur = ids.indexOf( openId );
+					const cur = list.findIndex( ( e ) => e.id === openId );
 					openTourHotspot(
 						context,
-						ids[ cur < 0 ? 0 : ( cur + 1 ) % ids.length ]
+						list[ cur < 0 ? 0 : ( cur + 1 ) % list.length ]
 					);
 				}, tourInterval || 4000 );
 				return () => clearTimeout( timer );

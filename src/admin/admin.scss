@@ -957,3 +957,30 @@ $sidebar: #171e3f;
 		display: none;
 	}
 }
+
+// One-time WordPress.org review ask (dashboard only, never a global notice).
+.pinspot-review {
+	margin: 0 0 24px;
+
+	.pinspot-review__body {
+		padding: 18px 20px;
+	}
+
+	.pinspot-review__title {
+		font-size: 15px;
+		font-weight: 700;
+		margin-bottom: 6px;
+	}
+
+	.pinspot-review__text {
+		margin: 0 0 14px;
+		max-width: 62ch;
+		opacity: 0.8;
+	}
+
+	.pinspot-review__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+}

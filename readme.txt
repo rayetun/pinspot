@@ -1,25 +1,26 @@
-=== PinSpot - Interactive Image Hotspots ===
+=== PinSpot – Interactive Image Hotspots & Image Map ===
 Contributors: rayetun
 Donate link: https://wise.com/pay/me/mdrayhanu2
-Tags: image hotspot, image map, hotspot, interactive images, floor plan
+Tags: image hotspot, image map, interactive images, shoppable images, floor plan
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.1
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Interactive image hotspots and image maps — clickable pins with rich, accessible tooltips: video, lightbox, zoom, guided tours, and filters.
+Interactive image hotspots and image maps — clickable pins and areas with accessible tooltips, for floor plans and shoppable images.
 
 == Description ==
 
 📌 **PinSpot** turns a flat image into an **interactive image map** people can explore. Drop hotspot pins anywhere on a photo, floor plan, diagram, map, or product shot — each pin opens a polished, accessible tooltip with a title, description, image or video, and a call-to-action button.
 
-It is a single native block built the modern WordPress way — on the Interactivity API, the same technology that powers WordPress core blocks. No jQuery, no shortcodes, no page builder required. The frontend script is under 4 KB and only loads on pages that actually use a hotspot, so it never slows the rest of your site down.
+It is a single native block built the modern WordPress way — on the Interactivity API, the same technology that powers WordPress core blocks. No jQuery, no shortcodes, no page builder required. The frontend script is about 6 KB — roughly 2.4 KB gzipped over the wire — and only loads on pages that actually use a hotspot, so it never slows the rest of your site down.
 
 = ✨ Highlights =
 
 * 📌 **Unlimited hotspots** on any image, with percentage-based positions that stay responsive at every screen size
+* 🗂️ **Stack several images in one block** — floor-plan floors, before and after, or a wide shot and a close-up. Visitors switch between them, and each image keeps its own hotspots
 * 💬 **Rich tooltips** — title, description, an image, a self-hosted video, or a YouTube / Vimeo embed, plus a call-to-action button
 * 📐 **Draw clickable areas** — polygon, rectangle, or circle regions, not just point pins — ideal for floor plans, maps, and infographics
 * 🎨 **Marker styles** — numbered, dot, plus, info, question, any emoji, or your own custom image, in any size and color
@@ -30,7 +31,7 @@ It is a single native block built the modern WordPress way — on the Interactiv
 * ✏️ **Edit on the image** — write a pin's title and description right where it sits, then copy-and-paste a pin's style onto others
 * ♿ **Accessible** — full keyboard support, screen-reader labels, reduced-motion, RTL, and an optional text list
 * 🔒 **Privacy-first** — no external requests until a visitor plays a video; your data stays in your post content
-* 🧩 **Three starter patterns** and one-click **import / export**
+* 🧩 **Six starter patterns** — including a multi-floor plan, shop-the-look, and before/after — plus one-click **import / export**
 
 = 🎯 What you can build =
 
@@ -143,7 +144,7 @@ Yes. Pins are keyboard-operable buttons with proper ARIA state, Escape closes a 
 
 = ⚡ Will it slow down my site? =
 
-No. The frontend runtime is under 4 KB and only loads on pages that contain a hotspot block. There is no jQuery and nothing render-blocking.
+No. The frontend runtime is about 6 KB (roughly 2.4 KB gzipped) and only loads on pages that contain a hotspot block. There is no jQuery and nothing render-blocking.
 
 = 🎬 Does it load anything from YouTube or Vimeo automatically? =
 
@@ -184,18 +185,31 @@ Privacy Policy: https://vimeo.com/privacy
 == Screenshots ==
 
 1. A rich, accessible tooltip on the front end — title, description, and a call-to-action button, with an animated marker.
-2. A tooltip playing an embedded YouTube video, loaded only after the visitor clicks play.
-3. Mix and match marker styles — numbered, dots, emoji, or your own custom image.
-4. Guided tour mode — Previous / Next controls (with optional autoplay) walk visitors through every hotspot in order.
-5. Group filter chips above the image let visitors show or hide pins by category — ideal for maps and floor plans.
-6. Zoom and pan into a large image; markers stay crisp and perfectly anchored.
-7. The optional accessible list beneath the image — a full text alternative for screen readers and SEO.
-8. Edit right on the image — type a pin’s title and description in the on-canvas tooltip editor.
-9. The block editor: place pins, reorder them, and configure content, marker, and behavior in the sidebar.
-10. Draw clickable areas — polygon, rectangle, or circle regions over any image (here, districts on a city map), each opening its own tooltip.
-11. “Shop the look” — turn a room photo into an interactive image with a hotspot on each item (bind hotspots to WooCommerce products with PinSpot Pro).
+2. Stack several images in one block — the floors of a floor plan, a before and an after, or a wide shot and a close-up. Visitors switch between them with a built-in control, and each image keeps its own hotspots.
+3. A before and an after in a single block. Each image carries its own pins, so the tour counts only the ones on the image being shown.
+4. A tooltip playing an embedded YouTube video, loaded only after the visitor clicks play.
+5. Mix and match marker styles — numbered, dots, emoji, or your own custom image.
+6. Guided tour mode — Previous / Next controls (with optional autoplay) walk visitors through every hotspot in order.
+7. Group filter chips above the image let visitors show or hide pins by category — ideal for maps and floor plans.
+8. Zoom and pan into a large image; markers stay crisp and perfectly anchored.
+9. The optional accessible list beneath the image — a full text alternative for screen readers and SEO.
+10. Edit right on the image — type a pin’s title and description in the on-canvas tooltip editor.
+11. The block editor: place pins, reorder them, and configure content, marker, and behavior in the sidebar.
+12. Draw clickable areas — polygon, rectangle, or circle regions over any image (here, districts on a city map), each opening its own tooltip.
+13. “Shop the look” — turn a room photo into an interactive image with a hotspot on each item (bind hotspots to WooCommerce products with PinSpot Pro).
 
 == Changelog ==
+
+= 1.3.0 =
+* New: 🗂️ **Stack several images in one block** — the floors of a floor plan, a before and an after, or a wide shot and a close-up. Visitors switch between them with a built-in control, and each image keeps its own hotspots.
+* New: the guided tour can **run across every image**, switching as it goes — so a tour can walk a whole building, not just one floor.
+* New: three starter patterns — **Multi-floor plan**, **Shop the look**, and **Before and after**.
+* Improve: images on the layers you are not looking at are fetched up front at low priority, so switching is instant. (Marking them lazy would have been lighter, but a hidden image is never in the viewport, so the browser would not fetch it until the moment someone switched — and they would watch an empty frame while it downloaded.)
+* Improve: group filter chips are now gathered across every image, so a chip never appears or disappears when visitors switch.
+* Improve: the accessible hotspot list covers every image, so nothing is reachable only by using the switcher.
+* Improve: import and export now work on the image you are editing, so each image in a block can be managed separately.
+* Fix: corrected the stated size of the frontend script in this readme — it is about 6 KB (roughly 2.4 KB gzipped), not under 4 KB.
+* Developers: new `Pinspot_Layers` helper. **If your add-on reads `$attributes['hotspots']` directly, switch to `Pinspot_Layers::all_hotspots( $attributes )`** — see HOOKS.md. Single-image blocks keep their existing storage shape, so published content is unchanged.
 
 = 1.2.1 =
 * Improve: redesigned Settings screen — grouped sections, a live preview of your defaults, a default tooltip width, and a one-click reset.
@@ -225,6 +239,9 @@ Privacy Policy: https://vimeo.com/privacy
 * Initial release: interactive image hotspots block with rich tooltips, media, light/dark themes, click or hover triggers, smart placement, zoom & pan, lightbox, click-to-load video facades, deep links, import/export, three starter patterns, an optional accessible hotspot list, and full keyboard, screen-reader, reduced-motion, and RTL support.
 
 == Upgrade Notice ==
+
+= 1.3.0 =
+Stack several images in one block with a switcher — floor-plan floors, before and after — each with its own hotspots. Add-on developers: read hotspots via Pinspot_Layers.
 
 = 1.2.1 =
 A refreshed Settings screen (live preview, default width, reset), a Blocks overview, and an optional introduction to PinSpot Pro.

@@ -21,6 +21,44 @@ Call it at render/admin time (Pro boots on `plugins_loaded`, after free's `init`
 at include time. `PINSPOT_MIN_PRO_VERSION` is the minimum Pro version this build's API
 targets.
 
+## Reading a block's hotspots — `Pinspot_Layers`
+
+**Since PinSpot 1.3.0** a block can hold several layered images (the floors of a floor
+plan, a before and an after, a wide shot and a close-up), each with its own hotspots.
+
+> **Breaking for add-ons that read attributes directly.** `$attributes['hotspots']` is
+> **no longer the whole story**: on a multi-layer block it holds stale or empty data.
+> Read through `Pinspot_Layers` instead, which normalizes both storage shapes.
+
+```php
+// Every hotspot, whatever the storage shape — the drop-in replacement for
+// $attributes['hotspots'].
+$hotspots = Pinspot_Layers::all_hotspots( $attributes );
+
+// Or walk the layers, when the image a hotspot sits on matters (heatmaps,
+// per-image exports).
+foreach ( Pinspot_Layers::get( $attributes ) as $index => $layer ) {
+    // $layer: id, name, imageId, imageUrl, imageAlt, imageWidth, imageHeight, hotspots
+}
+
+if ( Pinspot_Layers::is_multi( $attributes ) ) { /* switcher is rendered */ }
+```
+
+Guard the class when you support older free versions: `class_exists( 'Pinspot_Layers' )`.
+
+**Storage, for add-ons that write attributes.** A single-image block keeps the original
+flat `imageUrl` / `imageAlt` / `hotspots` attributes and never gains a `layers` array, so
+existing content and the common case are unchanged. `layers` is materialized only when an
+editor adds a second image; from then on `layers` is the source of truth and the flat
+attributes stay frozen at their pre-layers value (a downgrade path — they are deliberately
+not mirrored). So **write back to wherever you read from**, per layer.
+
+`pinspot_should_render_hotspot` is applied per layer and is unaffected.
+
+Hotspot ids: the editor always assigns one. For hotspots saved without an id, the render
+fallback is `hs-<index>` on the first layer — unchanged, so recorded ids still match — and
+`hs-l<layer>-<index>` on later layers.
+
 ## PHP filters
 
 | Filter | Signature | Purpose |

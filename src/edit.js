@@ -32,8 +32,19 @@ import HotspotInspector from './components/hotspot-inspector';
 import HotspotList from './components/hotspot-list';
 import HotspotTooltipEditor from './components/hotspot-tooltip-editor';
 import ImportExport from './components/import-export';
+import LayerPanel from './components/layer-panel';
 import ShapeLayer from './components/shape-layer';
 import { isShape } from './lib/shape-geometry';
+import {
+	addLayer,
+	allHotspots,
+	getLayers,
+	moveLayer,
+	removeLayer,
+	renameLayer,
+	writeHotspots,
+	writeLayerImage,
+} from './lib/layers';
 
 const clampPct = ( value ) =>
 	Math.min( 100, Math.max( 0, Math.round( value * 100 ) / 100 ) );
@@ -109,10 +120,6 @@ export default function Edit( {
 } ) {
 	const { selectBlock } = useDispatch( 'core/block-editor' );
 	const {
-		imageId,
-		imageUrl,
-		imageAlt,
-		hotspots,
 		globalTrigger,
 		globalTheme,
 		tooltipBg,
@@ -131,6 +138,7 @@ export default function Edit( {
 		tourPosition,
 		tourButtonSize,
 		tourButtonShape,
+		tourAcrossLayers,
 	} = attributes;
 	const [ palette ] = useSettings( 'color.palette' );
 	const [ isPlacing, setIsPlacing ] = useState( false );
@@ -140,6 +148,33 @@ export default function Edit( {
 	const [ copiedStyle, setCopiedStyle ] = useState( null );
 	const canvasRef = useRef( null );
 
+	/*
+	 * Layers. A block holds one or more layered images, each with its own
+	 * hotspots. Which layer is being edited is editor-only state, not an
+	 * attribute — it must not end up in post content.
+	 *
+	 * Everything below this point works on the *active* layer through the
+	 * shadowed `imageUrl` / `imageAlt` / `hotspots` values and the `setHotspots`
+	 * writer, so the pin-placing, dragging and inspector code needs no
+	 * knowledge of layers at all.
+	 */
+	const [ activeLayer, setActiveLayer ] = useState( 0 );
+	const layers = getLayers( attributes );
+	const layerIndex = Math.min(
+		activeLayer,
+		Math.max( 0, layers.length - 1 )
+	);
+	const layer = layers[ layerIndex ] || null;
+	const imageId = layer ? layer.imageId : 0;
+	const imageUrl = layer ? layer.imageUrl : '';
+	const imageAlt = layer ? layer.imageAlt : '';
+	const hotspots = layer ? layer.hotspots : [];
+
+	// Routes a hotspot write to the active layer, or to the flat `hotspots`
+	// attribute on a single-image block.
+	const setHotspots = ( next ) =>
+		setAttributes( writeHotspots( attributes, layerIndex, next ) );
+
 	const blockProps = useBlockProps( {
 		className: isPlacing ? 'is-placing-hotspot' : undefined,
 	} );
@@ -147,10 +182,13 @@ export default function Edit( {
 	const selectedHotspot = hotspots.find( ( h ) => h.id === selectedId );
 
 	// Distinct, non-empty group names in first-appearance order — offered as
-	// quick-assign suggestions in the hotspot inspector.
+	// quick-assign suggestions in the hotspot inspector. Gathered across every
+	// layer, because the visitor-facing filter chips are block-wide.
 	const existingGroups = [
 		...new Set(
-			hotspots.map( ( h ) => ( h.group || '' ).trim() ).filter( Boolean )
+			allHotspots( attributes )
+				.map( ( h ) => ( h.group || '' ).trim() )
+				.filter( Boolean )
 		),
 	];
 
@@ -158,27 +196,39 @@ export default function Edit( {
 		if ( ! media || ! media.url ) {
 			return;
 		}
-		setAttributes( {
-			imageId: media.id,
-			imageUrl: media.url,
-			imageAlt: media.alt || '',
-			imageWidth: media.width,
-			imageHeight: media.height,
-		} );
+		setAttributes( writeLayerImage( attributes, layerIndex, media ) );
+	};
+
+	// Adding a layer migrates a single-image block into the `layers` array,
+	// carrying its existing image and hotspots over as layer 1.
+	const onAddLayer = ( media ) => {
+		if ( ! media || ! media.url ) {
+			return;
+		}
+		setAttributes( addLayer( attributes, media ) );
+		setSelectedId( null );
+		setActiveLayer( Math.max( 1, layers.length ) );
+	};
+
+	const onRemoveLayer = ( index ) => {
+		setAttributes( removeLayer( attributes, index ) );
+		setSelectedId( null );
+		setActiveLayer( index > 0 ? index - 1 : 0 );
+	};
+
+	const onMoveLayer = ( index, delta ) => {
+		setAttributes( moveLayer( attributes, index, delta ) );
+		setActiveLayer( index + delta );
 	};
 
 	const updateHotspot = ( id, changes ) => {
-		setAttributes( {
-			hotspots: hotspots.map( ( h ) =>
-				h.id === id ? { ...h, ...changes } : h
-			),
-		} );
+		setHotspots(
+			hotspots.map( ( h ) => ( h.id === id ? { ...h, ...changes } : h ) )
+		);
 	};
 
 	const removeHotspot = ( id ) => {
-		setAttributes( {
-			hotspots: hotspots.filter( ( h ) => h.id !== id ),
-		} );
+		setHotspots( hotspots.filter( ( h ) => h.id !== id ) );
 		if ( selectedId === id ) {
 			setSelectedId( null );
 		}
@@ -201,9 +251,7 @@ export default function Edit( {
 		if ( ! copiedStyle ) {
 			return;
 		}
-		setAttributes( {
-			hotspots: hotspots.map( ( h ) => ( { ...h, ...copiedStyle } ) ),
-		} );
+		setHotspots( hotspots.map( ( h ) => ( { ...h, ...copiedStyle } ) ) );
 	};
 
 	const pointFromEvent = ( event ) => {
@@ -216,7 +264,7 @@ export default function Edit( {
 
 	// Add a shape hotspot (from the draw tools) and select it.
 	const commitShape = ( shape ) => {
-		setAttributes( { hotspots: [ ...hotspots, shape ] } );
+		setHotspots( [ ...hotspots, shape ] );
 		setSelectedId( shape.id );
 	};
 
@@ -240,9 +288,7 @@ export default function Edit( {
 			base.markerColor = defaultColor;
 		}
 
-		setAttributes( {
-			hotspots: [ ...hotspots, base ],
-		} );
+		setHotspots( [ ...hotspots, base ] );
 		setSelectedId( id );
 		setIsPlacing( false );
 	};
@@ -418,7 +464,21 @@ export default function Edit( {
 					hotspots={ hotspots }
 					selectedId={ selectedId }
 					onSelect={ setSelectedId }
-					onChange={ ( next ) => setAttributes( { hotspots: next } ) }
+					onChange={ setHotspots }
+				/>
+				<LayerPanel
+					layers={ layers }
+					activeIndex={ layerIndex }
+					onSelect={ ( i ) => {
+						setSelectedId( null );
+						setActiveLayer( i );
+					} }
+					onAdd={ onAddLayer }
+					onRemove={ onRemoveLayer }
+					onRename={ ( i, name ) =>
+						setAttributes( renameLayer( attributes, i, name ) )
+					}
+					onMove={ onMoveLayer }
 				/>
 				<PanelBody
 					title={ __( 'Tooltips', 'pinspot' ) }
@@ -577,6 +637,23 @@ export default function Edit( {
 							'pinspot'
 						) }
 					/>
+					{ enableTour && layers.length > 1 && (
+						<ToggleControl
+							__nextHasNoMarginBottom
+							label={ __(
+								'Tour runs across all images',
+								'pinspot'
+							) }
+							checked={ !! tourAcrossLayers }
+							onChange={ ( value ) =>
+								setAttributes( { tourAcrossLayers: value } )
+							}
+							help={ __(
+								'Off: the tour steps through the hotspots on the image being shown. On: it walks every image in order, switching as it goes.',
+								'pinspot'
+							) }
+						/>
+					) }
 					{ enableTour && (
 						<ToggleControl
 							__nextHasNoMarginBottom
@@ -743,8 +820,19 @@ export default function Edit( {
 					) }
 				</PanelBody>
 				<ImportExport
-					attributes={ attributes }
-					setAttributes={ setAttributes }
+					imageUrl={ imageUrl }
+					imageAlt={ imageAlt }
+					hotspots={ hotspots }
+					layerName={ layers.length > 1 && layer ? layer.name : '' }
+					onChange={ setHotspots }
+					onSetImage={ ( { url, alt } ) =>
+						setAttributes(
+							writeLayerImage( attributes, layerIndex, {
+								url,
+								alt,
+							} )
+						)
+					}
 				/>
 			</InspectorControls>
 
